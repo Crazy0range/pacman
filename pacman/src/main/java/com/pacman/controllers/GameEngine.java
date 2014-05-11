@@ -28,7 +28,7 @@ import com.pacman.model.StrongMonster;
 import com.pacman.model.SuperPacman;
 import com.pacman.model.SuperPill;
 import com.pacman.model.WeakMonster;
-import com.pacman.views.AppWindow;
+import com.pacman.views.GameWindow;
 import com.pacman.views.GameView;
 import com.pacman.views.fx.SoundPlayer;
 
@@ -54,7 +54,7 @@ public class GameEngine implements Runnable {
 	/* Game map */
 	private Map _levelMap = Map.getFirstLevelMap();
 	/* UI Components */
-	private AppWindow _window;
+	private GameWindow _window;
 	private GameView _gameView = new GameView(_levelMap);
 	private Pacman _pacman;
 	/* Path Finder- AI Manager */
@@ -72,7 +72,7 @@ public class GameEngine implements Runnable {
 	 */
 	public GameEngine() {
 		// initialize base UI Components
-		_window = new AppWindow();
+		_window = new GameWindow();
 		_window.showView(_gameView);
 		_window.setWindowInScreenCenter();
 		_gameView.addKeyListener(new MovePacmanListener());

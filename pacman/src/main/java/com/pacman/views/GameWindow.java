@@ -20,11 +20,11 @@ import javax.swing.JPanel;
  *  @author     Lidan Hifi
  *  @version    1.0
  */
-public class AppWindow extends JFrame {
+public class GameWindow extends JFrame {
 	private static final long serialVersionUID = -5539770173610616384L;
 	private static Point _mouseDraggingCoordinates; 	// point for window dragging
 
-	public AppWindow() {
+	public GameWindow() {
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		initializeUI();

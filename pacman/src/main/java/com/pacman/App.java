@@ -1,8 +1,11 @@
 package com.pacman;
 
+import java.awt.EventQueue;
+
 import javax.swing.SwingUtilities;
 
 import com.pacman.controllers.GameEngine;
+import com.pacman.views.HomeWindow;
 
 /**
  *  Pacman Game
@@ -14,6 +17,17 @@ public class App
 {
     public static void main( String[] args )
     {
-    	SwingUtilities.invokeLater(new GameEngine());
+    	EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					HomeWindow frame = new HomeWindow();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+    	
+//    	SwingUtilities.invokeLater(new GameEngine());
     }
 }
