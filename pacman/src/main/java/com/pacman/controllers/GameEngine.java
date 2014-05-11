@@ -30,6 +30,7 @@ import com.pacman.model.SuperPill;
 import com.pacman.model.WeakMonster;
 import com.pacman.views.GameWindow;
 import com.pacman.views.GameView;
+import com.pacman.views.StatusBarView;
 import com.pacman.views.fx.SoundPlayer;
 
 
@@ -56,6 +57,7 @@ public class GameEngine implements Runnable {
 	/* UI Components */
 	private GameWindow _window;
 	private GameView _gameView = new GameView(_levelMap);
+	private StatusBarView _statusBarView = new StatusBarView();
 	private Pacman _pacman;
 	/* Path Finder- AI Manager */
 	private PathFinder _ai;
@@ -73,7 +75,7 @@ public class GameEngine implements Runnable {
 	public GameEngine() {
 		// initialize base UI Components
 		_window = new GameWindow();
-		_window.showView(_gameView);
+		_window.showView(_gameView,_statusBarView);
 		_window.setWindowInScreenCenter();
 		_gameView.addKeyListener(new MovePacmanListener());
 		_gameView.setFocusable(true);
@@ -176,6 +178,10 @@ public class GameEngine implements Runnable {
 	public void updateGame() {
 		// move the pacman
 		_pacman.move();
+		
+		//TODO If uncomment the two sentences below, weird bug will occur...
+//		_statusBarView.setPoints(_points);
+//		_statusBarView.setLives(_remainingLives);
 
 		// move the monsters
 		for(Iterator<Monster> it = _monsters.iterator(); it.hasNext(); ) {

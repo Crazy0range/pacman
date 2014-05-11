@@ -82,19 +82,22 @@ public class GameWindow extends JFrame {
 	 * show view in the application window
 	 * @param view - Any application view (for example {@link GameView})
 	 */
-	public void showView(JPanel view) {
+	public void showView(JPanel gameView, JPanel statusBarView) {
 		// remove any components from the frame's content pane
 		Container c = getContentPane();
 		for (Component comp : c.getComponents()) {
 			c.remove(comp);
 		}
 
-		// add the given view to the frame's center
-		c.add(view, BorderLayout.CENTER);
-		view.updateUI();
+		// add the given gameView to the frame's center
+		c.add(gameView, BorderLayout.CENTER);
+		c.add(statusBarView, BorderLayout.NORTH);
+		gameView.updateUI();
+		statusBarView.updateUI();
 
-		// set the view visibility and repaint the application window
-		view.setVisible(true);
+		// set the gameView visibility and repaint the application window
+		gameView.setVisible(true);
+		statusBarView.setVisible(true);
 		pack();
 		repaint();
 	}
