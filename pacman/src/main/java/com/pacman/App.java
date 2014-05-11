@@ -1,13 +1,19 @@
 package com.pacman;
 
+import javax.swing.SwingUtilities;
+
+import com.pacman.controllers.GameEngine;
+
 /**
- * Hello world!
- *
+ *  Pacman Game
+ *  This game was an assignment for Object Oriented Software Design course, Ben Gurion University, July 2013
+ *  @author     Lidan Hifi
+ *  @version    1.0
  */
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+    	SwingUtilities.invokeLater(new GameEngine());
     }
 }
