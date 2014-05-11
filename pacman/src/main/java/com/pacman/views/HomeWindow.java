@@ -38,6 +38,8 @@ public class HomeWindow extends JFrame {
 	private JLabel lblNewLabel;
 	private JButton btnOk;
 	private MyProfileWindow myProfileWindow;
+	private NewOnlineGameWindow newOnlineGameWindow;
+	private JoinGameWindow joinGameWindow;
 
 	public static void main(String[] args) {
 
@@ -78,8 +80,8 @@ public class HomeWindow extends JFrame {
 		btnNewButton = new JButton("Online Game");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// newWBWindow = new NewWBWindow(up);
-				// newWBWindow.setVisible(true);
+				newOnlineGameWindow = new NewOnlineGameWindow(up);
+				newOnlineGameWindow.setVisible(true);
 			}
 		});
 		btnNewButton.setForeground(new Color(0, 0, 0));
@@ -93,10 +95,9 @@ public class HomeWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// RegisteryNode clientNode = new RegisteryNode("Client",
 				// Variables.JOIN);
-				// joinWBWindow = new JoinWBWindow(clientNode
-				// .requestHostedBoards(), up);
-				// ;
-				// joinWBWindow.setVisible(true);
+				// TODO: Change the argument from null to clientNode.
+				joinGameWindow = new JoinGameWindow(null, up);
+				joinGameWindow.setVisible(true);
 			}
 		});
 		btnJoinWhiteboard.setForeground(Color.BLACK);
@@ -108,8 +109,8 @@ public class HomeWindow extends JFrame {
 		JButton btnMyProfile = new JButton("My Profile");
 		btnMyProfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 myProfileWindow = new MyProfileWindow();
-				 myProfileWindow.setVisible(true);
+				myProfileWindow = new MyProfileWindow();
+				myProfileWindow.setVisible(true);
 			}
 		});
 		btnMyProfile.setForeground(Color.BLACK);
@@ -202,7 +203,7 @@ public class HomeWindow extends JFrame {
 		btnOk.setBackground(new Color(255, 215, 0));
 		btnOk.setBounds(447, 321, 56, 40);
 		contentPane.add(btnOk);
-		
+
 		JButton btnSinglePlayer = new JButton("Single Player");
 		btnSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
