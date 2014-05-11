@@ -37,6 +37,7 @@ public class HomeWindow extends JFrame {
 	private JTextField textField;
 	private JLabel lblNewLabel;
 	private JButton btnOk;
+	private MyProfileWindow myProfileWindow;
 
 	public static void main(String[] args) {
 
@@ -61,7 +62,7 @@ public class HomeWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 * 
-	 * The home window for WhiteBoard server and client.
+	 * The home window for Pacman server and client.
 	 */
 	public HomeWindow() {
 		setTitle("PacManGame");
@@ -107,8 +108,8 @@ public class HomeWindow extends JFrame {
 		JButton btnMyProfile = new JButton("My Profile");
 		btnMyProfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// myprofileWindow = new MyProfileWindow();
-				// myprofileWindow.setVisible(true);
+				 myProfileWindow = new MyProfileWindow();
+				 myProfileWindow.setVisible(true);
 			}
 		});
 		btnMyProfile.setForeground(Color.BLACK);
