@@ -5,8 +5,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +17,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.pacman.controllers.GameEngine;
-import com.pacman.utils.*;
+import com.pacman.utils.IPAddrCheck;
+import com.pacman.utils.UserProfile;
 
 /**
  * @author Siyuan Liu, Nikki Vinayan, Yingjie Ma The home window for Pacman game
