@@ -37,11 +37,7 @@ public class AssetsManager {
 	 * @return asset URL
 	 */
 	public static URL getResource(Class<?> classObj ,String assetName) {
-		System.out.printf(ASSETS_PATH + classObj.getSimpleName() + "/" + assetName + "\n");
-
-		return classObj.getResource(ASSETS_PATH + classObj.getSimpleName() + "/" + assetName);
-
-
+		return new AssetsManager().getClass().getClassLoader().getResource(classObj.getSimpleName() + "/" + assetName);
 	}
 	
 	/**
@@ -50,8 +46,7 @@ public class AssetsManager {
 	 * @return asset URL
 	 */
 	public static URL getResource(String assetName) {
-		System.out.println("llll");
-		return URLClassLoader.class.getResource(ASSETS_PATH + assetName);
+		return new AssetsManager().getClass().getClassLoader().getResource(assetName);
 	}
 	
 	/**
@@ -60,7 +55,7 @@ public class AssetsManager {
 	 * @return asset InputStream
 	 */
 	public static InputStream getResourceAsStream(String fullPath) {
-		return URLClassLoader.class.getResourceAsStream(ASSETS_PATH + fullPath);
+		return new AssetsManager().getClass().getClassLoader().getResourceAsStream(fullPath);
 	}
 	
 	/**
