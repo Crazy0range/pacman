@@ -82,7 +82,8 @@ public class GameWindow extends JFrame {
 	 * show view in the application window
 	 * @param view - Any application view (for example {@link GameView})
 	 */
-	public void showView(JPanel gameView, JPanel statusBarView) {
+	//Jason
+	public void showView(JPanel gameView[], JPanel statusBarView, int current_users) {
 		// remove any components from the frame's content pane
 		Container c = getContentPane();
 		for (Component comp : c.getComponents()) {
@@ -90,13 +91,58 @@ public class GameWindow extends JFrame {
 		}
 
 		// add the given gameView to the frame's center
-		c.add(gameView, BorderLayout.CENTER);
+		
+		
+		//Jason
+		switch(current_users)
+		{
+			case 3:
+				c.add(gameView[2], BorderLayout.EAST);
+			case 2:
+				c.add(gameView[1], BorderLayout.CENTER);
+			case 1:
+				c.add(gameView[0], BorderLayout.WEST);
+				break;
+		}
+			
+			
 		c.add(statusBarView, BorderLayout.NORTH);
+//		c.add(gameView1,BorderLayout.EAST);
+		for(int i = 0 ; i<current_users ; i++ )
+		{
+			gameView[i].updateUI();
+			gameView[i].setVisible(true);
+		}
+//		gameView1.updateUI();
+		statusBarView.updateUI();
+
+		// set the gameView visibility and repaint the application window
+//		gameView.setVisible(true);
+//		gameView1.setVisible(true);
+		statusBarView.setVisible(true);
+		pack();
+		repaint();
+	}
+	
+	//Jason
+	public void showView1(JPanel gameView, JPanel statusBarView) {
+		// remove any components from the frame's content pane
+		Container c = getContentPane();
+		for (Component comp : c.getComponents()) {
+			c.remove(comp);
+		}
+
+		// add the given gameView to the frame's center
+
+		c.add(statusBarView, BorderLayout.NORTH);
+		c.add(gameView,BorderLayout.EAST);
 		gameView.updateUI();
+
 		statusBarView.updateUI();
 
 		// set the gameView visibility and repaint the application window
 		gameView.setVisible(true);
+
 		statusBarView.setVisible(true);
 		pack();
 		repaint();

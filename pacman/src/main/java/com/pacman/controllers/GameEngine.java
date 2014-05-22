@@ -34,6 +34,7 @@ import com.pacman.views.StatusBarView;
 import com.pacman.views.fx.SoundPlayer;
 
 
+
 /**
  *  Pacman Game Engine- Manages the game logic
  *  @author     Lidan Hifi
@@ -48,45 +49,84 @@ public class GameEngine implements Runnable {
 	private static final int POINTS_EATING_SUPER_PILL = 10;
 	private static final int POINTS_EATING_MONSTER = 100;
 	private static final int MAX_CHEAT_USE = 2;
+	
+	//JASON
+	private static final int MAX_USERS = 3;
+	
 	/* Game timers */
 	private Timer _gameTimer;
 	private static final int FPS = 60;
 	private Timer _specialStageTimer;
 	/* Game map */
-	private Map _levelMap = Map.getFirstLevelMap();
+	//Jason
+//	private List <Map> _levelMap;// = Map.getFirstLevelMap();
+//	_levelMap[0] = Map.getFirstLevelMap();
+	//Jason
+	private Map [] _levelMap = new Map[MAX_USERS];
 	/* UI Components */
 	private GameWindow _window;
-	private GameView _gameView = new GameView(_levelMap);
+	//Jason
+	private GameView [] _gameView = new GameView[MAX_USERS];
+	//modified Jason
+	//	private GameView _gameView1 = new GameView(_levelMap);
+	
 	private StatusBarView _statusBarView = new StatusBarView();
-	private Pacman _pacman;
+	private Pacman [] _pacman = new Pacman[MAX_USERS];
+	//Jason
+//	private Pacman _pacman1;
 	/* Path Finder- AI Manager */
 	private PathFinder _ai;
 	/* Game Object & information */
 	private int _remainingLives;
 	private List<Monster> _monsters = new ArrayList<Monster>();
+	private List<Monster> _monsters_client2 = new ArrayList<Monster>();
+	private List<Monster> _monsters_client3 = new ArrayList<Monster>();
 	private int _points;
 	private int _remainingPills;
 	private String _cheat = ""; // if types OOP - enter to the special stage
 	private int _cheatUse = 0;
+	//Jason
+	private int current_users;
 
 	/**
 	 * Creates a new Game Engine
 	 */
-	public GameEngine() {
+	public GameEngine(int users_num) {
+		//Jason
+		current_users = users_num;
+		
+
 		// initialize base UI Components
 		_window = new GameWindow();
-		_window.showView(_gameView,_statusBarView);
+		
+		
+		//Jason
+		for(int i =0; i< this.current_users;i++)
+		{
+			System.out.println(i);
+			_levelMap[i] = Map.getFirstLevelMap();
+			this._gameView[i] = new GameView(this._levelMap[i]);
+			_ai = new PathFinder(_levelMap[i], 100);
+		}
+		//Jason
+		_window.showView(_gameView,_statusBarView,this.current_users);
+		
 		_window.setWindowInScreenCenter();
-		_gameView.addKeyListener(new MovePacmanListener());
-		_gameView.setFocusable(true);
+		_gameView[0].addKeyListener(new MovePacmanListener());
+		_gameView[0].setFocusable(true);
+		//Jason
 
+		
+		
 		// initialize the path finder object with the current map
-		_ai = new PathFinder(_levelMap, 100);
+		//Jason
+		
 
 		// initialize the game timer
 		_gameTimer = new Timer(1000 / FPS, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+//				System.out.println("updating game");
 				updateGame();
 			}
 		});
@@ -96,8 +136,15 @@ public class GameEngine implements Runnable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// stop the special stage, back to the normal pacman and stop the special stage timer
-				_pacman = new Pacman(_levelMap);
-				_gameView.setPacman(_pacman);
+//				for(int i =0; i<current_users; i++)
+//				{
+					_pacman[0] = new Pacman(_levelMap[0]);
+				
+					_gameView[0].setPacman(_pacman[0]);
+//				}
+				//Jason
+				
+
 				for (Monster m : _monsters) {
 					m.setNormalMode();
 				}
@@ -120,29 +167,44 @@ public class GameEngine implements Runnable {
 		// Set game variables to their default values
 		// and reset the map
 		_remainingLives = PACMAN_LIVES;
-		_levelMap = Map.getFirstLevelMap();
-		_remainingPills = _levelMap.getTotalPills();
-		_gameView.newGame(_levelMap);
+		//jason
+		for (int i =0; i<this.current_users;i++)
+		{
+			_levelMap[i] = Map.getFirstLevelMap();
+			_remainingPills = _levelMap[i].getTotalPills();
+			_gameView[i].newGame(_levelMap[i]);
+
+		}
+		
+		//Jason
+//		_gameView1.newGame(_levelMap1);
 		_cheatUse = MAX_CHEAT_USE;
 		_cheat = "";
 
 		// initialize monsters
-		if (_monsters.size() == 0) {
-			for (int i = 0; i < 2; i++) {
-				// Weak monsters
-				WeakMonster w = new WeakMonster(_levelMap);
-				_monsters.add(w);
-			}
-
-			for (int i = 0; i < 2; i++) {
-				// Strong monsters
-				StrongMonster s = new StrongMonster(_levelMap);
-				_monsters.add(s);
-			}
-			_gameView.setMonsters(_monsters);
-		} else {
-			for (Monster m : _monsters) {
-				m.initializeMonster();
+		//Jason
+		for(int _monsters_i = 0; _monsters_i<this.current_users; _monsters_i++)
+		{
+			if (_monsters.size() == 0) {
+				for (int i = 0; i < 2; i++) {
+					// Weak monsters
+					WeakMonster w = new WeakMonster(_levelMap[_monsters_i]);
+					_monsters.add(w);
+				}
+	
+				for (int i = 0; i < 2; i++) {
+					// Strong monsters
+					StrongMonster s = new StrongMonster(_levelMap[_monsters_i]);
+					_monsters.add(s);
+				}
+				//Jason
+				_gameView[_monsters_i].setMonsters(_monsters);
+				//TODO get monsters
+//				_gameView[1].setMonsters(_monsters);
+			} else {
+				for (Monster m : _monsters) {
+					m.initializeMonster();
+				}
 			}
 		}
 
@@ -155,19 +217,35 @@ public class GameEngine implements Runnable {
 	 */
 	public void gameRestart() {
 		// initialize new pacman and set its position to the initial position
-		_pacman = new Pacman(_levelMap);
-		_gameView.setPacman(_pacman);
-		_pacman.setPosition(_levelMap.getPacmanInitialPosition().x, _levelMap.getPacmanInitialPosition().y);
-
+		
+		for(int i =0; i<this.current_users;i++)
+		{
+			_pacman[i] = new Pacman(_levelMap[0]);
+			//Jason
+			_gameView[i].setPacman(_pacman[i]);
+			
+			_pacman[i].setPosition(_levelMap[i].getPacmanInitialPosition().x, _levelMap[0].getPacmanInitialPosition().y);
+//			_pacman1.setPosition(_levelMap[1].getPacmanInitialPosition().x, _levelMap[1].getPacmanInitialPosition().y);
+		}
+//		_gameView1.setPacman(_pacman);
+		//TODO get pacman
+//		_pacman1 = new Pacman(_levelMap[1]);
+//		_pacman1.setDirection(Direction.LEFT);
+//		_pacman1.
+//		_gameView[1].setPacman(_pacman1);
+//		for(int i = 0; i < this.current_users; i++)
+//		_pacman.setPosition(_levelMap[0].getPacmanInitialPosition().x, _levelMap[0].getPacmanInitialPosition().y);
+//		_pacman1.setPosition(_levelMap[1].getPacmanInitialPosition().x, _levelMap[1].getPacmanInitialPosition().y);
 		// set monsters position and release them in different delays
 		int delay = MONSTERS_DELAY;
 		for (Monster m : _monsters) {
 			m.setNormalMode();
-			m.setPosition(_levelMap.getCagePosition().x, _levelMap.getCagePosition().y);
+			m.setPosition(_levelMap[0].getCagePosition().x, _levelMap[0].getCagePosition().y);
 			m.setReleaseTime(delay);
 			delay += MONSTERS_DELAY;
 		}
-
+//		GameView _gameViewCopy = _gameView;
+//		_window.showView1(_gameViewCopy, _statusBarView);
 		// starts the game timer
 		_gameTimer.start();
 	}
@@ -177,7 +255,22 @@ public class GameEngine implements Runnable {
 	 */
 	public void updateGame() {
 		// move the pacman
-		_pacman.move();
+		_pacman[0].move();
+		
+		//Jason
+		_pacman[1].setDirection(Direction.LEFT);
+		
+		_pacman[1].move();
+		
+		_pacman[2].setDirection(Direction.RIGHT);
+		
+		_pacman[2].move();
+
+		
+		
+		
+		
+		System.out.println("pacman1 can move");
 		
 		//TODO If uncomment the two sentences below, weird bug will occur...
 //		_statusBarView.setPoints(_points);
@@ -193,9 +286,9 @@ public class GameEngine implements Runnable {
 				// if the game is in the special stage (the monster is "IN FEAR")
 				// or based on the monsters's probability for getting a random path
 				// we choose a random target for the new path
-				Point target = _pacman.getPosition();
+				Point target = _pacman[0].getPosition();
 				if (m.isInFear() || Math.random() < m.getRandomPathProbability()) {
-					target = new Point((int)(Math.random() * _levelMap.getGameDimension().width), (int)(Math.random() * _levelMap.getGameDimension().height));
+					target = new Point((int)(Math.random() * _levelMap[0].getGameDimension().width), (int)(Math.random() * _levelMap[0].getGameDimension().height));
 				}
 
 				// find the path to the chosen target using AI Manager (A* algorithm)
@@ -206,11 +299,11 @@ public class GameEngine implements Runnable {
 			m.move();
 
 			// pacman collision with monster
-			if (_pacman.getBounds().intersects(m.getBounds())) {
+			if (_pacman[0].getBounds().intersects(m.getBounds())) {
 				// check if pacman can eat the monster using Visitor pattern
-				if (_pacman.eats(m)) {
+				if (_pacman[0].eats(m)) {
 					// get the monster back to the cage
-					m.setPosition(_levelMap.getCagePosition().x, _levelMap.getCagePosition().y); 
+					m.setPosition(_levelMap[0].getCagePosition().x, _levelMap[0].getCagePosition().y); 
 					m.setReleaseTime(SPECIAL_STAGE_TIME * 1000);
 					_points += POINTS_EATING_MONSTER;
 					SoundPlayer.playEatMonsterSound();
@@ -218,7 +311,7 @@ public class GameEngine implements Runnable {
 					// monster beats pacman.
 					// stop the game. 
 					// pacman is die for 2 seconds, and start another match (or game over if there is no remaining lives)
-					_pacman.die();
+					_pacman[0].die();
 					_gameTimer.stop();
 					_specialStageTimer.stop();
 					_remainingLives--;
@@ -243,11 +336,11 @@ public class GameEngine implements Runnable {
 		}
 
 		// pacman eating pills
-		StationaryObject[][] map = _levelMap.getStationaryObjectsMap();
-		StationaryObject collidableObject = map[_pacman.getPosition().y][_pacman.getPosition().x];
+		StationaryObject[][] map = _levelMap[0].getStationaryObjectsMap();
+		StationaryObject collidableObject = map[_pacman[0].getPosition().y][_pacman[0].getPosition().x];
 
-		if (collidableObject != null && collidableObject.isCollidableWith(_pacman)) {
-			map[_pacman.getPosition().y][_pacman.getPosition().x].collideWith(_pacman, this);
+		if (collidableObject != null && collidableObject.isCollidableWith(_pacman[0])) {
+			map[_pacman[0].getPosition().y][_pacman[0].getPosition().x].collideWith(_pacman[0], this);
 		}
 
 		// determines if pacman ate all the pills
@@ -267,7 +360,7 @@ public class GameEngine implements Runnable {
 	 */
 	public void eatPill(Pacman pacman, Pill pill) {
 		pill.getParent().remove(pill);
-		_levelMap.getStationaryObjectsMap()[pacman.getPosition().y][pacman.getPosition().x] = null;
+		_levelMap[0].getStationaryObjectsMap()[pacman.getPosition().y][pacman.getPosition().x] = null;
 		_points += POINTS_EATING_PILL;
 		_remainingPills--;
 	}
@@ -278,16 +371,18 @@ public class GameEngine implements Runnable {
 	 */
 	private void enterSpecialStage(Pacman pacman) {
 		// set the current pacman to the special stage's pacman
-		_pacman = pacman;
-		_gameView.setPacman(_pacman);
-
+		_pacman[0] = pacman;
+		//Jason
+		_gameView[0].setPacman(_pacman[0]);
+//		_gameView1.setPacman(_pacman);
+		
 		// set monsters to be in fear from the current pacman
 		for (Monster m : _monsters) {
 			m.setPath(null);
 			m.setNormalMode();
-			if (_pacman instanceof SuperPacman)
+			if (_pacman[0] instanceof SuperPacman)
 				m.fearFromSuperPacman();
-			else if (_pacman instanceof MightyPacman)
+			else if (_pacman[0] instanceof MightyPacman)
 				m.fearFromMightyPacman();
 		}
 
@@ -307,7 +402,7 @@ public class GameEngine implements Runnable {
 		_remainingPills--;
 		SoundPlayer.playEatSuperPillSound();
 
-		enterSpecialStage(new SuperPacman(_levelMap));
+		enterSpecialStage(new SuperPacman(_levelMap[0]));
 	}
 
 	/**
@@ -321,7 +416,7 @@ public class GameEngine implements Runnable {
 		_remainingPills--;
 		SoundPlayer.playEatSuperPillSound();
 
-		enterSpecialStage(new MightyPacman(_levelMap));
+		enterSpecialStage(new MightyPacman(_levelMap[0]));
 	}
 
 	/**
@@ -331,7 +426,7 @@ public class GameEngine implements Runnable {
 	 */
 	private void removeStationaryObjectFromBoard(Pacman pacman, StationaryObject object) {
 		object.getParent().remove(object);
-		_levelMap.getStationaryObjectsMap()[pacman.getPosition().y][pacman.getPosition().x] = null;
+		_levelMap[0].getStationaryObjectsMap()[pacman.getPosition().y][pacman.getPosition().x] = null;
 	}
 
 	@Override
@@ -356,19 +451,19 @@ public class GameEngine implements Runnable {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				_pacman.setDirection(Direction.UP);
+				_pacman[0].setDirection(Direction.UP);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				_pacman.setDirection(Direction.DOWN);
+				_pacman[0].setDirection(Direction.DOWN);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				_pacman.setDirection(Direction.RIGHT);
+				_pacman[0].setDirection(Direction.RIGHT);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				_pacman.setDirection(Direction.LEFT);
+				_pacman[0].setDirection(Direction.LEFT);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-				_pacman.setDirection(Direction.NONE);
+				_pacman[0].setDirection(Direction.NONE);
 			}
 
 			/* Game Cheat */
@@ -384,7 +479,7 @@ public class GameEngine implements Runnable {
 				}
 
 				if (_cheat.equals("OOP")) {
-					enterSpecialStage(new SuperPacman(_levelMap));
+					enterSpecialStage(new SuperPacman(_levelMap[0]));
 					_cheat = "";
 					_cheatUse--;
 				}
