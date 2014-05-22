@@ -1,54 +1,32 @@
-package com.pacmanserver;
-
-import java.util.List;
-
-import com.pacman.model.Pacman;
-import org.jeromq.ZContext;
-import org.jeromq.ZMQ;
-import org.jeromq.ZMQ.Socket;
+package com.pacman.pacmanserver;
 
 
+import java.util.Hashtable;
+import java.util.Set;
 
-public class PacmanServer {
+import org.zeromq.ZMQ;
+import org.zeromq.ZMQ.Context;
+import org.zeromq.ZMQ.Socket;
 
-	
-	ZContext context;
-	Socket publisher;
-	
-   
-	private static PacmanServer instance;
-	
-	public static void initialize() {
-		instance = new PacmanServer();
-		
+import com.pacman.utils.SerializationUtil;
+
+
+
+public class PacmanServer implements Runnable {
+
+	Set<String> hosts;
+	public void run(){
+	Context context = ZMQ.context(1);
+	// Socket to talk to clients
+	Socket socket1 = context.socket(ZMQ.REP);
+	socket1.bind("tcp://*:5555");
+	while(true){
+		byte[] incoming = socket1.recv(0);
+		ClientObject rep = (ClientObject) SerializationUtil.fromByteArrayToJava(incoming);
+		System.out.println(rep.value);
+		ClientObject reply = new ClientObject("Recieved msg");
+		socket1.send( SerializationUtil.fromJavaToByteArray(reply),1);
 	}
 	
-	public static void destroy(){
-		instance.publisher.close();
-		instance.context.destroy();
-		instance = null;
 	}
-	
-	private PacmanServer() {
-		this.context = new ZContext();
-		this.publisher= context.createSocket(ZMQ.XPUB);
-//		this.publisher.connect(Settings.getPublisherURL());
-		this.publisher.connect("127.0.0.1");
-		
-	}
-	
-	public static void sendList(String subscription,Pacman _pacman){
-		System.out.println("------- sending vector list");
-//		Pacman pntVector = SerializationUtil.serializeData(_pacman);
-		System.out.println(subscription + " ---- ");
-		instance.publisher.sendMore(subscription);
-//		instance.publisher.send(_pacman);
-	}
-//	
-//	
-//	public static void sendAdminObj(ReqObject reqObj){
-//		instance.publisher.sendMore(Variables.ADMIN_TOPIC);
-//		instance.publisher.send(reqObj.toByteArray());
-//		
-//	}
 }
