@@ -17,7 +17,7 @@ import javax.swing.Timer;
  */
 public class Sprite extends JLabel {
 	private static final long serialVersionUID = -9012270587810440480L;
-	private static final int BLOCK_SIZE = 24;
+	private static final int BLOCK_SIZE = 16;
 	/* animation timer & frames per second */
 	private Timer _animationTimer;
 	private int _fps = 25;

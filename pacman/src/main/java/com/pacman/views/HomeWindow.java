@@ -203,10 +203,11 @@ public class HomeWindow extends JFrame {
 		btnOk.setBounds(447, 321, 56, 40);
 		contentPane.add(btnOk);
 
+		//TODO test!!!!!
 		JButton btnSinglePlayer = new JButton("Single Player");
 		btnSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SwingUtilities.invokeLater(new GameEngine());
+				SwingUtilities.invokeLater(new GameEngine(3));
 			}
 		});
 		btnSinglePlayer.setForeground(Color.BLACK);

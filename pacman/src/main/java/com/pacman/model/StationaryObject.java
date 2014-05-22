@@ -14,7 +14,7 @@ import com.pacman.controllers.GameEngine;
  */
 public class StationaryObject extends JLabel {
 	private static final long serialVersionUID = 8873369615267229329L;
-	public static final Dimension BLOCK_SIZE = new Dimension(24,24);
+	public static final Dimension BLOCK_SIZE = new Dimension(16,16);
 	
 	public StationaryObject(ImageIcon icon) {
 		setIcon(icon);
