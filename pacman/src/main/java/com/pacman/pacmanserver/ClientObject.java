@@ -13,10 +13,10 @@ public class ClientObject implements Serializable {
 	String value;
 	Pacman pacman;
 
-	public ClientObject(String value,Pacman pacman) {
+	public ClientObject(String value) {
 		super();
 		this.value = value;
-		this.pacman = pacman;
+		//this.pacman = pacman;
 	}
 	 
 
