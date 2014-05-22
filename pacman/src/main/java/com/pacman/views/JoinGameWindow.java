@@ -33,7 +33,7 @@ public class JoinGameWindow extends JFrame {
 	 * 
 	 * @param userName
 	 * 
-	 * Window for Joining WhiteBoard
+	 * Window for Joining Online Game
 	 */
 	public JoinGameWindow(List<String> hosts, UserProfile userProfile) {
 		setTitle("Join Online Game");
@@ -46,7 +46,7 @@ public class JoinGameWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblWhiteboardName = new JLabel("Select a WhiteBoard");
+		JLabel lblWhiteboardName = new JLabel("Select a Game");
 		lblWhiteboardName.setForeground(new Color(255, 255, 255));
 		lblWhiteboardName.setBounds(20, 20, 164, 38);
 		contentPane.add(lblWhiteboardName);
