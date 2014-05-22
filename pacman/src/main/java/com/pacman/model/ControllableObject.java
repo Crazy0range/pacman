@@ -13,12 +13,12 @@ import java.awt.Point;
 public abstract class ControllableObject extends Sprite {
 	private static final long serialVersionUID = -786478397202315877L;
 	protected static final Color TEXT_COLOR = Color.white;
-	private static final int BLOCK_SIZE =  24;
+	private static final int BLOCK_SIZE = 16;
 	/* Default values */
 	private Point _position = new Point(0, 0);
 	private Direction _direction = Direction.NONE;
 	private Direction _temporaryDirection = null;
-	private int _velocity = 3; // the velocity MUST be multipliers of 24 (block size): 2,3,4,6,8,12
+	private int _velocity = 2; // the velocity MUST be multipliers of 24 (block size): 2,3,4,6,8,12
 	private Map _gameMap;
 
 	/**
@@ -113,7 +113,7 @@ public abstract class ControllableObject extends Sprite {
 		}
 		
 		if (getParent() != null)
-			setBounds(x * 24, y * 24, getHeight(), getWidth());
+			setBounds(x * 16, y * 16, getHeight(), getWidth());
 	}
 	
 	@Override

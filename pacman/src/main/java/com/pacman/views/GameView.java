@@ -20,7 +20,7 @@ import com.pacman.model.StationaryObject;
  *  @version    1.0
  */
 public class GameView extends JPanel {
-	private static final Dimension BLOCK_SIZE = new Dimension(24,24);
+	private static final Dimension BLOCK_SIZE = new Dimension(16,16);
 	private Dimension _gameDimensions;
 	private Map _gameMap;
 	private Pacman _pacman;
