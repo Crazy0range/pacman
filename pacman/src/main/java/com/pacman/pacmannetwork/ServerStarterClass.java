@@ -1,4 +1,4 @@
-package com.pacman.pacmanserver;
+package com.pacman.pacmannetwork;
 
 public class ServerStarterClass {
 
