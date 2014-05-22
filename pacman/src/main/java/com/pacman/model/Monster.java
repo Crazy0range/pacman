@@ -2,6 +2,7 @@ package com.pacman.model;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
@@ -9,11 +10,13 @@ import com.pacman.ai.Path;
 import com.pacman.views.utils.AssetsManager;
 
 /**
- *  A Monster
- *  @author     Lidan Hifi
- *  @version    1.0
+ * A Monster
+ * 
+ * @author Lidan Hifi
+ * @version 1.0
  */
-public abstract class Monster extends ControllableObject implements Eatable {
+public abstract class Monster extends ControllableObject implements Eatable,
+		Serializable {
 	private static final long serialVersionUID = -2278066974451795606L;
 	/* monster image chosen randomly */
 	BufferedImage _image;
@@ -31,14 +34,16 @@ public abstract class Monster extends ControllableObject implements Eatable {
 
 	/**
 	 * Creates a new monster for the given collisions map
-	 * @param map collisions map
+	 * 
+	 * @param map
+	 *            collisions map
 	 */
 	public Monster(Map map) {
 		super(map);
 
 		// set animation speed
 		setFPS(5);
-		
+
 		// initialize monster
 		initializeMonster();
 	}
@@ -49,14 +54,16 @@ public abstract class Monster extends ControllableObject implements Eatable {
 	public void initializeMonster() {
 		// Choose monster image randomly (for making the game harder!!!)
 		try {
-			_image = ImageIO.read(AssetsManager.getResource(Monster.class, ((int)Math.floor(Math.random() * 4) + 1) + ".png"));
+			_image = ImageIO.read(AssetsManager.getResource(Monster.class,
+					((int) Math.floor(Math.random() * 4) + 1) + ".png"));
 			setSpriteImage(_image);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		// set the position to the cage position of the given map
-		setPosition(getCollisionMap().getCagePosition().x, getCollisionMap().getCagePosition().y);
+		setPosition(getCollisionMap().getCagePosition().x, getCollisionMap()
+				.getCagePosition().y);
 
 		// set the initial direction
 		setDirection(Direction.RIGHT);
@@ -65,7 +72,9 @@ public abstract class Monster extends ControllableObject implements Eatable {
 	}
 
 	/**
-	 * Check if the monster requests a new path (for example finish the current path and reached the target)
+	 * Check if the monster requests a new path (for example finish the current
+	 * path and reached the target)
+	 * 
 	 * @return true if needs new path, false if not
 	 */
 	public boolean requestNewPath() {
@@ -74,6 +83,7 @@ public abstract class Monster extends ControllableObject implements Eatable {
 
 	/**
 	 * Change random path probability. the value must be valid: between 0 and 1.
+	 * 
 	 * @param probability
 	 */
 	protected void setRandomPathProbability(float probability) {
@@ -83,6 +93,7 @@ public abstract class Monster extends ControllableObject implements Eatable {
 
 	/**
 	 * Get random path probability
+	 * 
 	 * @return probability for randomize a path
 	 */
 	public float getRandomPathProbability() {
@@ -91,6 +102,7 @@ public abstract class Monster extends ControllableObject implements Eatable {
 
 	/**
 	 * Change monster's path
+	 * 
 	 * @param path
 	 */
 	public void setPath(Path path) {
@@ -104,6 +116,7 @@ public abstract class Monster extends ControllableObject implements Eatable {
 
 	/**
 	 * Determine if monster is in fear mode
+	 * 
 	 * @return true if the monster in fear, false if not
 	 */
 	public boolean isInFear() {
@@ -112,6 +125,7 @@ public abstract class Monster extends ControllableObject implements Eatable {
 
 	/**
 	 * If the monster is trapped in the monsters cage
+	 * 
 	 * @return true if yes, false if not
 	 */
 	public boolean isTrapped() {
@@ -120,7 +134,9 @@ public abstract class Monster extends ControllableObject implements Eatable {
 
 	/**
 	 * Trap the monster in the cage, and release it after the given delay
-	 * @param delay delay value in milliseconds
+	 * 
+	 * @param delay
+	 *            delay value in milliseconds
 	 */
 	public void setReleaseTime(int delay) {
 		_isTrapped = true;
@@ -141,7 +157,8 @@ public abstract class Monster extends ControllableObject implements Eatable {
 	 */
 	protected void setFearMode() {
 		try {
-			setSpriteImage(ImageIO.read(AssetsManager.getResource(Monster.class, "scatterMode.png")));
+			setSpriteImage(ImageIO.read(AssetsManager.getResource(
+					Monster.class, "scatterMode.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -151,6 +168,7 @@ public abstract class Monster extends ControllableObject implements Eatable {
 	}
 
 	public abstract void fearFromSuperPacman();
+
 	public abstract void fearFromMightyPacman();
 
 	@Override
@@ -158,7 +176,7 @@ public abstract class Monster extends ControllableObject implements Eatable {
 		// release the monster if release time has come
 		if (System.currentTimeMillis() > _releaseTime)
 			_isTrapped = false;
-		
+
 		// set direction based on the next step in the current path
 		if (isStep()) {
 			if (_path != null && _nextStep < _path.getLength()) {

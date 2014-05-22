@@ -1,6 +1,7 @@
 package com.pacman.model;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
@@ -11,7 +12,7 @@ import com.pacman.views.utils.AssetsManager;
  *  @author     Lidan Hifi
  *  @version    1.0
  */
-public class Pacman extends ControllableObject implements Eater {
+public class Pacman extends ControllableObject implements Eater, Serializable {
 	private static final long serialVersionUID = 8644963962014952922L;
 	/* Pacman current direction */
 	private Direction _directionX = Direction.RIGHT;
