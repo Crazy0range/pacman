@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.JTextField;
 
 /**
  * Status Bar View
@@ -20,15 +21,13 @@ import javax.swing.UIManager;
 public class StatusBarView extends JPanel {
 
 	private JLabel lblPoints;
-	private JLabel lblShowPoints;
 	private JLabel lblLives;
-	private JLabel lblShowLive_0;
-	private JLabel lblShowLive_1;
-	private JLabel lblShowLive_2;
 	private JLabel lblTime;
-	private JLabel lblShowTime;
 	private JLabel lblRank;
 	private JLabel lblShowRank;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
 
 	public StatusBarView() {
 		setBackground(new Color(40, 120, 255));
@@ -39,41 +38,44 @@ public class StatusBarView extends JPanel {
 		lblPoints.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPoints.setForeground(Color.WHITE);
 		add(lblPoints);
-
-		lblShowPoints = new JLabel("10000");
-		lblShowPoints.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblShowPoints.setForeground(Color.WHITE);
-		add(lblShowPoints);
+		
+		textField = new JTextField();
+		add(textField);
+		textField.setColumns(10);
+		textField.setText("10000");
+		textField.setEnabled(false);
+		textField.setBackground(new Color(40, 120, 255));
+		textField.setForeground(Color.WHITE);
+		textField.setColumns(3);
+		textField.setDisabledTextColor(Color.WHITE);
+		textField.revalidate();
 
 		lblLives = new JLabel("  LIVES  ");
 		lblLives.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblLives.setForeground(Color.WHITE);
 		add(lblLives);
-
-		lblShowLive_0 = new JLabel("O  ");
-		lblShowLive_0.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblShowLive_0.setForeground(Color.WHITE);
-		add(lblShowLive_0);
-
-		lblShowLive_1 = new JLabel("O  ");
-		lblShowLive_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblShowLive_1.setForeground(Color.WHITE);
-		add(lblShowLive_1);
-
-		lblShowLive_2 = new JLabel("O  ");
-		lblShowLive_2.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblShowLive_2.setForeground(Color.WHITE);
-		add(lblShowLive_2);
+		
+		textField_2 = new JTextField();
+		add(textField_2);
+		textField_2.setDisabledTextColor(Color.WHITE);
+		textField_2.setForeground(Color.WHITE);
+		textField_2.setBackground(new Color(40, 120, 255));
+		textField_2.setEnabled(false);
+		textField_2.setColumns(3);
 
 		lblTime = new JLabel("  TIME  ");
 		lblTime.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblTime.setForeground(Color.WHITE);
 		add(lblTime);
-
-		lblShowTime = new JLabel("  999  ");
-		lblShowTime.setForeground(Color.WHITE);
-		lblShowTime.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		add(lblShowTime);
+		
+		textField_1 = new JTextField();
+		add(textField_1);
+		textField_1.setColumns(5);
+		textField_1.setForeground(Color.WHITE);
+		textField_1.setDisabledTextColor(Color.WHITE);
+		textField_1.setBackground(new Color(40, 120, 255));
+		textField_1.setEnabled(false);
+		textField_2.setColumns(3);
 
 		lblRank = new JLabel("  RANK  ");
 		lblRank.setForeground(Color.WHITE);
@@ -93,7 +95,7 @@ public class StatusBarView extends JPanel {
 	 */
 	public void setPoints(int points) {
 		String points_str = String.valueOf(points);
-		lblShowPoints.setText(points_str);
+		textField.setText(points_str);
 	}
 
 	/**
@@ -102,37 +104,12 @@ public class StatusBarView extends JPanel {
 	 * @param lives
 	 */
 	public void setLives(int lives) {
-		switch (lives) {
-		case 0:
-			lblShowLive_0.setVisible(false);
-			lblShowLive_1.setVisible(false);
-			lblShowLive_1.setVisible(false);
-			break;
-		case 1:
-			lblShowLive_0.setVisible(true);
-			lblShowLive_1.setVisible(false);
-			lblShowLive_1.setVisible(false);
-			break;
-		case 2:
-			lblShowLive_0.setVisible(true);
-			lblShowLive_1.setVisible(true);
-			lblShowLive_1.setVisible(false);
-			break;
-		case 3:
-			lblShowLive_0.setVisible(true);
-			lblShowLive_1.setVisible(true);
-			lblShowLive_1.setVisible(true);
-			break;
-		default:
-			lblShowLive_0.setVisible(true);
-			lblShowLive_1.setVisible(true);
-			lblShowLive_1.setVisible(true);
-		}
+		textField_2.setText(String.valueOf(lives));
 	}
 	
 	public void setTime(int time){
 		String time_str = String.valueOf(time);
-		lblShowTime.setText("  " + time_str + "  ");
+		textField_1.setText("  " + time_str + "  ");
 	}
 	
 	public void setRank(int rank){

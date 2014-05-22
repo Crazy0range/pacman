@@ -180,8 +180,9 @@ public class GameEngine implements Runnable {
 		_pacman.move();
 		
 		//TODO If uncomment the two sentences below, weird bug will occur...
-//		_statusBarView.setPoints(_points);
-//		_statusBarView.setLives(_remainingLives);
+		_statusBarView.setPoints(_points);
+//		_statusBarView.setTime(_gameTimer.getDelay());
+		_statusBarView.setLives(_remainingLives);
 
 		// move the monsters
 		for(Iterator<Monster> it = _monsters.iterator(); it.hasNext(); ) {
