@@ -25,9 +25,9 @@ public class StatusBarView extends JPanel {
 	private JLabel lblTime;
 	private JLabel lblRank;
 	private JLabel lblShowRank;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField points;
+	private JTextField lives;
+	private JTextField time;
 
 	public StatusBarView() {
 		setBackground(new Color(40, 120, 255));
@@ -39,43 +39,43 @@ public class StatusBarView extends JPanel {
 		lblPoints.setForeground(Color.WHITE);
 		add(lblPoints);
 		
-		textField = new JTextField();
-		add(textField);
-		textField.setColumns(10);
-		textField.setText("10000");
-		textField.setEnabled(false);
-		textField.setBackground(new Color(40, 120, 255));
-		textField.setForeground(Color.WHITE);
-		textField.setColumns(3);
-		textField.setDisabledTextColor(Color.WHITE);
-		textField.revalidate();
+		points = new JTextField();
+		add(points);
+		points.setColumns(10);
+		points.setText("10000");
+		points.setEnabled(false);
+		points.setBackground(new Color(40, 120, 255));
+		points.setForeground(Color.WHITE);
+		points.setColumns(3);
+		points.setDisabledTextColor(Color.WHITE);
+		points.revalidate();
 
 		lblLives = new JLabel("  LIVES  ");
 		lblLives.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblLives.setForeground(Color.WHITE);
 		add(lblLives);
 		
-		textField_2 = new JTextField();
-		add(textField_2);
-		textField_2.setDisabledTextColor(Color.WHITE);
-		textField_2.setForeground(Color.WHITE);
-		textField_2.setBackground(new Color(40, 120, 255));
-		textField_2.setEnabled(false);
-		textField_2.setColumns(3);
+		lives = new JTextField();
+		add(lives);
+		lives.setDisabledTextColor(Color.WHITE);
+		lives.setForeground(Color.WHITE);
+		lives.setBackground(new Color(40, 120, 255));
+		lives.setEnabled(false);
+		lives.setColumns(3);
 
 		lblTime = new JLabel("  TIME  ");
 		lblTime.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblTime.setForeground(Color.WHITE);
 		add(lblTime);
 		
-		textField_1 = new JTextField();
-		add(textField_1);
-		textField_1.setColumns(5);
-		textField_1.setForeground(Color.WHITE);
-		textField_1.setDisabledTextColor(Color.WHITE);
-		textField_1.setBackground(new Color(40, 120, 255));
-		textField_1.setEnabled(false);
-		textField_2.setColumns(3);
+		time = new JTextField();
+		add(time);
+		time.setColumns(5);
+		time.setForeground(Color.WHITE);
+		time.setDisabledTextColor(Color.WHITE);
+		time.setBackground(new Color(40, 120, 255));
+		time.setEnabled(false);
+		lives.setColumns(3);
 
 		lblRank = new JLabel("  RANK  ");
 		lblRank.setForeground(Color.WHITE);
@@ -93,9 +93,9 @@ public class StatusBarView extends JPanel {
 	 * 
 	 * @param points
 	 */
-	public void setPoints(int points) {
-		String points_str = String.valueOf(points);
-		textField.setText(points_str);
+	public void setPoints(int _points) {
+		String points_str = String.valueOf(_points);
+		points.setText(points_str);
 	}
 
 	/**
@@ -103,13 +103,13 @@ public class StatusBarView extends JPanel {
 	 * 
 	 * @param lives
 	 */
-	public void setLives(int lives) {
-		textField_2.setText(String.valueOf(lives));
+	public void setLives(int _lives) {
+		lives.setText(String.valueOf(_lives));
 	}
 	
-	public void setTime(int time){
-		String time_str = String.valueOf(time);
-		textField_1.setText("  " + time_str + "  ");
+	public void setTime(int _time){
+		String time_str = String.valueOf(_time);
+		time.setText("  " + time_str + "  ");
 	}
 	
 	public void setRank(int rank){

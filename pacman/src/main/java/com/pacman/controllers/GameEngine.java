@@ -45,9 +45,9 @@ public class GameEngine implements Runnable {
 	private static final int SPECIAL_STAGE_TIME = 10;
 	private static final int MONSTERS_DELAY = 3000;
 	private static final int PACMAN_LIVES = 2;
-	private static final int POINTS_EATING_PILL = 1;
-	private static final int POINTS_EATING_SUPER_PILL = 10;
-	private static final int POINTS_EATING_MONSTER = 100;
+	private static final int POINTS_EATING_PILL = 10;
+	private static final int POINTS_EATING_SUPER_PILL = 50;
+	private static final int POINTS_EATING_MONSTER = 200;
 	private static final int MAX_CHEAT_USE = 2;
 	
 	//JASON

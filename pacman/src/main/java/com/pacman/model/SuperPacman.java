@@ -16,7 +16,7 @@ public class SuperPacman extends Pacman {
 		super(map);
 		
 		// set pacman velocity to 8
-		setVelocity(8);
+		setVelocity(4);
 	}
 	
 	/**
