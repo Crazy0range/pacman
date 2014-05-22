@@ -97,11 +97,11 @@ public class GameWindow extends JFrame {
 		switch(current_users)
 		{
 			case 3:
-				c.add(gameView[2], BorderLayout.EAST);
+				c.add(gameView[2], BorderLayout.WEST);
 			case 2:
-				c.add(gameView[1], BorderLayout.CENTER);
+				c.add(gameView[1], BorderLayout.EAST);
 			case 1:
-				c.add(gameView[0], BorderLayout.WEST);
+				c.add(gameView[0], BorderLayout.CENTER);
 				break;
 		}
 			

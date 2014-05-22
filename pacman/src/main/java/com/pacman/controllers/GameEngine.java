@@ -53,6 +53,10 @@ public class GameEngine implements Runnable {
 	//JASON
 	private static final int MAX_USERS = 3;
 	
+	//Jason
+	/* Flag for client/server */
+	private int _csflag = 0;
+	
 	/* Game timers */
 	private Timer _gameTimer;
 	private static final int FPS = 60;
@@ -94,7 +98,8 @@ public class GameEngine implements Runnable {
 	public GameEngine(int users_num) {
 		//Jason
 		current_users = users_num;
-		
+		if (this.current_users>1)
+			this._csflag = 1;
 
 		// initialize base UI Components
 		_window = new GameWindow();
@@ -262,9 +267,9 @@ public class GameEngine implements Runnable {
 		
 		_pacman[1].move();
 		
-		_pacman[2].setDirection(Direction.RIGHT);
-		
-		_pacman[2].move();
+//		_pacman[2].setDirection(Direction.RIGHT);
+//		
+//		_pacman[2].move();
 
 		
 		
@@ -274,7 +279,6 @@ public class GameEngine implements Runnable {
 		
 		//TODO If uncomment the two sentences below, weird bug will occur...
 		_statusBarView.setPoints(_points);
-//		_statusBarView.setTime(_gameTimer.getDelay());
 		_statusBarView.setLives(_remainingLives);
 
 		// move the monsters
