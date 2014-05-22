@@ -132,6 +132,7 @@ public class GameEngine implements Runnable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				System.out.println("updating game");
+				
 				updateGame();
 			}
 		});
