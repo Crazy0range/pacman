@@ -27,6 +27,7 @@ public class GameView extends JPanel {
 	private JPanel _stationaryObjectsPanel;
 	private JPanel _pacmanPanel;
 	private JPanel _monstersPanel;
+	private GameEndView _gameEndView;
 	private List<Monster> _monsters;
 
 	/**
@@ -132,6 +133,12 @@ public class GameView extends JPanel {
 		_monstersPanel.setSize(getSize());
 		_monstersPanel.setLayout(null); // absolute layout, pacman location is controlled by "setBounds" method
 		layeredPane.add(_monstersPanel, 0);
+		
+		// game end view
+		_gameEndView = new GameEndView();
+		_gameEndView.setSize(getSize());
+		_gameEndView.setVisible(false);
+		layeredPane.add(_gameEndView,2);
 
 		add(layeredPane);
 	}
@@ -159,5 +166,13 @@ public class GameView extends JPanel {
 	private void setGameMap(Map map) {
 		this._gameMap = map;
 		this._gameDimensions = map.getGameDimension();
+	}
+	
+	public void setGameEnd(){
+		_pacmanPanel.setVisible(false);
+		_monstersPanel.setVisible(false);
+		_gameEndView.setSize(getSize());
+		_gameEndView.setVisible(true);
+		
 	}
 }

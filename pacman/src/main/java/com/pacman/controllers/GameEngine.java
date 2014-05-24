@@ -304,8 +304,10 @@ public class GameEngine implements Runnable {
         java.util.Timer _stopgameTimer = new java.util.Timer();
         _stopgameTimer.schedule(new java.util.TimerTask(){
             public void run(){
-            	initializeNewGame();
-            	gameRestart();
+            	_gameView[0].setGameEnd();
+            	_gameTimer.stop();
+//            	initializeNewGame();
+//            	gameRestart();
             }
         }, 1000*GAME_STOP_TIME);
 		

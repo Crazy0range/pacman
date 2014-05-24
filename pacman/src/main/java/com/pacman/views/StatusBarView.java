@@ -112,6 +112,11 @@ public class StatusBarView extends JPanel {
 	public void setTime(int _time){
 		String time_str = String.valueOf(_time);
 		tfTime.setText("  " + time_str + "  ");
+		if(_time <= 10){
+			tfTime.setForeground(Color.RED);
+		} else {
+			tfTime.setForeground(Color.WHITE);
+		}
 	}
 	
 	public void setRank(int rank){
