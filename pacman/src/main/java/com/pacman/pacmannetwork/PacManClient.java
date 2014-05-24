@@ -59,8 +59,11 @@ public class PacManClient implements Runnable{
             byte[] data = this.subscriber.recv();
             if(data!=null){
             objData = SerializationUtil.fromByteArrayToJava(data);
-            if(objData instanceof ClientObject)
+            if(objData instanceof ClientObject){
+            System.out.println("Got an object#####");
             this.callback.onMessage(data);
+            
+            }
             }
 		}
 		

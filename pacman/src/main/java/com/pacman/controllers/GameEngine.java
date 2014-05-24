@@ -468,7 +468,7 @@ public class GameEngine implements Runnable {
 		
 		Point position = pacman.getPosition();
 		Direction direction = pacman.getDirection();
-		
+		System.out.println(_pacman[1] + " " + position);
 		_pacman[1].setPosition(position.x, position.y);
 		_pacman[1].setDirection(direction);
 		
