@@ -212,7 +212,7 @@ public class HomeWindow extends JFrame {
 			}
 		});
 		btnSinglePlayer.setForeground(Color.BLACK);
-		btnSinglePlayer.setFont(new Font("Dialog", Font.PLAIN, 18));
+		btnSinglePlayer.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
 		btnSinglePlayer.setBackground(new Color(255, 215, 0));
 		btnSinglePlayer.setBounds(20, 120, 176, 40);
 		contentPane.add(btnSinglePlayer);

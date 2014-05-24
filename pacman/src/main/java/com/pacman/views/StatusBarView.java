@@ -32,7 +32,6 @@ public class StatusBarView extends JPanel {
 	public StatusBarView() {
 		setBackground(new Color(40, 120, 255));
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
 
 		lblPoints = new JLabel(" POINTS ");
 		lblPoints.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
@@ -43,13 +42,14 @@ public class StatusBarView extends JPanel {
 		add(tfPoints);
 		tfPoints.setColumns(3);
 		tfPoints.setText("10000");
-		tfPoints.setEnabled(false);
 		tfPoints.setBackground(new Color(40, 120, 255));
+		tfPoints.setEnabled(false);
 		tfPoints.setForeground(Color.WHITE);
 		tfPoints.setColumns(6);
 		tfPoints.setDisabledTextColor(Color.WHITE);
 		tfPoints.setHorizontalAlignment(JTextField.RIGHT);
 		tfPoints.revalidate();
+
 
 		lblLives = new JLabel("  LIVES  ");
 		lblLives.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
