@@ -168,11 +168,11 @@ public class GameView extends JPanel {
 		this._gameDimensions = map.getGameDimension();
 	}
 	
-	public void setGameEnd(int points){
+	public void setGameEnd(int points,int lives){
 		_pacmanPanel.setVisible(false);
 		_monstersPanel.setVisible(false);
 		_gameEndView.setSize(getSize());
-		_gameEndView.setPoints(points);
+		_gameEndView.setPoints(points, lives);
 		_gameEndView.setVisible(true);
 		
 	}
