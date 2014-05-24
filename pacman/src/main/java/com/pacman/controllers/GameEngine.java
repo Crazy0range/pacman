@@ -304,8 +304,9 @@ public class GameEngine implements Runnable {
         java.util.Timer _stopgameTimer = new java.util.Timer();
         _stopgameTimer.schedule(new java.util.TimerTask(){
             public void run(){
-            	_gameView[0].setGameEnd();
+            	_gameView[0].setGameEnd(_points);
             	_gameTimer.stop();
+            	SoundPlayer.playPacmanDieSound();
 //            	initializeNewGame();
 //            	gameRestart();
             }

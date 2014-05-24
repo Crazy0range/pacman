@@ -16,6 +16,7 @@ public class GameEndView extends JPanel {
 	private static final long serialVersionUID = 3243548965275179389L;
 	private int _point;
 	private String _text;
+	private JLabel lblNewLabel;
 
 	public GameEndView() {
 		setBackground(Color.BLACK);
@@ -27,7 +28,7 @@ public class GameEndView extends JPanel {
 		lblGameOver.setFont(new Font("Lucida Grande", Font.BOLD, 22));
 		add(lblGameOver, BorderLayout.CENTER);
 
-		JLabel lblNewLabel = new JLabel();
+		lblNewLabel = new JLabel();
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		_text = "<html>Your Points : 10000<br>You are the Winner!<br><br><br></html>";
@@ -36,6 +37,11 @@ public class GameEndView extends JPanel {
 		lblNewLabel.setForeground(Color.WHITE);
 		add(lblNewLabel, BorderLayout.SOUTH);
 
+	}
+	
+	public void setPoints(int points){
+		_text = "<html>Your Points : " + points +"<br>You are the Winner!<br><br><br></html>";
+		lblNewLabel.setText(_text);
 	}
 
 }
