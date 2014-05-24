@@ -42,7 +42,7 @@ public class PacManClient implements Runnable{
 
 	public void run() {
 		//Settings.getSubscriberURL()
-		this.subscriber.connect("Leader node value here");
+		this.subscriber.connect("tcp://localhost:5558");
 		this.subscriber.subscribe(electedLeaderID.getBytes());
 		while (this.execute){
 			System.out.println("while true...");

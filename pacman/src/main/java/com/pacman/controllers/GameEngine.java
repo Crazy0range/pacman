@@ -32,6 +32,8 @@ import com.pacman.model.SuperPacman;
 import com.pacman.model.SuperPill;
 import com.pacman.model.WeakMonster;
 import com.pacman.pacmannetwork.PacManClient;
+import com.pacman.pacmannetwork.PacmanServer;
+
 import com.pacman.views.GameWindow;
 import com.pacman.views.GameView;
 import com.pacman.views.StatusBarView;
@@ -55,6 +57,11 @@ public class GameEngine implements Runnable {
 	private static final int POINTS_EATING_MONSTER = 200;
 	private static final int MAX_CHEAT_USE = 2;
 	
+	//public ClientObject sendObject;
+
+	//TODO setting who is running the gamw
+	//
+	boolean hostFlag= Boolean.TRUE;
 	//JASON
 	private static final int MAX_USERS = 3;
 	
@@ -80,7 +87,7 @@ public class GameEngine implements Runnable {
 	//modified Jason
 	//	private GameView _gameView1 = new GameView(_levelMap);
 	
-	private StatusBarView _statusBarView = new StatusBarView();
+	private StatusBarView[] _statusBarView = new StatusBarView[MAX_USERS];
 	private Pacman [] _pacman = new Pacman[MAX_USERS];
 	//Jason
 //	private Pacman _pacman1;
@@ -97,6 +104,9 @@ public class GameEngine implements Runnable {
 	private int _cheatUse = 0;
 	//Jason
 	private int current_users;
+	//Nikki to be used by client
+	 String topicSName= "hostReq";
+	
 
 	/**
 	 * Creates a new Game Engine
@@ -109,6 +119,25 @@ public class GameEngine implements Runnable {
 
 		// initialize base UI Components
 		_window = new GameWindow();
+       
+         // get host name
+         // TODO get added host name from setttings
+         String hostName= "host";
+         String topicName="";
+		if (hostFlag) {
+          // if this is host
+			topicName = hostName + "Req";
+		} else {
+			topicName = hostName;
+		}
+		
+		PacManClient.initializePacmanClient(topicName, new PacManClient.Callback() {
+			
+			public void onMessage(byte[] data) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		
 		//Jason
@@ -117,6 +146,8 @@ public class GameEngine implements Runnable {
 			System.out.println(i);
 			_levelMap[i] = Map.getFirstLevelMap();
 			this._gameView[i] = new GameView(this._levelMap[i]);
+			//Siyuan
+			this._statusBarView[i] = new StatusBarView();
 			_ai = new PathFinder(_levelMap[i], 100);
 		}
 		//Jason
@@ -291,6 +322,7 @@ public class GameEngine implements Runnable {
 		_pacman[1].setDirection(Direction.LEFT);
 		
 		_pacman[1].move();
+		//TODO put sending data here
 		
 //		_pacman[2].setDirection(Direction.RIGHT);
 //		
@@ -303,8 +335,8 @@ public class GameEngine implements Runnable {
 		System.out.println("pacman1 can move");
 		
 		//TODO If uncomment the two sentences below, weird bug will occur...
-		_statusBarView.setPoints(_points);
-		_statusBarView.setLives(_remainingLives);
+		_statusBarView[1].setPoints(_points);
+		_statusBarView[1].setLives(_remainingLives);
 
 		// move the monsters
 		for(Iterator<Monster> it = _monsters.iterator(); it.hasNext(); ) {
