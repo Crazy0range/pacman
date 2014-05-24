@@ -45,7 +45,7 @@ public class Forwarder implements Runnable {
 	            if (items[0].isReadable()) {
 	                String topic = frontend.recvStr();
 	                byte[] current = frontend.recv();
-
+                     //System.out.println("@@@@@@@"+topic+"@@@@@@");
 	                if (topic == null)
 	                    break;
 	                cache.put(topic, current);
@@ -63,7 +63,7 @@ public class Forwarder implements Runnable {
 	                byte[] event = frame.getData();
 	                if (event [0] == 1) {
 	                    String topic = new String(event, 1, event.length -1);
-	                    System.out.printf ("Client subscribed for %s\n", topic);
+	                    System.out.printf ("#####Client subscribed for %s\n", topic);
 	                    byte[] previous = cache.get(topic);
 	                    if (previous != null) {
 	                        backend.sendMore(topic);
