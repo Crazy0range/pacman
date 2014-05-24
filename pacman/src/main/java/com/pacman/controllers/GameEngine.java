@@ -62,7 +62,7 @@ public class GameEngine implements Runnable {
 
 	// TODO setting who is running the game
 	// Nikki
-	boolean hostFlag = Boolean.TRUE;
+	boolean hostFlag;
 	// JASON
 	private static final int MAX_USERS = 3;
 
@@ -110,7 +110,9 @@ public class GameEngine implements Runnable {
 	/**
 	 * Creates a new Game Engine
 	 */
-	public GameEngine(int users_num) {
+	public GameEngine(int users_num,boolean flag) {
+		//Nkki
+		this.hostFlag = flag;
 		// Jason
 		current_users = users_num;
 		if (this.current_users > 1)
@@ -137,12 +139,18 @@ public class GameEngine implements Runnable {
 						// Nikki added
 						ClientObject recievedObj = (ClientObject) SerializationUtil
 								.fromByteArrayToJava(data);
+
 						
 						//make a pacman from pacmantransmission
 						changetopacman(recievedObj.pacman);
-						if (hostFlag) {
-							PacmanServer.sendData(hostName,recievedObj);
+
+						if(recievedObj!=null && !hostFlag){
+							System.out.println("Recieved Data!!!");
 						}
+						 if (hostFlag) {
+							 PacmanServer.sendData(hostName,recievedObj);
+						 }
+
 					}
 				});
 

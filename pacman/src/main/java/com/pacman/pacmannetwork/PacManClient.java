@@ -4,6 +4,8 @@ import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 
+import com.pacman.utils.Settings;
+
 
 
 public class PacManClient implements Runnable{
@@ -41,8 +43,8 @@ public class PacManClient implements Runnable{
 	
 
 	public void run() {
-		//Settings.getSubscriberURL()
-		this.subscriber.connect("tcp://localhost:5558");
+		//
+		this.subscriber.connect(Settings.getSubscriberURL());
 		this.subscriber.subscribe(electedLeaderID.getBytes());
 		while (this.execute){
 			System.out.println("while true...");

@@ -6,6 +6,7 @@ import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 
 import com.pacman.utils.SerializationUtil;
+import com.pacman.utils.Settings;
 
 
 
@@ -33,16 +34,17 @@ public class PacmanServer  {
 		this.publisher= context.createSocket(ZMQ.XPUB);
 		// TODO election value to stored and added here
 		//only the tcp address not host, to be added here
-		this.publisher.connect("tcp://localhost:5557");
+		this.publisher.connect(Settings.getPublisherURL());
 		
 	}
 	
 	public static void sendData(String subscription,ClientObject tosend){
-		System.out.println("------- sending object");
+		System.out.print("------- sending object ");
 		//PointVector pntVector = SerializationUtil.serializeData(update);
-		//System.out.println(subscription + " ---- ");
+		System.out.println(subscription + " ---- ");
 		instance.publisher.sendMore(subscription);
 		instance.publisher.send(SerializationUtil.fromJavaToByteArray(tosend));
+		System.out.println("Sending data");
 	}
 
 
