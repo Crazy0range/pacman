@@ -49,7 +49,7 @@ import com.pacman.views.fx.SoundPlayer;
 public class GameEngine implements Runnable {
 	/* Game constants */
 	private static final int SPECIAL_STAGE_TIME = 10;
-	private static final int GAME_STOP_TIME = 10;
+	private static final int GAME_STOP_TIME = 30;
 	private static final int MONSTERS_DELAY = 3000;
 	private static final int PACMAN_LIVES = 2;
 	private static final int POINTS_EATING_PILL = 10;
@@ -104,6 +104,8 @@ public class GameEngine implements Runnable {
 	private int _cheatUse = 0;
 	//Jason
 	private int current_users;
+	//Siyuan
+	private int _gameCountDownTime = GAME_STOP_TIME;
 	//Nikki to be used by client
 	 String topicSName= "hostReq";
 	
@@ -267,6 +269,19 @@ public class GameEngine implements Runnable {
 
 		// play new game sound
 		SoundPlayer.playNewGameSound();
+		
+		//Siyuan game countdown time
+        TimerTask task = new TimerTask() {
+
+			@Override
+			public void run() {
+				_statusBarView[1].setTime(_gameCountDownTime--);
+			}
+        };
+        java.util.Timer t = new java.util.Timer();
+		// Starts after 1 second, perform the task again every 1 second.
+		t.scheduleAtFixedRate(task, 0, 1000);
+        
 	}
 
 	/*
@@ -302,16 +317,24 @@ public class GameEngine implements Runnable {
 		// starts the game timer
 		_gameTimer.start();
         java.util.Timer _stopgameTimer = new java.util.Timer();
-        _stopgameTimer.schedule(new java.util.TimerTask(){
+        _stopgameTimer.schedule(new TimerTask(){
             public void run(){
-            	_gameView[0].setGameEnd(_points);
-            	_gameTimer.stop();
-            	SoundPlayer.playPacmanDieSound();
+            	gameEnd(0);
 //            	initializeNewGame();
 //            	gameRestart();
             }
         }, 1000*GAME_STOP_TIME);
+        
+        		
+	}
+	/**
+	 * End the game after timer stops
+	 */
+	public void gameEnd(int current_user){
 		
+		_gameView[current_user].setGameEnd(_points,_remainingLives);
+    	_gameTimer.stop();
+    	SoundPlayer.playPacmanDieSound();
 	}
 
 	/**
@@ -335,7 +358,7 @@ public class GameEngine implements Runnable {
 		
 		
 		
-		System.out.println("pacman1 can move");
+//		System.out.println("pacman1 can move");
 		
 		//TODO If uncomment the two sentences below, weird bug will occur...
 		_statusBarView[1].setPoints(_points);

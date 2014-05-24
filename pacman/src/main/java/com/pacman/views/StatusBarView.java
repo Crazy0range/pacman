@@ -111,11 +111,14 @@ public class StatusBarView extends JPanel {
 	
 	public void setTime(int _time){
 		String time_str = String.valueOf(_time);
-		tfTime.setText("  " + time_str + "  ");
+		tfTime.setText(time_str);
 		if(_time <= 10){
-			tfTime.setForeground(Color.RED);
+			tfTime.setDisabledTextColor(Color.RED);
 		} else {
-			tfTime.setForeground(Color.WHITE);
+			tfTime.setDisabledTextColor(Color.WHITE);
+		}
+		if(_time < 0){
+			tfTime.setText("0");
 		}
 	}
 	

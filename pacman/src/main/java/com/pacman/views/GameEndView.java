@@ -30,17 +30,22 @@ public class GameEndView extends JPanel {
 
 		lblNewLabel = new JLabel();
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		_text = "<html>Your Points : 10000<br>You are the Winner!<br><br><br></html>";
-		
-		lblNewLabel.setText(_text);
+
+		// _text =
+		// "<html>Your Points : 10000<br>You are the Winner!<br><br><br><br><br><br></html>";
+		//
+		// lblNewLabel.setText(_text);
 		lblNewLabel.setForeground(Color.WHITE);
 		add(lblNewLabel, BorderLayout.SOUTH);
 
 	}
-	
-	public void setPoints(int points){
-		_text = "<html>Your Points : " + points +"<br>You are the Winner!<br><br><br></html>";
+
+	public void setPoints(int points, int lives) {
+		int bonus_points = 1000 * lives;
+		_text = "<html>Remaining Lives : " + lives + "<br> Bonus Points:"
+				+ lives + "*1000=" + bonus_points + "<br> Your Points : "
+				+ points + "+" + bonus_points + "=" + (points + bonus_points)
+				+ "<br>You are the Winner!<br><br><br><br><br><br></html>";
 		lblNewLabel.setText(_text);
 	}
 
