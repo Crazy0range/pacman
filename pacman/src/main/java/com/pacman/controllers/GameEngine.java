@@ -28,6 +28,8 @@ import com.pacman.model.StrongMonster;
 import com.pacman.model.SuperPacman;
 import com.pacman.model.SuperPill;
 import com.pacman.model.WeakMonster;
+import com.pacman.pacmannetwork.PacManClient;
+import com.pacman.pacmannetwork.PacmanServer;
 import com.pacman.views.GameWindow;
 import com.pacman.views.GameView;
 import com.pacman.views.StatusBarView;
@@ -50,6 +52,11 @@ public class GameEngine implements Runnable {
 	private static final int POINTS_EATING_MONSTER = 200;
 	private static final int MAX_CHEAT_USE = 2;
 	
+	//public ClientObject sendObject;
+
+	//TODO setting who is running the gamw
+	//
+	boolean hostFlag= Boolean.TRUE;
 	//JASON
 	private static final int MAX_USERS = 3;
 	
@@ -91,6 +98,9 @@ public class GameEngine implements Runnable {
 	private int _cheatUse = 0;
 	//Jason
 	private int current_users;
+	//Nikki to be used by client
+	 String topicSName= "hostReq";
+	
 
 	/**
 	 * Creates a new Game Engine
@@ -103,6 +113,25 @@ public class GameEngine implements Runnable {
 
 		// initialize base UI Components
 		_window = new GameWindow();
+       
+         // get host name
+         // TODO get added host name from setttings
+         String hostName= "host";
+         String topicName="";
+		if (hostFlag) {
+          // if this is host
+			topicName = hostName + "Req";
+		} else {
+			topicName = hostName;
+		}
+		
+		PacManClient.initializePacmanClient(topicName, new PacManClient.Callback() {
+			
+			public void onMessage(byte[] data) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		
 		//Jason
@@ -271,6 +300,7 @@ public class GameEngine implements Runnable {
 		_pacman[1].setDirection(Direction.LEFT);
 		
 		_pacman[1].move();
+		//TODO put sending data here
 		
 //		_pacman[2].setDirection(Direction.RIGHT);
 //		
