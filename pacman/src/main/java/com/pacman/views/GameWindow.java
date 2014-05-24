@@ -133,32 +133,10 @@ public class GameWindow extends JFrame {
 		// set the gameView visibility and repaint the application window
 		// gameView.setVisible(true);
 		// gameView1.setVisible(true);
-		statusBarPanel.setVisible(true);
+	
 		pack();
 		repaint();
 	}
 
-	// Jason
-	public void showView1(JPanel gameView, JPanel statusBarView) {
-		// remove any components from the frame's content pane
-		Container c = getContentPane();
-		for (Component comp : c.getComponents()) {
-			c.remove(comp);
-		}
 
-		// add the given gameView to the frame's center
-
-		c.add(statusBarView, BorderLayout.NORTH);
-		c.add(gameView, BorderLayout.EAST);
-		gameView.updateUI();
-
-		statusBarView.updateUI();
-
-		// set the gameView visibility and repaint the application window
-		gameView.setVisible(true);
-
-		statusBarView.setVisible(true);
-		pack();
-		repaint();
-	}
 }

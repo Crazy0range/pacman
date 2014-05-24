@@ -2,13 +2,18 @@ package com.pacman.model;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  *  Game map
  *  @author     Lidan Hifi
  *  @version    1.0
  */
-public class Map {
+public class Map implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3821615142078619274L;
 	/* codes map */
 	private int[][] _collisionMap;
 	/* stationary objects map ("Real" objects: JLabels / JPanels) */

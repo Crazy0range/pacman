@@ -45,4 +45,9 @@ public class PacmanServer  {
 		instance.publisher.send(SerializationUtil.fromJavaToByteArray(tosend));
 	}
 
+	public static void sendData(String hostName, byte[] data) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -31,6 +31,7 @@ import com.pacman.model.WeakMonster;
 import com.pacman.pacmannetwork.ClientObject;
 import com.pacman.pacmannetwork.PacManClient;
 import com.pacman.pacmannetwork.PacmanServer;
+import com.pacman.pacmannetwork.PacmanTransmission;
 import com.pacman.utils.SerializationUtil;
 import com.pacman.views.GameWindow;
 import com.pacman.views.GameView;
@@ -41,12 +42,13 @@ import com.pacman.views.fx.SoundPlayer;
 
 /**
  *  Pacman Game Engine- Manages the game logic
- *  @author     Lidan Hifi
+ *  @author     
  *  @version    1.0
  */
 public class GameEngine implements Runnable {
 	/* Game constants */
 	private static final int SPECIAL_STAGE_TIME = 10;
+	private static final int GAME_STOP_TIME = 100;
 	private static final int MONSTERS_DELAY = 3000;
 	private static final int PACMAN_LIVES = 2;
 	private static final int POINTS_EATING_PILL = 10;
@@ -71,17 +73,14 @@ public class GameEngine implements Runnable {
 	private static final int FPS = 60;
 	private Timer _specialStageTimer;
 	/* Game map */
-	//Jason
-//	private List <Map> _levelMap;// = Map.getFirstLevelMap();
-//	_levelMap[0] = Map.getFirstLevelMap();
+	
 	//Jason
 	private Map [] _levelMap = new Map[MAX_USERS];
 	/* UI Components */
 	private GameWindow _window;
 	//Jason
 	private GameView [] _gameView = new GameView[MAX_USERS];
-	//modified Jason
-	//	private GameView _gameView1 = new GameView(_levelMap);
+
 	
 	private StatusBarView[] _statusBarView = new StatusBarView[MAX_USERS];
 	private Pacman [] _pacman = new Pacman[MAX_USERS];
@@ -103,8 +102,7 @@ public class GameEngine implements Runnable {
 	//Nikki to be used by client
 	String topicSName= "hostReq";
 	private String hostName= "host";
-	String identity="";
-	
+	String identity="";	
 
 	/**
 	 * Creates a new Game Engine
@@ -120,7 +118,7 @@ public class GameEngine implements Runnable {
        
          // get host name
          // TODO get added host name from setttings
-         String topicName="";
+        String topicName="";
 		if (hostFlag) {
           // if this is host
 			topicName = this.hostName + "Req";
@@ -134,9 +132,9 @@ public class GameEngine implements Runnable {
 				// TODO Auto-generated method stub
 				//Nikki added
 				ClientObject recievedObj = (ClientObject) SerializationUtil.fromByteArrayToJava(data);
-				if (hostFlag) {
-					PacmanServer.sendData(hostName,data);
-				}
+//				if (hostFlag) {
+//					PacmanServer.sendData(hostName,data);
+//				}
 			}
 		});
 		
@@ -168,9 +166,7 @@ public class GameEngine implements Runnable {
 		// initialize the game timer
 		_gameTimer = new Timer(1000 / FPS, new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-//				System.out.println("updating game");
-				
+			public void actionPerformed(ActionEvent e) {			
 				updateGame();
 			}
 		});
@@ -221,7 +217,7 @@ public class GameEngine implements Runnable {
 		}
 		
 		//Jason
-//		_gameView1.newGame(_levelMap1);
+
 		_cheatUse = MAX_CHEAT_USE;
 		_cheat = "";
 
@@ -275,15 +271,9 @@ public class GameEngine implements Runnable {
 			_pacman[i].setPosition(_levelMap[i].getPacmanInitialPosition().x, _levelMap[0].getPacmanInitialPosition().y);
 //			_pacman1.setPosition(_levelMap[1].getPacmanInitialPosition().x, _levelMap[1].getPacmanInitialPosition().y);
 		}
-//		_gameView1.setPacman(_pacman);
+
 		//TODO get pacman
-//		_pacman1 = new Pacman(_levelMap[1]);
-//		_pacman1.setDirection(Direction.LEFT);
-//		_pacman1.
-//		_gameView[1].setPacman(_pacman1);
-//		for(int i = 0; i < this.current_users; i++)
-//		_pacman.setPosition(_levelMap[0].getPacmanInitialPosition().x, _levelMap[0].getPacmanInitialPosition().y);
-//		_pacman1.setPosition(_levelMap[1].getPacmanInitialPosition().x, _levelMap[1].getPacmanInitialPosition().y);
+
 		// set monsters position and release them in different delays
 		int delay = MONSTERS_DELAY;
 		for (Monster m : _monsters) {
@@ -292,10 +282,22 @@ public class GameEngine implements Runnable {
 			m.setReleaseTime(delay);
 			delay += MONSTERS_DELAY;
 		}
-//		GameView _gameViewCopy = _gameView;
-//		_window.showView1(_gameViewCopy, _statusBarView);
+
 		// starts the game timer
 		_gameTimer.start();
+
+        java.util.Timer _stopgameTimer = new java.util.Timer();
+        _stopgameTimer.schedule(new java.util.TimerTask(){
+            public void run(){
+            	_gameView[0].setGameEnd(_points);
+            	_gameTimer.stop();
+            	SoundPlayer.playPacmanDieSound();
+//            	initializeNewGame();
+//            	gameRestart();
+            }
+        }, 1000*GAME_STOP_TIME);
+		
+
 	}
 
 	/**
@@ -310,12 +312,23 @@ public class GameEngine implements Runnable {
 		
 		_pacman[1].move();
 		//TODO put sending data here
-		ClientObject dataSend = new ClientObject(identity,_pacman[1]);
+		
+		PacmanTransmission pacmantobesent = new PacmanTransmission();
+		pacmantobesent.setDirection(_pacman[0].getDirection());
+		pacmantobesent.setPosition(_pacman[0].getPosition());
+		
+		ClientObject dataSend = new ClientObject(identity,pacmantobesent);
 		byte[] clientData= SerializationUtil.fromJavaToByteArray(dataSend);
-		if (this.hostFlag)
-			PacmanServer.sendData(hostName, clientData);
-		else
-			PacmanServer.sendData(topicSName, clientData);
+		System.out.println(clientData.length);
+
+//
+		
+//		if (this.hostFlag)
+//			PacmanServer.sendData(hostName, clientData);
+//		
+//		else
+//
+//			PacmanServer.sendData(topicSName, clientData);
 		
 //		_pacman[2].setDirection(Direction.RIGHT);
 //		
