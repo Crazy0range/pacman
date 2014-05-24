@@ -137,9 +137,10 @@ public class GameEngine implements Runnable {
 						// Nikki added
 						ClientObject recievedObj = (ClientObject) SerializationUtil
 								.fromByteArrayToJava(data);
-						// if (hostFlag) {
-						// PacmanServer.sendData(hostName,data);
-						// }
+						
+						 if (hostFlag) {
+							 PacmanServer.sendData(hostName,recievedObj);
+						 }
 					}
 				});
 
@@ -167,6 +168,7 @@ public class GameEngine implements Runnable {
 		_gameTimer = new Timer(1000 / FPS, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("test!!!!");
 				updateGame();
 			}
 		});
@@ -341,12 +343,12 @@ public class GameEngine implements Runnable {
 
 		//
 
-		// if (this.hostFlag)
-		// PacmanServer.sendData(hostName, clientData);
-		//
-		// else
-		//
-		// PacmanServer.sendData(topicSName, clientData);
+		 if (this.hostFlag)
+			 PacmanServer.sendData(hostName, dataSend);
+		
+		 else
+		
+			 PacmanServer.sendData(topicSName, dataSend);
 
 		// _pacman[2].setDirection(Direction.RIGHT);
 		//
