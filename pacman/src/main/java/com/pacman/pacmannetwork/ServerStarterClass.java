@@ -3,7 +3,7 @@ package com.pacman.pacmannetwork;
 
 public class ServerStarterClass {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void startMainServer() throws InterruptedException{
 		
 		Thread relay = new Thread(new Forwarder());
 		relay.setDaemon(true);

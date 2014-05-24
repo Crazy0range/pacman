@@ -43,6 +43,7 @@ public class PacmanServer  {
 		//System.out.println(subscription + " ---- ");
 		instance.publisher.sendMore(subscription);
 		instance.publisher.send(SerializationUtil.fromJavaToByteArray(tosend));
+		System.out.println("Sending data");
 	}
 
 
