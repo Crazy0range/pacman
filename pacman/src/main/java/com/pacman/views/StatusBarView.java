@@ -34,7 +34,7 @@ public class StatusBarView extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 
-		lblPoints = new JLabel("  POINTS  ");
+		lblPoints = new JLabel(" POINTS ");
 		lblPoints.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPoints.setForeground(Color.WHITE);
 		add(lblPoints);
@@ -46,8 +46,9 @@ public class StatusBarView extends JPanel {
 		tfPoints.setEnabled(false);
 		tfPoints.setBackground(new Color(40, 120, 255));
 		tfPoints.setForeground(Color.WHITE);
-		tfPoints.setColumns(3);
+		tfPoints.setColumns(6);
 		tfPoints.setDisabledTextColor(Color.WHITE);
+		tfPoints.setHorizontalAlignment(JTextField.RIGHT);
 		tfPoints.revalidate();
 
 		lblLives = new JLabel("  LIVES  ");
@@ -61,6 +62,7 @@ public class StatusBarView extends JPanel {
 		tfLives.setForeground(Color.WHITE);
 		tfLives.setBackground(new Color(40, 120, 255));
 		tfLives.setEnabled(false);
+		tfLives.setHorizontalAlignment(JTextField.RIGHT);
 		tfLives.setColumns(3);
 
 		lblTime = new JLabel("  TIME  ");
@@ -74,9 +76,10 @@ public class StatusBarView extends JPanel {
 		tfTime.setForeground(Color.WHITE);
 		tfTime.setDisabledTextColor(Color.WHITE);
 		tfTime.setBackground(new Color(40, 120, 255));
+		tfTime.setHorizontalAlignment(JTextField.RIGHT);
 		tfTime.setEnabled(false);
 
-		lblRank = new JLabel("  RANK       ");
+		lblRank = new JLabel("  RANK  ");
 		lblRank.setForeground(Color.WHITE);
 		lblRank.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		add(lblRank);
