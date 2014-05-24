@@ -25,6 +25,7 @@ import com.pacman.pacmannetwork.PacmanServer;
 import com.pacman.pacmannetwork.ServerStarterClass;
 import com.pacman.utils.IPAddrCheck;
 import com.pacman.utils.UserProfile;
+import com.pacman.views.fx.SoundPlayer;
 import com.pacman.views.utils.AssetsManager;
 
 /**
@@ -91,6 +92,8 @@ public class HomeWindow extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		SoundPlayer.playIntroSound();
 
 		btnNewButton = new JButton("Online Game");
 		btnNewButton.addActionListener(new ActionListener() {

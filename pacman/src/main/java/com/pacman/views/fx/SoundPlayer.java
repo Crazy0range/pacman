@@ -91,6 +91,11 @@ public class SoundPlayer
 		play(soundFile, 0);
 	}
 	
+	public static void playIntroSound(){
+		URL soundFile = AssetsManager.getResource(SOUNDS_PATH + "intro.wav");
+		play(soundFile, 0);
+	}
+	
 	private static void stopAllSounds() {
 		for (int i = 0; i < _channels.length; i++) {
 			if (_channels[i] != null)
