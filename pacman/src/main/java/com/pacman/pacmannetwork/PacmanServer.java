@@ -1,35 +1,45 @@
 package com.pacman.pacmannetwork;
 
 
-import java.util.Hashtable;
-import java.util.Set;
-
+import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
-import org.zeromq.ZMQ.Context;
 import org.zeromq.ZMQ.Socket;
 
-import com.pacman.model.Pacman;
-import com.pacman.utils.SerializationUtil;
 
 
+public class PacmanServer  {
 
-public class PacmanServer implements Runnable {
-
-	private Set<String> hosts;
-	private Pacman _pacmantosend;
+	ZContext context;
+	Socket publisher;
 	
-	public void run(){
-	Context context = ZMQ.context(1);
-	// Socket to talk to clients
-	Socket socket1 = context.socket(ZMQ.REP);
-	socket1.bind("tcp://*:5555");
-	while(true){
-		byte[] incoming = socket1.recv(0);
-		ClientObject rep = (ClientObject) SerializationUtil.fromByteArrayToJava(incoming);
-		System.out.println(rep.value);
-		ClientObject reply = new ClientObject("Recieved msg", _pacmantosend);
-		socket1.send( SerializationUtil.fromJavaToByteArray(reply),1);
+   
+	private static PacmanServer instance;
+	
+	public static void initialize() {
+		instance = new PacmanServer();
+		
 	}
 	
+	public static void destroy(){
+		instance.publisher.close();
+		instance.context.destroy();
+		instance = null;
 	}
+	
+	private PacmanServer() {
+		this.context = new ZContext();
+		this.publisher= context.createSocket(ZMQ.XPUB);
+		//election value to stored and added her
+		this.publisher.connect("url val");
+		
+	}
+	
+	public static void sendList(String subscription,Object tosend){
+		System.out.println("------- sending vector list");
+		//PointVector pntVector = SerializationUtil.serializeData(update);
+		//System.out.println(subscription + " ---- ");
+		instance.publisher.sendMore(subscription);
+		//instance.publisher.send( );
+	}
+
 }

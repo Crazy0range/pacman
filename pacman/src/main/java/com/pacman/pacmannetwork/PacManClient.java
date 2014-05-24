@@ -1,38 +1,66 @@
 package com.pacman.pacmannetwork;
 
+import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
-
-import com.pacman.model.Pacman;
-import com.pacman.utils.SerializationUtil;
+import org.zeromq.ZMQ.Socket;
 
 
 
 public class PacManClient implements Runnable{
 	
-	private ZMQ.Context context;
-	private ZMQ.Socket socket;
-	private Pacman _pacmantosend;
+	private static PacManClient nodeInstance;
+	private static Thread nodeThread;
+	private boolean execute;
+    ZContext context;
+	Socket subscriber;
+	String electedLeaderID;
+	Callback callback;
+	
+	public PacManClient(String electedLeaderID, Callback callback) {
+		this.context = new ZContext();
+		this.subscriber = context.createSocket(ZMQ.SUB);
+		this.electedLeaderID = electedLeaderID;
+		this.callback = callback;
+	}
+	
+	public static void initializePacmanClient(String subscription, Callback callback){
+		nodeInstance = new PacManClient(subscription, callback);
+		nodeInstance.execute = true;
+		nodeThread = new Thread(nodeInstance);
+		nodeThread.start();
+		
+	}
+	public static void destroy(){
+		nodeInstance.subscriber.close();
+		nodeInstance.context.destroy();
+		nodeInstance.execute =false;
+		nodeThread.interrupt();
+		nodeThread = null;
+	}
+	
+	
 
-	@Override
 	public void run() {
-		context = ZMQ.context(1);
-		socket = context.socket(ZMQ.REQ);
-		socket.connect("tcp://localhost:5555");
-//		String hi = "Hi";
-		ClientObject val = new ClientObject("Hi",_pacmantosend);
-		byte[] rawByte = SerializationUtil.fromJavaToByteArray(val);
-		
-		socket.send(rawByte, 0);
-		byte[] rawBytes = socket.recv(0);
-		ClientObject recVal = (ClientObject) SerializationUtil.fromByteArrayToJava(rawBytes);
-		System.out.println(recVal.value);
-		
+		//Settings.getSubscriberURL()
+		this.subscriber.connect("Leader node value here");
+		this.subscriber.subscribe(electedLeaderID.getBytes());
+		while (this.execute){
+			System.out.println("while true...");
+			byte[] topic = this.subscriber.recv();
+			
+			System.out.println("----- topic = " + topic);
+            if (topic == null)
+                continue;
+            
+            byte[] data = this.subscriber.recv();
+            this.callback.onMessage(data);
+		}
 		
 		
 	}
-	
-	public void getPacman(Pacman _pacman){
-		this._pacmantosend = _pacman;
+
+	public static interface Callback {
+		public void onMessage(byte[] data);
 	}
 
 }

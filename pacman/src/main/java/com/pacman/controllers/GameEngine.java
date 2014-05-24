@@ -224,6 +224,10 @@ public class GameEngine implements Runnable {
 	public void gameRestart() {
 		// initialize new pacman and set its position to the initial position
 		
+		
+		
+		
+		
 		for(int i =0; i<this.current_users;i++)
 		{
 			_pacman[i] = new Pacman(_levelMap[0]);
