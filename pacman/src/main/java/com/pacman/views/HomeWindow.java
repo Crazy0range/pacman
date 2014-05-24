@@ -208,7 +208,7 @@ public class HomeWindow extends JFrame {
 		btnSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				SwingUtilities.invokeLater(new GameEngine(3));
-				SwingUtilities.invokeLater(new GameEngine(2));
+//				SwingUtilities.invokeLater(new GameEngine(2));
 			}
 		});
 		btnSinglePlayer.setForeground(Color.BLACK);
