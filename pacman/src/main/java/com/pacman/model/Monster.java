@@ -7,6 +7,7 @@ import java.io.Serializable;
 import javax.imageio.ImageIO;
 
 import com.pacman.ai.Path;
+import com.pacman.utils.SerializableBufferedImage;
 import com.pacman.views.utils.AssetsManager;
 
 /**
@@ -19,7 +20,7 @@ public abstract class Monster extends ControllableObject implements Eatable,
 		Serializable {
 	private static final long serialVersionUID = -2278066974451795606L;
 	/* monster image chosen randomly */
-	BufferedImage _image;
+	SerializableBufferedImage _image;
 	/* is in fear mode (special stage) */
 	boolean _inFear = false;
 	/* current path */
@@ -54,9 +55,9 @@ public abstract class Monster extends ControllableObject implements Eatable,
 	public void initializeMonster() {
 		// Choose monster image randomly (for making the game harder!!!)
 		try {
-			_image = ImageIO.read(AssetsManager.getResource(Monster.class,
-					((int) Math.floor(Math.random() * 4) + 1) + ".png"));
-			setSpriteImage(_image);
+			_image = new SerializableBufferedImage(ImageIO.read(AssetsManager.getResource(Monster.class,
+					((int) Math.floor(Math.random() * 4) + 1) + ".png")));
+			setSpriteImage(_image.get());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -147,7 +148,7 @@ public abstract class Monster extends ControllableObject implements Eatable,
 	 * Back the monster to the normal mode (after the special stage)
 	 */
 	public void setNormalMode() {
-		setSpriteImage(_image);
+		setSpriteImage(_image.get());
 		_inFear = false;
 		stopAnimation();
 	}

@@ -28,6 +28,14 @@ public class PacmanTransmission implements Serializable{
 		
 		this.position= position;
 	}
+	public Direction getDirection(){
+		
+		return this.dir;
+	}
+	public Point getPosition(){
+		
+		return this.position;
+	}
 	
 
 }

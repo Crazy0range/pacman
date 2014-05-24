@@ -60,7 +60,7 @@ public class GameEngine implements Runnable {
 
 	// public ClientObject sendObject;
 
-	// TODO setting who is running the gamw
+	// TODO setting who is running the game
 	// Nikki
 	boolean hostFlag = Boolean.TRUE;
 	// JASON
@@ -138,9 +138,11 @@ public class GameEngine implements Runnable {
 						ClientObject recievedObj = (ClientObject) SerializationUtil
 								.fromByteArrayToJava(data);
 						
-						 if (hostFlag) {
-							 PacmanServer.sendData(hostName,recievedObj);
-						 }
+						//make a pacman from pacmantransmission
+						changetopacman(recievedObj.pacman);
+						if (hostFlag) {
+							PacmanServer.sendData(hostName,recievedObj);
+						}
 					}
 				});
 
@@ -168,7 +170,7 @@ public class GameEngine implements Runnable {
 		_gameTimer = new Timer(1000 / FPS, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("test!!!!");
+//				System.out.println("test!!!!");
 				updateGame();
 			}
 		});
@@ -272,6 +274,12 @@ public class GameEngine implements Runnable {
 	public void gameRestart() {
 		// initialize new pacman and set its position to the initial position
 
+		//can output the random between 0 and 1
+		java.util.Random r=new java.util.Random(10); 
+		  for(int j=0;j<10;j++){ 
+		    System.out.println(r.nextDouble()); 
+		}
+
 		for (int i = 0; i < this.current_users; i++) {
 			_pacman[i] = new Pacman(_levelMap[0]);
 			// Jason
@@ -328,7 +336,7 @@ public class GameEngine implements Runnable {
 		_pacman[0].move();
 
 		// Jason
-		_pacman[1].setDirection(Direction.LEFT);
+//		_pacman[1].setDirection(Direction.LEFT);
 
 		_pacman[1].move();
 		// TODO put sending data here
@@ -339,7 +347,7 @@ public class GameEngine implements Runnable {
 
 		ClientObject dataSend = new ClientObject(identity, pacmantobesent);
 		byte[] clientData = SerializationUtil.fromJavaToByteArray(dataSend);
-		System.out.println(clientData.length);
+//		System.out.println(clientData.length);
 
 		//
 
@@ -435,9 +443,8 @@ public class GameEngine implements Runnable {
 				.getPosition().x];
 
 		if (collidableObject != null
-				&& collidableObject.isCollidableWith(_pacman[0])) {
-			map[_pacman[0].getPosition().y][_pacman[0].getPosition().x]
-					.collideWith(_pacman[0], this);
+				&& collidableObject.isCollidableWith(_pacman[0])) {;
+			map[_pacman[0].getPosition().y][_pacman[0].getPosition().x].collideWith(_pacman[0], this);
 		}
 
 		// determines if pacman ate all the pills
@@ -447,6 +454,28 @@ public class GameEngine implements Runnable {
 			initializeNewGame();
 			gameRestart();
 		}
+	}
+	//change pacmantransmission to the pacman
+	public void changetopacman(PacmanTransmission pacman){
+		
+		Point position = pacman.getPosition();
+		Direction direction = pacman.getDirection();
+		
+		_pacman[1].setPosition(position.x, position.y);
+		_pacman[1].setDirection(direction);
+		
+		StationaryObject[][] map_1 = _levelMap[1].getStationaryObjectsMap();
+		StationaryObject collidableObject = map_1[_pacman[1].getPosition().y][_pacman[1]
+				.getPosition().x];
+		updateGame();
+		if (collidableObject != null
+				&& collidableObject.isCollidableWith(_pacman[1])) {
+			map_1[_pacman[1].getPosition().y][_pacman[1].getPosition().x]
+					.collideWith(_pacman[1],this);
+		}
+		updateGame();
+		
+		
 	}
 
 	/**
