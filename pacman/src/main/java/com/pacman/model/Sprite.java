@@ -10,10 +10,14 @@ import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+import com.pacman.utils.SerializableBufferedImage;
+
 /**
- *  Sprite represents an object that can be animated using an image contains a sequence of frames
- *  @author     Lidan Hifi
- *  @version    1.0
+ * Sprite represents an object that can be animated using an image contains a
+ * sequence of frames
+ * 
+ * @author Lidan Hifi
+ * @version 1.0
  */
 public class Sprite extends JLabel {
 	private static final long serialVersionUID = -9012270587810440480L;
@@ -22,7 +26,7 @@ public class Sprite extends JLabel {
 	private Timer _animationTimer;
 	private int _fps = 25;
 	/* the sprite image */
-	private BufferedImage _sprite = null;
+	private SerializableBufferedImage _sprite = null;
 	/* the frame index & angle */
 	private int _spriteX;
 	private int _spriteAngle;
@@ -36,7 +40,7 @@ public class Sprite extends JLabel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				_spriteX = (_spriteX + BLOCK_SIZE) % _sprite.getWidth();
+				_spriteX = (_spriteX + BLOCK_SIZE) % _sprite.get().getWidth();
 			}
 		});
 	}
@@ -54,10 +58,12 @@ public class Sprite extends JLabel {
 	public void stopAnimation() {
 		_animationTimer.stop();
 	}
-	
+
 	/**
 	 * Change the animation frames per second
-	 * @param fps fps value
+	 * 
+	 * @param fps
+	 *            fps value
 	 */
 	protected void setFPS(int fps) {
 		_fps = fps;
@@ -66,39 +72,47 @@ public class Sprite extends JLabel {
 
 	/**
 	 * Set the sprite image (sequence of frames in one image)
-	 * @param sprite sprite image
+	 * 
+	 * @param sprite
+	 *            sprite image
 	 */
 	protected void setSpriteImage(BufferedImage sprite) {
-		_sprite = sprite;
+		_sprite = new SerializableBufferedImage(sprite);
 		_spriteX = 0;
 	}
-	
+
 	/**
 	 * Get the current sprite image
+	 * 
 	 * @return
 	 */
 	protected BufferedImage getSpriteImage() {
-		return _sprite;
+		if (_sprite != null)
+			return _sprite.get();
+		return null;
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		setSize(BLOCK_SIZE, BLOCK_SIZE);
-		
+
 		// "crop" the current frame
-		BufferedImage currentFrame = _sprite.getSubimage(_spriteX, 0, BLOCK_SIZE, BLOCK_SIZE);
+		BufferedImage currentFrame = _sprite.get().getSubimage(_spriteX, 0,
+				BLOCK_SIZE, BLOCK_SIZE);
 
 		// change the sprite angle
-		Graphics2D g2d = (Graphics2D)g;
+		Graphics2D g2d = (Graphics2D) g;
 		AffineTransform trans = new AffineTransform();
-		trans.rotate(Math.toRadians(_spriteAngle), currentFrame.getWidth() / 2, currentFrame.getHeight() / 2);
-		
+		trans.rotate(Math.toRadians(_spriteAngle), currentFrame.getWidth() / 2,
+				currentFrame.getHeight() / 2);
+
 		// draw the sprite
 		g2d.drawImage(currentFrame, trans, this);
 	}
 
 	/**
 	 * Change the sprite angle
+	 * 
 	 * @param spriteAngle
 	 */
 	protected void setSpriteAngle(int spriteAngle) {
