@@ -74,7 +74,7 @@ public class GameEngine implements Runnable {
 	//modified Jason
 	//	private GameView _gameView1 = new GameView(_levelMap);
 	
-	private StatusBarView _statusBarView = new StatusBarView();
+	private StatusBarView[] _statusBarView = new StatusBarView[MAX_USERS];
 	private Pacman [] _pacman = new Pacman[MAX_USERS];
 	//Jason
 //	private Pacman _pacman1;
@@ -111,6 +111,8 @@ public class GameEngine implements Runnable {
 			System.out.println(i);
 			_levelMap[i] = Map.getFirstLevelMap();
 			this._gameView[i] = new GameView(this._levelMap[i]);
+			//Siyuan
+			this._statusBarView[i] = new StatusBarView();
 			_ai = new PathFinder(_levelMap[i], 100);
 		}
 		//Jason
@@ -283,8 +285,8 @@ public class GameEngine implements Runnable {
 		System.out.println("pacman1 can move");
 		
 		//TODO If uncomment the two sentences below, weird bug will occur...
-		_statusBarView.setPoints(_points);
-		_statusBarView.setLives(_remainingLives);
+		_statusBarView[1].setPoints(_points);
+		_statusBarView[1].setLives(_remainingLives);
 
 		// move the monsters
 		for(Iterator<Monster> it = _monsters.iterator(); it.hasNext(); ) {
