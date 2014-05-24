@@ -139,7 +139,7 @@ public class GameEngine implements Runnable {
 						// Nikki added
 						ClientObject recievedObj = (ClientObject) SerializationUtil
 								.fromByteArrayToJava(data);
-						if(recievedObj!=null){
+						if(recievedObj!=null && !hostFlag){
 							System.out.println("Recieved Data!!!");
 						}
 						 if (hostFlag) {

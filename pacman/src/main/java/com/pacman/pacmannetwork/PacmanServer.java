@@ -6,6 +6,7 @@ import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 
 import com.pacman.utils.SerializationUtil;
+import com.pacman.utils.Settings;
 
 
 
@@ -33,7 +34,7 @@ public class PacmanServer  {
 		this.publisher= context.createSocket(ZMQ.XPUB);
 		// TODO election value to stored and added here
 		//only the tcp address not host, to be added here
-		this.publisher.connect("tcp://localhost:5557");
+		this.publisher.connect(Settings.getPublisherURL());
 		
 	}
 	
