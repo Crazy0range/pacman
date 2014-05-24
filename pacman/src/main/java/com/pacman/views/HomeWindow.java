@@ -42,7 +42,7 @@ public class HomeWindow extends JFrame {
 	private MyProfileWindow myProfileWindow;
 	private NewOnlineGameWindow newOnlineGameWindow;
 	private JoinGameWindow joinGameWindow;
-	private Boolean flag = Boolean.FALSE;
+	private Boolean flag = Boolean.TRUE;
 
 	public static void main(String[] args) {
 

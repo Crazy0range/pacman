@@ -39,9 +39,9 @@ public class PacmanServer  {
 	}
 	
 	public static void sendData(String subscription,ClientObject tosend){
-		System.out.println("------- sending object");
+		System.out.print("------- sending object ");
 		//PointVector pntVector = SerializationUtil.serializeData(update);
-		//System.out.println(subscription + " ---- ");
+		System.out.println(subscription + " ---- ");
 		instance.publisher.sendMore(subscription);
 		instance.publisher.send(SerializationUtil.fromJavaToByteArray(tosend));
 		System.out.println("Sending data");
