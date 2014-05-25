@@ -15,4 +15,6 @@ public class Variables {
 	public static final String LIMIT = "NoAdd";
 	
 	public static final String NNValue = "NNieghbour";
+
+	public static final String NodePort = "6001";
 }

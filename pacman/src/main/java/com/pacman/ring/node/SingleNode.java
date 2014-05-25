@@ -9,6 +9,7 @@ import com.pacman.ring.model.Acknowledge;
 import com.pacman.ring.model.ElectionMessages;
 import com.pacman.ring.model.Response;
 import com.pacman.utils.SerializationUtil;
+import com.pacman.utils.Settings;
 import com.pacman.utils.Variables;
 
 public class SingleNode implements Runnable{
@@ -19,7 +20,7 @@ public class SingleNode implements Runnable{
 		this.initialize();
 	}
 
-	String nTcpPoint;
+	String nTcpPoint=null;
 	String tcpEndpoint;
 	String port;
 	UUID myUID;
@@ -40,14 +41,12 @@ public class SingleNode implements Runnable{
 		this.msgRec = false;
 	}
 
-	String _hostNetTopology;
-
-	// int _portNetTopology;
-	public void startConnection() {
+	public boolean startConnection() {
 		ZMQ.Context context = ZMQ.context(1);
 		ZMQ.Socket socket = context.socket(ZMQ.REQ);
 		String localAddr = null;
-		socket.connect("tcp://localhost:5554");
+		socket.connect(Settings.getRegistryServerURL());
+		boolean connection=Boolean.FALSE;
 		// try {
 		localAddr = this.port;// InetAddress.getLocalHost().getHostAddress();
 		// } catch (UnknownHostException e) {
@@ -65,10 +64,16 @@ public class SingleNode implements Runnable{
 		if (command instanceof Acknowledge) {
 			Acknowledge msg = (Acknowledge) command;
 			System.out.println((msg).getPosition());
+			if(msg.getResponse().equalsIgnoreCase(Variables.LIMIT)){
+				connection = Boolean.FALSE;
+			} else {
+				connection = Boolean.TRUE;
+			}
 		}
 
 		socket.close();
 		context.term();
+		return connection;
 
 	}
 
@@ -211,26 +216,29 @@ public class SingleNode implements Runnable{
 	}
 	
 	public void startElection(boolean startE) {
-
+        if(elected_id == null)
 		electionStart = startE;
      }
 
-	public void detectStart() {
-		if (electionStart) {
+	public boolean detectStart() {
+		boolean start = false;
+		if (electionStart && nTcpPoint!=null) {
 			System.out.println("Starting election");
+			
 			ElectionMessages aMsg = new ElectionMessages(
 					ElectionMessages.MessageType.ELECTION, null, this.myUID);
 			sendMessage(aMsg);
 			this.state = ElectionState.PARTICIPANT;
 			electionStart = false;
+			start= true;
 		}
+		return start;
 	}
 
 	public void run() {
-		startConnection();
 		getNieghbour();
 	
-		electionStart = port.endsWith("1");//(elected_id == null);
+		electionStart = (elected_id == null);
 		
 		//sleep(Integer.parseInt(port));
 		Thread listener = new Thread(new Runnable() {
@@ -240,7 +248,6 @@ public class SingleNode implements Runnable{
 		});
 		
 		listener.start();
-		detectStart();
 		try {
 			listener.join();
 		} catch (Exception ex){

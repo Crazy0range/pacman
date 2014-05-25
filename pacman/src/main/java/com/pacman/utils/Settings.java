@@ -7,15 +7,18 @@ public class Settings {
 	static String leaderUrl;
 	
 	//"tcp://localhost:5555"
-	/*public static String getRegistryServerURL(){
+	public static String getRegistryServerURL(){
 		//String url = (String) Settings.getInstance().get("RegistryURL");
-		return url+":"+Variables.RegistryPort;
-	}*/
+		return (urlVal+":"+Variables.RegistryPort);
+	}
 	
 	public static void setURL(String url){
 		urlVal = url;
 	}
 	
+	public static String getURL(String url){
+		return urlVal;
+	}
 	
 	//tcp://localhost:5557
 	public static String getPublisherURL(){
