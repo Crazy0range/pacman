@@ -149,7 +149,11 @@ public class SingleNode implements Runnable{
 		} else if (type == ElectionMessages.MessageType.ELECTED) {
 			this.state = ElectionState.NON_PARTICIPANT;
 			this.elected_id = em.getElectedUID();
-			this.leader_ip = em.getTcpPoint();
+			String val = em.getTcpPoint();
+			if (val.endsWith(":5556")) {
+				  val = val.substring(0, val.length() - 5);
+				}
+			this.leader_ip = val;
 			this.elected = Boolean.TRUE;
 			if (!elected_id.equals(this.myUID)) {
 				sendMessage(em);
@@ -166,7 +170,7 @@ public class SingleNode implements Runnable{
 		ZMQ.Socket socket = context.socket(ZMQ.REQ);
 		// sending data to nieghbour TODO changed for distributed
 		//socket.connect("tcp://*:" + this.nTcpPoint);
-		socket.connect(this.nTcpPoint+":"+Variables.NodePort);
+		socket.connect(this.nTcpPoint);
 		socket.send(SerializationUtil.fromJavaToByteArray(em),0);
 		System.out.println("Send data to right nieghbour");
 		byte[] ackResp = socket.recv(0);
