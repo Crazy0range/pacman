@@ -29,6 +29,7 @@ public class GameView extends JPanel {
 	private JPanel _monstersPanel;
 	private GameEndView _gameEndView;
 	private List<Monster> _monsters;
+	private int gameover = 0;
 
 	/**
 	 * Creates a new game view panel
@@ -174,6 +175,13 @@ public class GameView extends JPanel {
 		_gameEndView.setSize(getSize());
 		_gameEndView.setPoints(points, lives);
 		_gameEndView.setVisible(true);
+		this.gameover = 1;
 		
+	}
+	public int ifgameover(){
+		return this.gameover;
+	}
+	public void setgameover(int gameover){
+		this.gameover = gameover;
 	}
 }
