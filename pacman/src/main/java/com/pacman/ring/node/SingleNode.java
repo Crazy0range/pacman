@@ -1,5 +1,7 @@
 package com.pacman.ring.node;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -43,23 +45,24 @@ public class SingleNode implements Runnable{
 		this.msgRec = false;
 	}
 
-	public boolean startConnection() {
+	public boolean startConnection() throws UnknownHostException {
 		ZMQ.Context context = ZMQ.context(1);
 		ZMQ.Socket socket = context.socket(ZMQ.REQ);
 		String localAddr = null;
 		socket.connect(Settings.getRegistryServerURL());
 		boolean connection=Boolean.FALSE;
 		// try {
-		//TODO change for distributed
-		localAddr = this.port;// InetAddress.getLocalHost().getHostAddress();
+		//TODO change for distributed systems
+		localAddr = InetAddress.getLocalHost().getHostAddress();
+		//localAddr = localport
 		// } catch (UnknownHostException e) {
 
 		// e.printStackTrace();
 		// }
-		this.tcpEndpoint = "tcp://" + localAddr;
-		
+		this.tcpEndpoint = "tcp://" + localAddr+":"+Variables.NodePort;
+		System.out.println(this.tcpEndpoint);
 		System.out.println("My UUID is :" + this.myUID);
-		Response objectRes = new Response(this.myUID, localAddr,
+		Response objectRes = new Response(this.myUID, this.tcpEndpoint,
 				Variables.ALIVE);
 		socket.send(SerializationUtil.fromJavaToByteArray(objectRes), 0);
 		byte[] rawBytes = socket.recv(0);
@@ -84,17 +87,17 @@ public class SingleNode implements Runnable{
 		// TODO Auto-generated method stub
 		ZMQ.Context context1 = ZMQ.context(1);
 		ZMQ.Socket server = context1.socket(ZMQ.REP);
-		System.out.println("tcp://*:" + port);
-		server.bind("tcp://*:" + port);
+		//System.out.println("tcp://*:" + port);
+		server.bind("tcp://*:5556");
 		Object val;
 		while (true) {
 			System.out.println("In loop");
-			byte[] nData = server.recv();
+			byte[] nData = server.recv(0);
 			System.out.println(nData);
 			val = SerializationUtil.fromByteArrayToJava(nData);
-			Acknowledge ack = new Acknowledge(Variables.ACK, 0);
+			Acknowledge ack = new Acknowledge(Variables.ACK, 1);
 			System.out.println("Got data!!!!");
-			server.send(SerializationUtil.fromJavaToByteArray(ack));
+			server.send(SerializationUtil.fromJavaToByteArray(ack),0);
 			if ((val instanceof Response)
 					&& (((Response) val).getRequestType()
 							.equalsIgnoreCase(Variables.NNValue)))
@@ -105,41 +108,7 @@ public class SingleNode implements Runnable{
 		server.close();
 		context1.term();
 	}
-	/*
-	public void processMssg(ElectionMessages em){
-		ElectionMessages.MessageType type = em.getMsgType();
-		boolean recvGrtr = false;
-		
-		if (type == MessageType.ELECTION){
-			if (//myUID != null &&// !myUID.equals(em.getmID())){
-				if (em.getmID() != null && myUID.compareTo(em.getmID()) == 1) {
-					em.setmID(this.myUID);
-				} else {
-					recvGrtr = true;
-				}
-				
-				if (state == ElectionState.NON_PARTICIPANT || (state == ElectionState.PARTICIPANT && recvGrtr)) {
-					System.out.println("Forwarding message");
-					sendMessage(em);
-					this.state = ElectionState.PARTICIPANT;
-				}
-			} else {
-				ElectionMessages elected = new ElectionMessages(ElectionMessages.MessageType.ELECTED, this.myUID, this.myUID);
-				this.state = ElectionState.NON_PARTICIPANT;
-				System.out.println(port+ ": Elected!!");
-				sendMessage(elected);
-			}
-		} else if (type == MessageType.ELECTED){
-			this.state = ElectionState.NON_PARTICIPANT;
-			this.elected_id = em.getElectedUID();
-			if (elected_id != this.myUID) {
-				System.out.println(port + ": forwarding "+ em);
-				sendMessage(em);
-			}
-			this.elected = Boolean.TRUE;
-		}
-	}
-	*/
+
 	public void processMessages(ElectionMessages em) {
 		started = Boolean.TRUE;
 		ElectionMessages.MessageType type = em.getMsgType();
@@ -180,7 +149,11 @@ public class SingleNode implements Runnable{
 		} else if (type == ElectionMessages.MessageType.ELECTED) {
 			this.state = ElectionState.NON_PARTICIPANT;
 			this.elected_id = em.getElectedUID();
-			this.leader_ip = em.getTcpPoint();
+			String val = em.getTcpPoint();
+			if(val.endsWith(":5556")){
+				val = val.substring(0, val.length()-5);
+			}
+			this.leader_ip = val;
 			this.elected = Boolean.TRUE;
 			if (!elected_id.equals(this.myUID)) {
 				sendMessage(em);
@@ -195,8 +168,9 @@ public class SingleNode implements Runnable{
 	void sendMessage(ElectionMessages em) {
 		ZMQ.Context context = ZMQ.context(1);
 		ZMQ.Socket socket = context.socket(ZMQ.REQ);
-		// sending data to nieghbour
-		socket.connect("tcp://*:" + this.nTcpPoint);
+		// sending data to nieghbour TODO changed for distributed
+		//socket.connect("tcp://*:" + this.nTcpPoint);
+		socket.connect(this.nTcpPoint);
 		socket.send(SerializationUtil.fromJavaToByteArray(em),0);
 		System.out.println("Send data to right nieghbour");
 		byte[] ackResp = socket.recv(0);
@@ -227,8 +201,8 @@ public class SingleNode implements Runnable{
 		context1.term();
 		if(myUID.equals(elected_id)){
 		Settings.setLeaderUrl("tcp://localhost");
-		}
-		Settings.setLeaderUrl(this.leader_ip);
+		}else{
+		Settings.setLeaderUrl(this.leader_ip);}
 		Settings.setLeaderUUID(elected_id);
 		
 	}
@@ -251,6 +225,10 @@ public class SingleNode implements Runnable{
 			start= true;
 		}
 		return start;
+	}
+	
+	public String returnVal(){
+		return this.leader_ip;
 	}
 
 	public void run() {
@@ -292,5 +270,12 @@ public class SingleNode implements Runnable{
 		} catch (InterruptedException ex){
 			ex.printStackTrace();
 		}
+	}
+
+	public boolean isElected() {
+		if(myUID.equals(elected_id))
+		return true;
+		else 
+		return false;
 	}
 }

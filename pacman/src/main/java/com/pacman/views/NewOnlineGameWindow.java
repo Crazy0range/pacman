@@ -4,13 +4,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import com.pacman.controllers.GameEngine;
+import com.pacman.pacmannetwork.Forwarder;
+import com.pacman.pacmannetwork.PacmanServer;
 import com.pacman.ring.node.SingleNode;
 import com.pacman.utils.Settings;
 import com.pacman.utils.UserProfile;
@@ -30,7 +35,7 @@ public class NewOnlineGameWindow extends JFrame {
 	private JButton btnConnectToServer;
 	SingleNode node;
 	Thread th;
-
+    boolean flag;
 	/**
 	 * Used for creating a new WhiteBord window.
 	 */
@@ -50,17 +55,15 @@ public class NewOnlineGameWindow extends JFrame {
 		btnStart = new JButton("Start Game");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// RegisteryNode hostNode = new RegisteryNode(tfBoardName
-				// .getText(), Variables.HOST);
-				// hostNode.startHostConnection();
-				// String boardName = tfBoardName.getText();
-				// WhiteBoardWindow whiteBoardWindow = new WhiteBoardWindow(
-				// boardName, true, boardName);
-				// UserProfile uPrf = Settings.getUserProfile();
-				// WhiteBoardWindow.addManager(uPrf);
-				// whiteBoardWindow.setVisible(true);
-				// dispose();
+            if(flag){
+					Thread relay = new Thread(new Forwarder());
+					relay.setDaemon(true);
+					relay.start();
+			}
+			PacmanServer.initialize();
+			System.out.println("start game engine");
+			//TODO
+			SwingUtilities.invokeLater(new GameEngine(2,flag));
 			}
 		});
 		btnStart.setBounds(217, 217, 128, 40);
@@ -86,13 +89,29 @@ public class NewOnlineGameWindow extends JFrame {
 		btnStartElection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				node.startElection(true);
-				String value= null;
 				if(!node.detectStart()){
 					printToTextPane("Unable to start election. Please wait and retry..");
 					
 				}else{
 					printToTextPane("Successfully started election");
 			}
+				  try {
+						th.join();
+					} catch (InterruptedException exp) {
+						// TODO Auto-generated catch block
+						exp.printStackTrace();
+					}
+				  String val = node.returnVal();
+				  flag = node.isElected();
+				  printToTextPane("Got the tcpValue: "+ val);
+				  if(flag){
+					  printToTextPane("You are the winner");
+ 
+				  }
+				  btnStart.setEnabled(true);
+				  printToTextPane("Please start the game within the next few seconds");
+				  
+				  
 		}});
 		btnStartElection.setForeground(Color.BLACK);
 		btnStartElection.setFont(new Font("Dialog", Font.PLAIN, 18));
@@ -108,20 +127,30 @@ public class NewOnlineGameWindow extends JFrame {
 		textPane.setFont(new Font("Dialog", Font.PLAIN, 16));
 		textPane.setEditable(false);
 		textPane.setBounds(16, 16, 366, 189);
-		textPane.setText("Click on connect to start...\n");
+		textPane.setText("Click on connect to start and then start election...\n");
 		contentPane.add(textPane);
 		
 		btnConnectToServer = new JButton("Connect");
 		btnConnectToServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				boolean str= false;
 				printToTextPane("Connecting to registry server ..");
-				if(node.startConnection()){
-					printToTextPane("Connect successfull");
-				    btnStartElection.setEnabled(true);
-				    btnConnectToServer.setEnabled(false);
-                    th.start();
-                    
+				try {
+					if(node.startConnection()){
+						printToTextPane("Connect successfull");
+					    btnStartElection.setEnabled(true);
+					    btnConnectToServer.setEnabled(false);
+					    str = true;
+					    th.start();
+					}
+					else{
+						printToTextPane("Could not connect");
+					}
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+		
 				
 			}
 		});

@@ -46,7 +46,9 @@ public class PacManClient implements Runnable{
 	
 
 	public void run() {
-		    this.subscriber.connect(Settings.getSubscriberURL());
+		    //TODO change made to be dist
+		    //this.subscriber.connect(Settings.getSubscriberURL());
+		    this.subscriber.connect(Settings.getDistSubscriberURL());
 			this.subscriber.subscribe(subscription.getBytes());
 			while (this.execute){
 				System.out.println("while true...");
