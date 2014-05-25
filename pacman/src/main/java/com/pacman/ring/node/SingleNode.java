@@ -203,10 +203,8 @@ public class SingleNode implements Runnable{
 			if (msg instanceof ElectionMessages) {
 				System.out.println(port + ": listenForMssg true");
 				this.processMessages((ElectionMessages) msg);
-				//this.processMssg((ElectionMessages) msg);
 			}
-			//Acknowledge ack = ;
-			//
+			
 
 		} while (!this.elected);
 
