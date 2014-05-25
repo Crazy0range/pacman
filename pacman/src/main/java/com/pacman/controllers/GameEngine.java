@@ -276,7 +276,10 @@ public class GameEngine implements Runnable {
 
 			@Override
 			public void run() {
-				_statusBarView[0].setTime(_gameCountDownTime--);
+				for (int i=0; i < current_users; ++i){
+				_statusBarView[i].setTime(_gameCountDownTime);
+				}
+				_gameCountDownTime--;
 			}
 		};
 		java.util.Timer t = new java.util.Timer();
@@ -332,11 +335,13 @@ public class GameEngine implements Runnable {
 	 * End the game after timer stops
 	 */
 	public void gameEnd(int current_user) {
-
+		
+		_gameTimer.stop();
 		_gameView[current_user].setGameEnd(_points[current_user],
 				_remainingLives[current_user]);
-		_gameTimer.stop();
-		SoundPlayer.playPacmanDieSound();
+		
+		_statusBarView[current_user].setTime(0);
+		SoundPlayer.playGameOverSound();
 
 	}
 
@@ -434,11 +439,14 @@ public class GameEngine implements Runnable {
 							if (_remainingLives[monster_i] < 0) {
 								// Game Over
 								// initialize a new game
-								initializeNewGame();
+//								initializeNewGame();
+								gameEnd(0);
 							}
+							else{
 
 							// start another match
 							gameRestart();
+							}
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -476,6 +484,7 @@ public class GameEngine implements Runnable {
 		int point = pacman.getPoint();
 		int remaininglives = pacman.getRemaininglives();
 
+
 		if (_pacman != null)
 			if (_pacman[1] != null) {
 				_pacman[1].setPosition(position.x, position.y);
@@ -500,6 +509,7 @@ public class GameEngine implements Runnable {
 							.collideWith(_pacman[1], this, 1);
 				}
 			}
+
 
 	}
 

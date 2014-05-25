@@ -239,7 +239,7 @@ public class HomeWindow extends JFrame {
 				}
 				PacmanServer.initialize();
 				System.out.println("start game engine");
-				SwingUtilities.invokeLater(new GameEngine(2,flag));
+				SwingUtilities.invokeLater(new GameEngine(1,flag));
 //				SwingUtilities.invokeLater(new GameEngine(2));
 			}
 		});
