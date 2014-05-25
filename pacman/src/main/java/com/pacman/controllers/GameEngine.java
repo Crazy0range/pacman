@@ -94,7 +94,7 @@ public class GameEngine implements Runnable {
 	/* Path Finder- AI Manager */
 	private PathFinder _ai;
 	/* Game Object & information */
-	private int _remainingLives;
+	private int _remainingLives[] = {0,0,0};
 	private ArrayList<List<Monster>> _monsters = new ArrayList<List<Monster>>();
 	private List<Monster> _monsters_client1 = new ArrayList<Monster>();
 	private List<Monster> _monsters_client2 = new ArrayList<Monster>();
@@ -238,7 +238,7 @@ public class GameEngine implements Runnable {
 
 		// Set game variables to their default values
 		// and reset the map
-		_remainingLives = PACMAN_LIVES;
+		_remainingLives[0] = PACMAN_LIVES;
 		// jason
 		for (int i = 0; i < this.current_users; i++) {
 			_levelMap[i] = Map.getFirstLevelMap();
@@ -344,7 +344,7 @@ public class GameEngine implements Runnable {
 	 */
 	public void gameEnd(int current_user) {
 
-		_gameView[current_user].setGameEnd(_points[current_user], _remainingLives);
+		_gameView[current_user].setGameEnd(_points[current_user], _remainingLives[current_user]);
 		_gameTimer.stop();
 		SoundPlayer.playPacmanDieSound();
 
@@ -368,6 +368,7 @@ public class GameEngine implements Runnable {
 		pacmantobesent.setDirection(_pacman[0].getDirection());
 		pacmantobesent.setPosition(_pacman[0].getPosition());
 		pacmantobesent.setPoint(_points[0]);
+		pacmantobesent.setRemaininglives(_remainingLives[0]);
 
 		ClientObject dataSend = new ClientObject(identity, pacmantobesent);
 	
@@ -380,7 +381,7 @@ public class GameEngine implements Runnable {
 
 
 		_statusBarView[1].setPoints(_points[0]);
-		_statusBarView[1].setLives(_remainingLives);
+		_statusBarView[1].setLives(_remainingLives[0]);
 		this.tmpi = this.tmpi--;
 		if (this.tmpi < 0)
 			this.tmpi = 99;
@@ -440,13 +441,13 @@ public class GameEngine implements Runnable {
 						_pacman[0].die();
 						_gameTimer.stop();
 						_specialStageTimer.stop();
-						_remainingLives--;
+						_remainingLives[0]--;
 						SoundPlayer.playPacmanDieSound();
 
 						// delay 2 seconds and start another match
 						try {
 							Thread.sleep(2000);
-							if (_remainingLives < 0) {
+							if (_remainingLives[0] < 0) {
 								// Game Over
 								// initialize a new game
 								initializeNewGame();

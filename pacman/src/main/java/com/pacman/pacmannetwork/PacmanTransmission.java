@@ -6,7 +6,7 @@ import java.io.Serializable;
 import com.pacman.model.Direction;
 import com.pacman.model.Map;
 
-public class PacmanTransmission implements Serializable{
+public class PacmanTransmission implements Serializable {
 
 	/**
 	 * 
@@ -15,33 +15,46 @@ public class PacmanTransmission implements Serializable{
 	private Direction dir;
 	private Point position;
 	private int point;
-	public PacmanTransmission(){
-		
-	
-				
+	private int remaininglives;
+
+	public PacmanTransmission() {
+
 	}
-	public void setDirection(Direction dir){
-		
+
+	public void setDirection(Direction dir) {
+
 		this.dir = dir;
 	}
-	public void setPosition(Point position){
-		
-		this.position= position;
+
+	public void setPosition(Point position) {
+
+		this.position = position;
 	}
-	public Direction getDirection(){
-		
+
+	public Direction getDirection() {
+
 		return this.dir;
 	}
-	public Point getPosition(){
-		
+
+	public Point getPosition() {
+
 		return this.position;
 	}
+
 	public int getPoint() {
 		return point;
 	}
+
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	
+
+	public int getRemaininglives() {
+		return remaininglives;
+	}
+
+	public void setRemaininglives(int remaininglives) {
+		this.remaininglives = remaininglives;
+	}
 
 }
