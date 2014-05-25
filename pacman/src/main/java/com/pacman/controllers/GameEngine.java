@@ -49,7 +49,7 @@ public class GameEngine implements Runnable {
 	/* Game constants */
 	private static final int SPECIAL_STAGE_TIME = 10;
 
-	private static final int GAME_STOP_TIME = 300;
+	private static final int GAME_STOP_TIME = 10;
 
 	private static final int MONSTERS_DELAY = 3000;
 	private static final int PACMAN_LIVES = 2;
