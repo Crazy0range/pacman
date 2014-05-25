@@ -83,6 +83,13 @@ public class SoundPlayer
 		play(soundFile, 0);
 	}
 	
+	public static void playGameOverSound(){
+		URL soundFile = AssetsManager.getResource(SOUNDS_PATH + "gameover.wav");
+		stopAllSounds();
+		play(soundFile, 0);
+	}
+	
+	
 	/**
 	 * play siren sound
 	 */
