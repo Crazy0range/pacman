@@ -12,6 +12,7 @@ import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import com.pacman.ring.node.SingleNode;
+import com.pacman.utils.Settings;
 import com.pacman.utils.UserProfile;
 import com.pacman.utils.Variables;
 
@@ -85,18 +86,19 @@ public class NewOnlineGameWindow extends JFrame {
 		btnStartElection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				node.startElection(true);
+				String value= null;
 				if(!node.detectStart()){
-					printToTextPane("Unable to start election. Please wait");
+					printToTextPane("Unable to start election. Please wait and retry..");
+					
 				}else{
 					printToTextPane("Successfully started election");
-				}
 			}
-		});
+		}});
 		btnStartElection.setForeground(Color.BLACK);
 		btnStartElection.setFont(new Font("Dialog", Font.PLAIN, 18));
 		btnStartElection.setBackground(new Color(40, 120, 255));
 		btnStartElection.setBounds(43, 217, 128, 40);
-		btnStart.setEnabled(false);
+		btnStartElection.setEnabled(false);
 		contentPane.add(btnStartElection);
 		
 
@@ -106,7 +108,7 @@ public class NewOnlineGameWindow extends JFrame {
 		textPane.setFont(new Font("Dialog", Font.PLAIN, 16));
 		textPane.setEditable(false);
 		textPane.setBounds(16, 16, 366, 189);
-		textPane.setText("Waiting for leader...\n");
+		textPane.setText("Click on connect to start...\n");
 		contentPane.add(textPane);
 		
 		btnConnectToServer = new JButton("Connect");
@@ -115,7 +117,10 @@ public class NewOnlineGameWindow extends JFrame {
 				printToTextPane("Connecting to registry server ..");
 				if(node.startConnection()){
 					printToTextPane("Connect successfull");
+				    btnStartElection.setEnabled(true);
+				    btnConnectToServer.setEnabled(false);
                     th.start();
+                    
 				}
 				
 			}

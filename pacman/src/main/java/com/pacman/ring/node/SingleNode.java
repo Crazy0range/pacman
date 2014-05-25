@@ -50,6 +50,7 @@ public class SingleNode implements Runnable{
 		socket.connect(Settings.getRegistryServerURL());
 		boolean connection=Boolean.FALSE;
 		// try {
+		//TODO change for distributed
 		localAddr = this.port;// InetAddress.getLocalHost().getHostAddress();
 		// } catch (UnknownHostException e) {
 
@@ -222,6 +223,8 @@ public class SingleNode implements Runnable{
 				break;
 		}
 		System.out.println("Stopped");
+		server.close();
+		context1.term();
 		if(myUID.equals(elected_id)){
 		Settings.setLeaderUrl("tcp://localhost");
 		}
@@ -268,12 +271,18 @@ public class SingleNode implements Runnable{
 			ex.printStackTrace();
 		}
 	
+		if(!listener.isAlive()){
+		  System.out.println("Thread is dead!!");	
+		}
 	}
 	
-	public static interface Callback {
-		public void completedElection(String data);
+	public String isElectionComplete(){
+		String leaderVal =null;
+		if (this.elected_id!=null && this.state==ElectionState.NON_PARTICIPANT){
+			leaderVal = this.leader_ip;
+		}
+		return leaderVal;
 	}
-
 	
 	private static void sleep(int i){
 		try {
