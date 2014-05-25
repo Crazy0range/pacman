@@ -3,9 +3,12 @@ package com.pacman.views;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +25,8 @@ import com.pacman.pacmannetwork.PacmanServer;
 import com.pacman.pacmannetwork.ServerStarterClass;
 import com.pacman.utils.IPAddrCheck;
 import com.pacman.utils.UserProfile;
+import com.pacman.views.fx.SoundPlayer;
+import com.pacman.views.utils.AssetsManager;
 
 /**
  * @author Siyuan Liu, Nikki Vinayan, Yingjie Ma The home window for Pacman game
@@ -29,7 +34,7 @@ import com.pacman.utils.UserProfile;
  */
 public class HomeWindow extends JFrame {
 
-	private JPanel contentPane;
+	private BackgroundPanel contentPane;
 	private static JLabel lblABigWelcome;
 	private static JLabel lblDiscription;
 	private static JLabel lblNickname;
@@ -74,11 +79,21 @@ public class HomeWindow extends JFrame {
 		final UserProfile up = new UserProfile();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 480);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(128, 128, 128));
+		Image background = null;
+		try {
+			background = ImageIO.read(AssetsManager.getResource(this.getClass(), "home.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		contentPane = new BackgroundPanel(background);
+		contentPane.setBackground(Color.BLACK);
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		SoundPlayer.playIntroSound();
 
 		btnNewButton = new JButton("Online Game");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -88,7 +103,7 @@ public class HomeWindow extends JFrame {
 			}
 		});
 		btnNewButton.setForeground(new Color(0, 0, 0));
-		btnNewButton.setBackground(new Color(255, 215, 0));
+		btnNewButton.setBackground(new Color(40, 120, 255));
 		btnNewButton.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
 		btnNewButton.setBounds(20, 172, 176, 40);
 		contentPane.add(btnNewButton);
@@ -105,7 +120,7 @@ public class HomeWindow extends JFrame {
 		});
 		btnJoinWhiteboard.setForeground(Color.BLACK);
 		btnJoinWhiteboard.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnJoinWhiteboard.setBackground(new Color(255, 215, 0));
+		btnJoinWhiteboard.setBackground(new Color(40, 120, 255));
 		btnJoinWhiteboard.setBounds(20, 222, 176, 40);
 		contentPane.add(btnJoinWhiteboard);
 
@@ -118,7 +133,7 @@ public class HomeWindow extends JFrame {
 		});
 		btnMyProfile.setForeground(Color.BLACK);
 		btnMyProfile.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnMyProfile.setBackground(new Color(255, 215, 0));
+		btnMyProfile.setBackground(new Color(40, 120, 255));
 		btnMyProfile.setBounds(20, 272, 176, 40);
 		contentPane.add(btnMyProfile);
 
@@ -130,7 +145,7 @@ public class HomeWindow extends JFrame {
 		});
 		btnQuit.setForeground(Color.BLACK);
 		btnQuit.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnQuit.setBackground(new Color(255, 215, 0));
+		btnQuit.setBackground(new Color(40, 120, 255));
 		btnQuit.setBounds(20, 370, 176, 40);
 		contentPane.add(btnQuit);
 
@@ -168,7 +183,7 @@ public class HomeWindow extends JFrame {
 		});
 		btnSetting.setForeground(Color.BLACK);
 		btnSetting.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnSetting.setBackground(new Color(255, 215, 0));
+		btnSetting.setBackground(new Color(40, 120, 255));
 		btnSetting.setBounds(20, 320, 176, 40);
 		contentPane.add(btnSetting);
 
@@ -203,7 +218,7 @@ public class HomeWindow extends JFrame {
 		});
 		btnOk.setForeground(Color.BLACK);
 		btnOk.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnOk.setBackground(new Color(255, 215, 0));
+		btnOk.setBackground(new Color(40, 120, 255));
 		btnOk.setBounds(447, 321, 56, 40);
 		contentPane.add(btnOk);
 
@@ -224,7 +239,7 @@ public class HomeWindow extends JFrame {
 		});
 		btnSinglePlayer.setForeground(Color.BLACK);
 		btnSinglePlayer.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnSinglePlayer.setBackground(new Color(255, 215, 0));
+		btnSinglePlayer.setBackground(new Color(40, 120, 255));
 		btnSinglePlayer.setBounds(20, 120, 176, 40);
 		contentPane.add(btnSinglePlayer);
 		btnOk.setVisible(false);

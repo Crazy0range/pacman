@@ -32,7 +32,7 @@ public class NewOnlineGameWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(128, 128, 128));
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -69,7 +69,7 @@ public class NewOnlineGameWindow extends JFrame {
 		contentPane.add(btnStart);
 		btnStart.setForeground(Color.BLACK);
 		btnStart.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnStart.setBackground(new Color(255, 215, 0));
+		btnStart.setBackground(new Color(40, 120, 255));
 
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setBounds(206, 189, 140, 40);
@@ -81,7 +81,7 @@ public class NewOnlineGameWindow extends JFrame {
 		});
 		btnCancel.setForeground(Color.BLACK);
 		btnCancel.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnCancel.setBackground(new Color(255, 215, 0));
+		btnCancel.setBackground(new Color(40, 120, 255));
 	}
 
 }

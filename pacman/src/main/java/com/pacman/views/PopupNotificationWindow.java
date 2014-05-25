@@ -31,7 +31,7 @@ public class PopupNotificationWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(128, 128, 128));
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -58,7 +58,7 @@ public class PopupNotificationWindow extends JFrame {
 		});
 		btnCancel.setForeground(Color.BLACK);
 		btnCancel.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnCancel.setBackground(new Color(255, 215, 0));
+		btnCancel.setBackground(new Color(40, 120, 255));
 	}
 
 	public static void notify(String text) {

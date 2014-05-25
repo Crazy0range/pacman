@@ -41,7 +41,7 @@ public class JoinGameWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 480);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(128, 128, 128));
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -73,7 +73,7 @@ public class JoinGameWindow extends JFrame {
 		contentPane.add(btnStart);
 		btnStart.setForeground(Color.BLACK);
 		btnStart.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnStart.setBackground(new Color(255, 215, 0));
+		btnStart.setBackground(new Color(40, 120, 255));
 
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setBounds(204, 365, 140, 40);
@@ -85,7 +85,7 @@ public class JoinGameWindow extends JFrame {
 		});
 		btnCancel.setForeground(Color.BLACK);
 		btnCancel.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnCancel.setBackground(new Color(255, 215, 0));
+		btnCancel.setBackground(new Color(40, 120, 255));
 
 //		list = new JList<String>();
 //		list.setBounds(30, 68, 314, 195);

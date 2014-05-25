@@ -37,7 +37,7 @@ public class MyProfileWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 480);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(128, 128, 128));
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -62,7 +62,7 @@ public class MyProfileWindow extends JFrame {
 
 		rdbtnFemale = new JRadioButton("Female");
 		rdbtnFemale.setForeground(new Color(255, 255, 255));
-		rdbtnFemale.setBackground(new Color(128, 128, 128));
+		rdbtnFemale.setBackground(Color.BLACK);
 		rdbtnFemale.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
 		rdbtnFemale.setBounds(172, 83, 121, 23);
 		contentPane.add(rdbtnFemale);
@@ -120,7 +120,7 @@ public class MyProfileWindow extends JFrame {
 		contentPane.add(btnStart);
 		btnStart.setForeground(Color.BLACK);
 		btnStart.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnStart.setBackground(new Color(255, 215, 0));
+		btnStart.setBackground(new Color(40, 120, 255));
 
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setBounds(220, 380, 140, 40);
@@ -132,7 +132,7 @@ public class MyProfileWindow extends JFrame {
 		});
 		btnCancel.setForeground(Color.BLACK);
 		btnCancel.setFont(new Font("Segoe UI Light", Font.PLAIN, 18));
-		btnCancel.setBackground(new Color(255, 215, 0));
+		btnCancel.setBackground(new Color(40, 120, 255));
 
 		JLabel lblDiscriptionToMyself = new JLabel("Discription of Myself");
 		lblDiscriptionToMyself.setForeground(Color.WHITE);
