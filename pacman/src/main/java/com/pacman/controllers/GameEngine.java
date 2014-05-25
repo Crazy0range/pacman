@@ -50,6 +50,7 @@ public class GameEngine implements Runnable {
 	private static final int SPECIAL_STAGE_TIME = 10;
 	private static final int GAME_STOP_TIME = 30;
 	private static final int MONSTERS_DELAY = 1000;
+
 	private static final int PACMAN_LIVES = 2;
 	private static final int POINTS_EATING_PILL = 10;
 	private static final int POINTS_EATING_SUPER_PILL = 50;
