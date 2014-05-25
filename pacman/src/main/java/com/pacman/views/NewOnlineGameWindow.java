@@ -11,7 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
+import com.pacman.ring.node.SingleNode;
 import com.pacman.utils.UserProfile;
+import com.pacman.utils.Variables;
 
 /**
  * @author Siyuan Liu
@@ -25,6 +27,8 @@ public class NewOnlineGameWindow extends JFrame {
 	private JButton btnStartElection;
 	private JTextPane textPane;
 	private JButton btnConnectToServer;
+	SingleNode node;
+	Thread th;
 
 	/**
 	 * Used for creating a new WhiteBord window.
@@ -38,6 +42,9 @@ public class NewOnlineGameWindow extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		node = new SingleNode(Variables.NodePort);
+		th = new Thread(node);
+		
 
 		btnStart = new JButton("Start Game");
 		btnStart.addActionListener(new ActionListener() {
@@ -77,14 +84,21 @@ public class NewOnlineGameWindow extends JFrame {
 		btnStartElection = new JButton("Start Election");
 		btnStartElection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				printToTextPane("Joined election");
+				node.startElection(true);
+				if(!node.detectStart()){
+					printToTextPane("Unable to start election. Please wait");
+				}else{
+					printToTextPane("Successfully started election");
+				}
 			}
 		});
 		btnStartElection.setForeground(Color.BLACK);
 		btnStartElection.setFont(new Font("Dialog", Font.PLAIN, 18));
 		btnStartElection.setBackground(new Color(40, 120, 255));
 		btnStartElection.setBounds(43, 217, 128, 40);
+		btnStart.setEnabled(false);
 		contentPane.add(btnStartElection);
+		
 
 		textPane = new JTextPane();
 		textPane.setForeground(Color.WHITE);
@@ -98,7 +112,12 @@ public class NewOnlineGameWindow extends JFrame {
 		btnConnectToServer = new JButton("Connect");
 		btnConnectToServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO connect to server methods here
+				printToTextPane("Connecting to registry server ..");
+				if(node.startConnection()){
+					printToTextPane("Connect successfull");
+                    th.start();
+				}
+				
 			}
 		});
 		btnConnectToServer.setForeground(Color.BLACK);

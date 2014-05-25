@@ -30,6 +30,8 @@ public class SingleNode implements Runnable{
 	Boolean msgRec;
 	Boolean elected = Boolean.FALSE;
 	ElectionState state;
+	boolean started;
+	String leader_ip=null;
 
 	public enum ElectionState {
 		NON_PARTICIPANT, PARTICIPANT
@@ -138,6 +140,7 @@ public class SingleNode implements Runnable{
 	}
 	*/
 	public void processMessages(ElectionMessages em) {
+		started = Boolean.TRUE;
 		ElectionMessages.MessageType type = em.getMsgType();
 		System.out.println("port:"+port+ " mssg "+ em.getMsgType());
 		boolean rGreater = Boolean.FALSE;
@@ -160,9 +163,10 @@ public class SingleNode implements Runnable{
 						this.state = ElectionState.PARTICIPANT;
 					}
 				} else {
-					ElectionMessages elected = new ElectionMessages(ElectionMessages.MessageType.ELECTED, this.myUID, this.myUID);
+					ElectionMessages elected = new ElectionMessages(ElectionMessages.MessageType.ELECTED, this.myUID, this.myUID,this.tcpEndpoint);
 					this.state = ElectionState.NON_PARTICIPANT;
 					System.out.println(port+ ": Elected!!");
+					System.out.println(port+":Recieved my election back");
 					sendMessage(elected);
 				}
 
@@ -175,10 +179,15 @@ public class SingleNode implements Runnable{
 		} else if (type == ElectionMessages.MessageType.ELECTED) {
 			this.state = ElectionState.NON_PARTICIPANT;
 			this.elected_id = em.getElectedUID();
-			if (elected_id != this.myUID) {
-				sendMessage(em);
-			}
+			this.leader_ip = em.getTcpPoint();
 			this.elected = Boolean.TRUE;
+			if (!elected_id.equals(this.myUID)) {
+				sendMessage(em);
+			} else{
+				System.out.println(port +": I am the leader");
+			}
+		
+			
 		}
 	}
 
@@ -201,7 +210,7 @@ public class SingleNode implements Runnable{
 		ZMQ.Socket server = context1.socket(ZMQ.REP);
 		System.out.println("tcp://*:" + port);
 		server.bind("tcp://*:" + port);
-		do {
+		while(true) {
 			byte[] nData = server.recv();
 			server.send(SerializationUtil.fromJavaToByteArray(new Acknowledge("Sent",1)));
 			Object msg = SerializationUtil.fromByteArrayToJava(nData);
@@ -209,10 +218,16 @@ public class SingleNode implements Runnable{
 				System.out.println(port + ": listenForMssg true");
 				this.processMessages((ElectionMessages) msg);
 			}
-			
-
-		} while (!this.elected);
-
+	       if(this.elected_id!=null && this.state==ElectionState.NON_PARTICIPANT)
+				break;
+		}
+		System.out.println("Stopped");
+		if(myUID.equals(elected_id)){
+		Settings.setLeaderUrl("tcp://localhost");
+		}
+		Settings.setLeaderUrl(this.leader_ip);
+		Settings.setLeaderUUID(elected_id);
+		
 	}
 	
 	public void startElection(boolean startE) {
@@ -222,11 +237,11 @@ public class SingleNode implements Runnable{
 
 	public boolean detectStart() {
 		boolean start = false;
-		if (electionStart && nTcpPoint!=null) {
+		if (electionStart && nTcpPoint!=null && !elected && !this.started) {
 			System.out.println("Starting election");
 			
 			ElectionMessages aMsg = new ElectionMessages(
-					ElectionMessages.MessageType.ELECTION, null, this.myUID);
+					ElectionMessages.MessageType.ELECTION, null, this.myUID,null);
 			sendMessage(aMsg);
 			this.state = ElectionState.PARTICIPANT;
 			electionStart = false;
@@ -237,8 +252,7 @@ public class SingleNode implements Runnable{
 
 	public void run() {
 		getNieghbour();
-	
-		electionStart = (elected_id == null);
+	    electionStart = (elected_id == null);
 		
 		//sleep(Integer.parseInt(port));
 		Thread listener = new Thread(new Runnable() {
@@ -253,7 +267,13 @@ public class SingleNode implements Runnable{
 		} catch (Exception ex){
 			ex.printStackTrace();
 		}
+	
 	}
+	
+	public static interface Callback {
+		public void completedElection(String data);
+	}
+
 	
 	private static void sleep(int i){
 		try {
