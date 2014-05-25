@@ -59,10 +59,10 @@ public class SingleNode implements Runnable{
 
 		// e.printStackTrace();
 		// }
-		this.tcpEndpoint = "tcp://" + localAddr;
-		
+		this.tcpEndpoint = "tcp://" + localAddr+":"+Variables.NodePort;
+		System.out.println(this.tcpEndpoint);
 		System.out.println("My UUID is :" + this.myUID);
-		Response objectRes = new Response(this.myUID, tcpEndpoint,
+		Response objectRes = new Response(this.myUID, this.tcpEndpoint,
 				Variables.ALIVE);
 		socket.send(SerializationUtil.fromJavaToByteArray(objectRes), 0);
 		byte[] rawBytes = socket.recv(0);
@@ -88,16 +88,16 @@ public class SingleNode implements Runnable{
 		ZMQ.Context context1 = ZMQ.context(1);
 		ZMQ.Socket server = context1.socket(ZMQ.REP);
 		//System.out.println("tcp://*:" + port);
-		server.bind("tcp://*:" + port);
+		server.bind("tcp://*:5556");
 		Object val;
 		while (true) {
 			System.out.println("In loop");
-			byte[] nData = server.recv();
+			byte[] nData = server.recv(0);
 			System.out.println(nData);
 			val = SerializationUtil.fromByteArrayToJava(nData);
-			Acknowledge ack = new Acknowledge(Variables.ACK, 0);
+			Acknowledge ack = new Acknowledge(Variables.ACK, 1);
 			System.out.println("Got data!!!!");
-			server.send(SerializationUtil.fromJavaToByteArray(ack));
+			server.send(SerializationUtil.fromJavaToByteArray(ack),0);
 			if ((val instanceof Response)
 					&& (((Response) val).getRequestType()
 							.equalsIgnoreCase(Variables.NNValue)))

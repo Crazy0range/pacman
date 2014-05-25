@@ -16,5 +16,5 @@ public class Variables {
 	
 	public static final String NNValue = "NNieghbour";
 
-	public static final String NodePort = "6001";
+	public static final String NodePort = "5556";
 }
