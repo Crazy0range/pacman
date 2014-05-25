@@ -16,6 +16,9 @@ public class Pacman extends ControllableObject implements Eater, Serializable {
 	private static final long serialVersionUID = 8644963962014952922L;
 	/* Pacman current direction */
 	private Direction _directionX = Direction.RIGHT;
+	
+	public int point = 0;
+	public int remaininglives = 2;
 
 	/**
 	 * Creates a new Pacman with a given collisions map
@@ -25,8 +28,27 @@ public class Pacman extends ControllableObject implements Eater, Serializable {
 		super(map);
 		setPosition(map.getPacmanInitialPosition().x, map.getPacmanInitialPosition().y);
 		setDirection(Direction.NONE);
+			
 	}
-	
+	public Pacman(Map map, int point, int remainglives) {
+		super(map);
+		setPosition(map.getPacmanInitialPosition().x, map.getPacmanInitialPosition().y);
+		setDirection(Direction.NONE);
+		this.point = point;
+		this.remaininglives = remainglives;
+			
+	}
+	public void initial(Map map){
+		this.ChangeMap(map);
+		setPosition(map.getPacmanInitialPosition().x, map.getPacmanInitialPosition().y);
+		setDirection(Direction.NONE);
+//		setDefaultIcon();
+	}
+	public void returnnormal(Map map){
+		this.ChangeMap(map);
+
+		setDefaultIcon();
+	}
 	@Override
 	public void setDirection(Direction direction) {
 		// change the pacman image direction (set the angle 90 or 270, or set the image to right or left)

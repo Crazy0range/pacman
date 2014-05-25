@@ -28,7 +28,9 @@ public abstract class ControllableObject extends Sprite {
 	public ControllableObject(Map collisionMap) {
 		_gameMap = collisionMap;
 	}
-
+	public void ChangeMap(Map collisionMap) {
+		_gameMap = collisionMap;
+	}
 	/**
 	 * Move the object for the chosen direction.
 	 * direction changes every step (24 px)
