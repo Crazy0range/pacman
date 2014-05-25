@@ -286,7 +286,7 @@ public class GameEngine implements Runnable {
 
 			@Override
 			public void run() {
-				_statusBarView[1].setTime(_gameCountDownTime--);
+				_statusBarView[0].setTime(_gameCountDownTime--);
 			}
 		};
 		java.util.Timer t = new java.util.Timer();
@@ -380,8 +380,8 @@ public class GameEngine implements Runnable {
 			PacmanServer.sendData(topicSName, dataSend);
 
 
-		_statusBarView[1].setPoints(_points[0]);
-		_statusBarView[1].setLives(_remainingLives[0]);
+		_statusBarView[0].setPoints(_points[0]);
+		_statusBarView[0].setLives(_remainingLives[0]);
 		this.tmpi = this.tmpi--;
 		if (this.tmpi < 0)
 			this.tmpi = 99;
@@ -491,13 +491,15 @@ public class GameEngine implements Runnable {
 		Point position = pacman.getPosition();
 		Direction direction = pacman.getDirection();
 		int point = pacman.getPoint();
+		int remaininglives = pacman.getRemaininglives();
 
 		
 		if(_pacman !=null)
 		if(_pacman[1] !=null){
 		_pacman[1].setPosition(position.x, position.y);
 		_pacman[1].setDirection(direction);
-		_statusBarView[0].setPoints(point);
+		_statusBarView[1].setPoints(point);
+		_statusBarView[1].setLives(remaininglives);
 		
 		
 		System.out.println(_pacman[0]+"QQQQQQQQQQQQQQQQ");

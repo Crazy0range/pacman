@@ -117,10 +117,10 @@ public class GameWindow extends JFrame {
 			statusBarPanel.add(statusBarView[2], BorderLayout.WEST);
 		case 2:
 			c.add(gameView[1], BorderLayout.EAST);
-			statusBarPanel.add(statusBarView[1],BorderLayout.EAST);
+			statusBarPanel.add(statusBarView[0],BorderLayout.EAST);
 		case 1:
 			c.add(gameView[0], BorderLayout.CENTER);
-			statusBarPanel.add(statusBarView[0],BorderLayout.CENTER);
+			statusBarPanel.add(statusBarView[1],BorderLayout.CENTER);
 			break;
 		}
 
