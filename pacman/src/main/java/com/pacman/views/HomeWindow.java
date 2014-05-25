@@ -20,6 +20,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.pacman.controllers.GameEngine;
+import com.pacman.controllers.SinglePlayerGameEngine;
 import com.pacman.pacmannetwork.Forwarder;
 import com.pacman.pacmannetwork.PacmanServer;
 import com.pacman.pacmannetwork.ServerStarterClass;
@@ -228,7 +229,7 @@ public class HomeWindow extends JFrame {
 		btnOk.setBounds(447, 321, 56, 40);
 		contentPane.add(btnOk);
 
-		//TODO test!!!!!
+		//TODO Jason is sb
 		JButton btnSinglePlayer = new JButton("Single Player");
 		btnSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -239,7 +240,8 @@ public class HomeWindow extends JFrame {
 				}
 				PacmanServer.initialize();
 				System.out.println("start game engine");
-				SwingUtilities.invokeLater(new GameEngine(3,flag));
+//				SwingUtilities.invokeLater(new GameEngine(2,flag));
+				SwingUtilities.invokeLater(new SinglePlayerGameEngine());
 //				SwingUtilities.invokeLater(new GameEngine(2));
 			}
 		});

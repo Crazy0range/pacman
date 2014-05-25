@@ -28,6 +28,7 @@ public class StatusBarView extends JPanel {
 	private JTextField tfPoints;
 	private JTextField tfLives;
 	private JTextField tfTime;
+	private JTextField tfRank;
 
 	public StatusBarView() {
 		setBackground(new Color(40, 120, 255));
@@ -41,7 +42,7 @@ public class StatusBarView extends JPanel {
 		tfPoints = new JTextField();
 		add(tfPoints);
 		tfPoints.setColumns(3);
-		tfPoints.setText("10000");
+		tfPoints.setText("1000");
 		tfPoints.setBackground(new Color(40, 120, 255));
 		tfPoints.setEnabled(false);
 		tfPoints.setForeground(Color.WHITE);
@@ -84,10 +85,16 @@ public class StatusBarView extends JPanel {
 		lblRank.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		add(lblRank);
 
-		lblShowRank = new JLabel("1");
-		lblShowRank.setForeground(Color.WHITE);
-		lblShowRank.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		add(lblShowRank);
+		tfRank = new JTextField();
+		tfRank.setForeground(Color.WHITE);
+		tfRank.setColumns(1);
+		tfRank.setForeground(Color.WHITE);
+		tfRank.setDisabledTextColor(Color.WHITE);
+		tfRank.setBackground(new Color(40, 120, 255));
+		tfRank.setHorizontalAlignment(JTextField.RIGHT);
+		tfRank.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		tfRank.setEnabled(false);
+		add(tfRank);
 	}
 
 	/**
@@ -124,6 +131,11 @@ public class StatusBarView extends JPanel {
 	
 	public void setRank(int rank){
 		String rank_str = String.valueOf(rank);
-		lblShowRank.setText(rank_str);
+		tfRank.setText(rank_str);
+	}
+	
+	public int getPoints(){
+		int i = Integer.parseInt(tfPoints.getText());
+		return i;
 	}
 }
