@@ -101,7 +101,7 @@ public class RegistryServer implements Runnable {
 				}
 			context1 = ZMQ.context(1);
 			temSock = context1.socket(ZMQ.REQ);	
-			temSock.connect("tcp://*:" + currentIdentity.getAddress());
+			temSock.connect( currentIdentity.getAddress()+":"+Variables.NodePort);
 			System.out.println(currentIdentity.getAddress());
 			resp = new Response(rightIdentity.getTokenID(),rightIdentity.getAddress(),Variables.NNValue);
 			System.out.println(SerializationUtil.fromJavaToByteArray(resp));

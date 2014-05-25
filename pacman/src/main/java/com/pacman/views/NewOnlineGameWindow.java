@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -133,15 +134,20 @@ public class NewOnlineGameWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean str= false;
 				printToTextPane("Connecting to registry server ..");
-				if(node.startConnection()){
-					printToTextPane("Connect successfull");
-				    btnStartElection.setEnabled(true);
-				    btnConnectToServer.setEnabled(false);
-				    str = true;
-                    th.start();
-				}
-				else{
-					printToTextPane("Could not connect");
+				try {
+					if(node.startConnection()){
+						printToTextPane("Connect successfull");
+					    btnStartElection.setEnabled(true);
+					    btnConnectToServer.setEnabled(false);
+					    str = true;
+					    th.start();
+					}
+					else{
+						printToTextPane("Could not connect");
+					}
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 		
 				

@@ -1,5 +1,7 @@
 package com.pacman.ring.node;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +45,7 @@ public class SingleNode implements Runnable{
 		this.msgRec = false;
 	}
 
-	public boolean startConnection() {
+	public boolean startConnection() throws UnknownHostException {
 		ZMQ.Context context = ZMQ.context(1);
 		ZMQ.Socket socket = context.socket(ZMQ.REQ);
 		String localAddr = null;
@@ -51,7 +53,8 @@ public class SingleNode implements Runnable{
 		boolean connection=Boolean.FALSE;
 		// try {
 		//TODO change for distributed systems
-		localAddr = this.port;// InetAddress.getLocalHost().getHostAddress();
+		localAddr = InetAddress.getLocalHost().getHostAddress();
+		//localAddr = localport
 		// } catch (UnknownHostException e) {
 
 		// e.printStackTrace();
@@ -59,7 +62,7 @@ public class SingleNode implements Runnable{
 		this.tcpEndpoint = "tcp://" + localAddr;
 		
 		System.out.println("My UUID is :" + this.myUID);
-		Response objectRes = new Response(this.myUID, localAddr,
+		Response objectRes = new Response(this.myUID, tcpEndpoint,
 				Variables.ALIVE);
 		socket.send(SerializationUtil.fromJavaToByteArray(objectRes), 0);
 		byte[] rawBytes = socket.recv(0);
@@ -84,7 +87,7 @@ public class SingleNode implements Runnable{
 		// TODO Auto-generated method stub
 		ZMQ.Context context1 = ZMQ.context(1);
 		ZMQ.Socket server = context1.socket(ZMQ.REP);
-		System.out.println("tcp://*:" + port);
+		//System.out.println("tcp://*:" + port);
 		server.bind("tcp://*:" + port);
 		Object val;
 		while (true) {
@@ -161,8 +164,9 @@ public class SingleNode implements Runnable{
 	void sendMessage(ElectionMessages em) {
 		ZMQ.Context context = ZMQ.context(1);
 		ZMQ.Socket socket = context.socket(ZMQ.REQ);
-		// sending data to nieghbour
-		socket.connect("tcp://*:" + this.nTcpPoint);
+		// sending data to nieghbour TODO changed for distributed
+		//socket.connect("tcp://*:" + this.nTcpPoint);
+		socket.connect(this.nTcpPoint+":"+Variables.NodePort);
 		socket.send(SerializationUtil.fromJavaToByteArray(em),0);
 		System.out.println("Send data to right nieghbour");
 		byte[] ackResp = socket.recv(0);
