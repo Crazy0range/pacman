@@ -95,13 +95,14 @@ public class NewOnlineGameWindow extends JFrame {
 		contentPane.add(textPane);
 
 	}
-	
-	private void printToTextPane(String s){
+
+	private void printToTextPane(String s) {
 		String origin = textPane.getText();
-		if(origin.split("\n").length<9)
-		textPane.setText(origin + s +"\n");
+		if (origin.split("\n").length < 9)
+			textPane.setText(origin + s + "\n");
 		else {
-			textPane.setText(origin.substring(origin.indexOf('\n')+1) + s +"\n");
+			textPane.setText(origin.substring(origin.indexOf('\n') + 1) + s
+					+ "\n");
 		}
 	}
 }

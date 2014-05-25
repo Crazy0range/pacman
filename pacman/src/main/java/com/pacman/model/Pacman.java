@@ -16,6 +16,8 @@ public class Pacman extends ControllableObject implements Eater, Serializable {
 	private static final long serialVersionUID = 8644963962014952922L;
 	/* Pacman current direction */
 	private Direction _directionX = Direction.RIGHT;
+	// Pacman current direction, with up and down
+	private Direction _directionReal = Direction.RIGHT;
 
 	/**
 	 * Creates a new Pacman with a given collisions map
@@ -36,6 +38,7 @@ public class Pacman extends ControllableObject implements Eater, Serializable {
 				setSpriteAngle(90);
 			else if (_directionX == Direction.LEFT)
 				setSpriteAngle(270);
+			_directionReal=Direction.DOWN;
 			startAnimation();
 			break;
 		case LEFT:
@@ -47,12 +50,14 @@ public class Pacman extends ControllableObject implements Eater, Serializable {
 			_directionX = Direction.LEFT;
 			setSpriteAngle(0);
 			startAnimation();
+			_directionReal=Direction.LEFT;
 			break;
 		case NONE:
 			if (getSpriteImage() == null) {
 				setDefaultIcon();
 			}
 			stopAnimation();
+			_directionReal=Direction.NONE;
 			break;
 		case RIGHT:
 			try {
@@ -61,6 +66,7 @@ public class Pacman extends ControllableObject implements Eater, Serializable {
 				e.printStackTrace();
 			}
 			_directionX = Direction.RIGHT;
+			_directionReal=Direction.RIGHT;
 			setSpriteAngle(0);
 			startAnimation();
 			break;
@@ -69,6 +75,7 @@ public class Pacman extends ControllableObject implements Eater, Serializable {
 				setSpriteAngle(270);
 			else if (_directionX == Direction.LEFT)
 				setSpriteAngle(90);
+			_directionReal = Direction.UP;
 			startAnimation();
 			break;
 		default:
@@ -77,6 +84,10 @@ public class Pacman extends ControllableObject implements Eater, Serializable {
 		}
 		
 		super.setDirection(direction);
+	}
+	
+	public Direction getDirection(){
+		return _directionReal;
 	}
 	
 	/**
