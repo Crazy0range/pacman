@@ -24,6 +24,7 @@ import com.pacman.pacmannetwork.Forwarder;
 import com.pacman.pacmannetwork.PacmanServer;
 import com.pacman.pacmannetwork.ServerStarterClass;
 import com.pacman.utils.IPAddrCheck;
+import com.pacman.utils.Settings;
 import com.pacman.utils.UserProfile;
 import com.pacman.views.fx.SoundPlayer;
 import com.pacman.views.utils.AssetsManager;
@@ -47,8 +48,8 @@ public class HomeWindow extends JFrame {
 	private MyProfileWindow myProfileWindow;
 	private NewOnlineGameWindow newOnlineGameWindow;
 	private JoinGameWindow joinGameWindow;
-	public static Boolean flag = Boolean.FALSE;
-//	public static Boolean flag = Boolean.TRUE;
+//	public static Boolean flag = Boolean.FALSE;
+	public static Boolean flag = Boolean.TRUE;
 
 	public static void main(String[] args) {
 
@@ -207,6 +208,7 @@ public class HomeWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (IPAddrCheck.isValidIP(textField.getText())) {
 					String serverIP = "tcp://" + textField.getText();
+					Settings.setURL(serverIP);
 					// Settings.getInstance().put("RegistryURL",
 					// serverIP.trim());
 					// WBServer.initialize();
