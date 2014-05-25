@@ -490,13 +490,14 @@ public class GameEngine implements Runnable {
 
 		Point position = pacman.getPosition();
 		Direction direction = pacman.getDirection();
+		int point = pacman.getPoint();
 
 		
 		if(_pacman !=null)
 		if(_pacman[1] !=null){
 		_pacman[1].setPosition(position.x, position.y);
 		_pacman[1].setDirection(direction);
-
+		_statusBarView[0].setPoints(point);
 		
 		
 		System.out.println(_pacman[0]+"QQQQQQQQQQQQQQQQ");
