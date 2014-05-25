@@ -49,9 +49,9 @@ public class HomeWindow extends JFrame {
 	private NewOnlineGameWindow newOnlineGameWindow;
 	private JoinGameWindow joinGameWindow;
 
-	public static Boolean flag = Boolean.TRUE;
+//	public static Boolean flag = Boolean.TRUE;
 
-//	public static Boolean flag = Boolean.FALSE;
+	public static Boolean flag = Boolean.FALSE;
 
 
 	public static void main(String[] args) {
@@ -239,7 +239,7 @@ public class HomeWindow extends JFrame {
 				}
 				PacmanServer.initialize();
 				System.out.println("start game engine");
-				SwingUtilities.invokeLater(new GameEngine(1,flag));
+				SwingUtilities.invokeLater(new GameEngine(3,flag));
 //				SwingUtilities.invokeLater(new GameEngine(2));
 			}
 		});
