@@ -157,9 +157,9 @@ public class GameEngine implements Runnable {
 						
 						changetopacman(recievedObj.pacman);
 						
-						if (hostFlag) {
-							PacmanServer.sendData(hostName, recievedObj);
-						}
+						//if (hostFlag) {
+							//PacmanServer.sendData(hostName, recievedObj);
+						//}
 
 						}
 						catch(Exception e){
