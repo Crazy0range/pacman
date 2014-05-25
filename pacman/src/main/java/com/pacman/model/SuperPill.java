@@ -25,7 +25,7 @@ public class SuperPill extends Pill {
 	 * Handles collision with pacman (kind of visitor pattern)
 	 */
 	@Override
-	public void collideWith(Pacman pacman, GameEngine engine) {
-		engine.eatSuperPill(pacman, this);
+	public void collideWith(Pacman pacman, GameEngine engine, int pacmanID) {
+		engine.eatSuperPill(pacman, this, pacmanID);
 	}
 }

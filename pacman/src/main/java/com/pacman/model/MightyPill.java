@@ -25,7 +25,7 @@ public class MightyPill extends Pill {
 	 * Handles collision with pacman (kind of visitor pattern)
 	 */
 	@Override
-	public void collideWith(Pacman pacman, GameEngine engine) {
-		engine.eatMightyPill(pacman, this);
+	public void collideWith(Pacman pacman, GameEngine engine, int pacmanID) {
+		engine.eatMightyPill(pacman, this, pacmanID);
 	}
 }

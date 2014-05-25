@@ -4,6 +4,7 @@ import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Socket;
 
+import com.pacman.utils.SerializationUtil;
 import com.pacman.utils.Settings;
 
 
@@ -17,6 +18,7 @@ public class PacManClient implements Runnable{
 	Socket subscriber;
 	String electedLeaderID;
 	Callback callback;
+	Object objData;
 	
 	public PacManClient(String electedLeaderID, Callback callback) {
 		this.context = new ZContext();
@@ -48,14 +50,21 @@ public class PacManClient implements Runnable{
 		this.subscriber.subscribe(electedLeaderID.getBytes());
 		while (this.execute){
 			System.out.println("while true...");
-			byte[] topic = this.subscriber.recv();
+			String topic = this.subscriber.recvStr();
 			
 			System.out.println("----- topic = " + topic);
             if (topic == null)
                 continue;
             
             byte[] data = this.subscriber.recv();
+            if(data!=null){
+            objData = SerializationUtil.fromByteArrayToJava(data);
+            if(objData instanceof ClientObject){
+            System.out.println("Got an object#####");
             this.callback.onMessage(data);
+            
+            }
+            }
 		}
 		
 		

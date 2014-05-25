@@ -7,7 +7,6 @@ import java.io.Serializable;
 import javax.imageio.ImageIO;
 
 import com.pacman.ai.Path;
-import com.pacman.utils.SerializableBufferedImage;
 import com.pacman.views.utils.AssetsManager;
 
 /**

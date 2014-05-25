@@ -28,7 +28,7 @@ public class Pill extends StationaryObject {
 	 * Handles collision with pacman (kind of visitor pattern)
 	 */
 	@Override
-	public void collideWith(Pacman pacman, GameEngine engine) {
-		engine.eatPill(pacman, this);
+	public void collideWith(Pacman pacman, GameEngine engine, int pacmanID) {
+		engine.eatPill(pacman, this, pacmanID);
 	}
 }
