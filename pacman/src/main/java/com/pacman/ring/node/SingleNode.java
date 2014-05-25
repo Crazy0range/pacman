@@ -201,8 +201,9 @@ public class SingleNode implements Runnable{
 		context1.term();
 		if(myUID.equals(elected_id)){
 		Settings.setLeaderUrl("tcp://localhost");
-		}
+		} else{
 		Settings.setLeaderUrl(this.leader_ip);
+		}
 		Settings.setLeaderUUID(elected_id);
 		
 	}
