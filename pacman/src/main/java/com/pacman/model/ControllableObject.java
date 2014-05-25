@@ -66,11 +66,7 @@ public abstract class ControllableObject extends Sprite {
 		
 		// set the object to the position
 		
-		System.out.println(dx+"FCUK!!!!!!!!!!!"+dy);
-		System.out.println(getBounds().x);
-		//fuck you
-		System.out.println(getParent().getClass());
-		System.out.println(getParent().getSize().height);
+	
 		setBounds((getBounds().x + dx) % getParent().getSize().width, (getBounds().y + dy) % getParent().getSize().height, BLOCK_SIZE, BLOCK_SIZE);
 		
 

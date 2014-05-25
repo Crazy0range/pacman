@@ -49,9 +49,9 @@ public class HomeWindow extends JFrame {
 	private NewOnlineGameWindow newOnlineGameWindow;
 	private JoinGameWindow joinGameWindow;
 
-//	public static Boolean flag = Boolean.TRUE;
+	public static Boolean flag = Boolean.TRUE;
 
-	public static Boolean flag = Boolean.FALSE;
+//	public static Boolean flag = Boolean.FALSE;
 
 
 	public static void main(String[] args) {

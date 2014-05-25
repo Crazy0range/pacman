@@ -50,7 +50,7 @@ import com.pacman.views.fx.SoundPlayer;
 public class GameEngine implements Runnable {
 	/* Game constants */
 	private static final int SPECIAL_STAGE_TIME = 10;
-	private static final int GAME_STOP_TIME = 3000;
+	private static final int GAME_STOP_TIME = 100;
 	private static final int MONSTERS_DELAY = 1000;
 
 	private static final int PACMAN_LIVES = 2;
@@ -120,7 +120,6 @@ public class GameEngine implements Runnable {
 		this.hostFlag = flag;
 		// Jason
 		current_users = users_num;
-
 		// generate the randomlist
 		getrandomlist();
 
@@ -158,34 +157,32 @@ public class GameEngine implements Runnable {
 							String id = recievedObj.value;
 							if (current_users == 2)
 								identityc_2 = "deafult";
-							
 							if(identityc_1 == null || identityc_2 ==null){
 								if(!id.equalsIgnoreCase(my_identity) && identityc_1 == null)
 									identityc_1 = id;
 								if(!id.equalsIgnoreCase(my_identity) && !id.equalsIgnoreCase(identityc_1))
-								{
-//									System.out.println("222222222222IIIIIIIII222222222222222222222");
 									identityc_2 = id;								
-								}
 							}
 							
 							if (id.equalsIgnoreCase(identityc_1)) {
-
 								
-								// pairs.put(1, id);
-								Changetopacman(recievedObj.pacman, 1);
+									Changetopacman(recievedObj.pacman, 1);
 							} else if (id.equalsIgnoreCase(identityc_2)) {
 								
-//								System.out.println("22222222222222222222222222222222222222222222");
-								
 								Changetopacman(recievedObj.pacman, 2);
-
-								// } else if (!hostFlag
-								// && id
-								// .equalsIgnoreCase(identitys)) {
-								// Changetopacman(recievedObj.pacman, 0);
-							}							
-
+							}
+							if(id.contains("death")){
+								System.out.println("death");
+								if (id.equalsIgnoreCase("death"+identityc_1)) {
+									System.out.println("death1111111111111"+identityc_1);
+									gameEnd(1, 2);
+								
+								} else if (id.equalsIgnoreCase("death"+identityc_2)) {
+									System.out.println("death222222222222222222222"+identityc_2);
+									gameEnd(2, 2);
+								
+								}
+							}
 						} catch (Exception e) {
 							e.printStackTrace();
 							System.out.println("ERRRORRRRRRRRRRRRRRRRRRRRR");
@@ -297,6 +294,17 @@ public class GameEngine implements Runnable {
 		// play new game sound
 		SoundPlayer.playNewGameSound();
 
+		//Jason
+		java.util.Timer _stopgameTimer = new java.util.Timer();
+		_stopgameTimer.schedule(new TimerTask() {
+			public void run() {
+
+				for(int i = 0; i<current_users; i++)
+					//0 for time exhaust
+					gameEnd(i, 0);
+
+			}
+		}, 1000 * GAME_STOP_TIME);
 		// Siyuan game countdown time
 		TimerTask task = new TimerTask() {
 
@@ -359,14 +367,7 @@ public class GameEngine implements Runnable {
 		// starts the game timer
 		_gameTimer.start();
 
-		java.util.Timer _stopgameTimer = new java.util.Timer();
-		_stopgameTimer.schedule(new TimerTask() {
-			public void run() {
-				for(int i = 0; i<current_users; i++)
-					//0 for time exhaust
-					gameEnd(i, 0);
-			}
-		}, 1000 * GAME_STOP_TIME);
+		
 
 	}
 
@@ -376,10 +377,26 @@ public class GameEngine implements Runnable {
 	public void gameEnd(int current_user, int flag) {
 		if (flag == 0)
 			_gameTimer.stop();
+		
 		_gameView[current_user].setGameEnd(_pacman[current_user].point,
 				_pacman[current_user].remaininglives);
 		
-		_statusBarView[current_user].setTime(0);
+		//send game over information to others
+		if(flag == 1){
+			if (this.hostFlag) {
+				ClientObject dataSend = new ClientObject("death"+my_identity, null);
+				PacmanServer.sendData(hostName, dataSend);
+			}
+	
+			else {
+				ClientObject dataSend = new ClientObject("death"+my_identity, null);
+				PacmanServer.sendData(topicSName, dataSend);
+			}
+		}
+		
+//		_statusBarView[current_user].setTime(10);
+//		if (current_user == 0)
+//			_gameTimer.stop();
 		SoundPlayer.playGameOverSound();
 
 	}
@@ -389,11 +406,7 @@ public class GameEngine implements Runnable {
 	 */
 	public void updateGame() {
 		// move the pacman
-//		for (int i = 0; i < this.current_users; i++) {
-//			_pacman[i].move();
-//
-//			// _pacman[1].move();
-//		}
+
 		
 		_pacman[0].move();
 		
@@ -418,8 +431,8 @@ public class GameEngine implements Runnable {
 		_statusBarView[0].setLives(_pacman[0].remaininglives);
 
 		// move the monsters
-		for (int monster_i = 0; monster_i < this.current_users; monster_i++) {
-			for (Iterator<Monster> it = _monsters.get(monster_i).iterator(); it
+		for(int monster_i =0 ; monster_i<current_users;monster_i++){
+		for (Iterator<Monster> it = _monsters.get(monster_i).iterator(); it
 					.hasNext();) {
 				// check if a monster requests a new path
 				Monster m = it.next();
@@ -531,16 +544,21 @@ public class GameEngine implements Runnable {
 
 		if (_pacman != null)
 			if (_pacman[pacmanID] != null) {
+				//TODO fix bug here
+				if(_pacman[pacmanID].getDirection()!=direction){
 				_pacman[pacmanID].setPosition(position.x, position.y);
 				_pacman[pacmanID].setDirection(direction);
+
+				
+
+				}
 				_pacman[pacmanID].point = point;
 				_pacman[pacmanID].remaininglives = remaininglives;
 				_statusBarView[pacmanID].setPoints(point);
 				_statusBarView[pacmanID].setLives(remaininglives);
 
-
-
 				_pacman[pacmanID].move();
+				
 				
 				StationaryObject[][] map_1 = _levelMap[pacmanID]
 						.getStationaryObjectsMap();
@@ -783,3 +801,82 @@ public class GameEngine implements Runnable {
 		}
 	}
 }
+//for (Iterator<Monster> it = _monsters.get(pacmanID).iterator(); it
+//		.hasNext();) {
+//	// check if a monster requests a new path
+//	Monster m = it.next();
+//
+//	if (m.requestNewPath()) {
+//		// the initial target of each monster is the pacman.
+//		// if the game is in the special stage (the monster is
+//		// "IN FEAR")
+//		// or based on the monsters's probability for getting a
+//		// random
+//		// path
+//		// we choose a random target for the new path
+//		// TODO change back
+//		Point target = _pacman[pacmanID].getPosition();
+//		double randomtmp = randomlist[_pacman[pacmanID]
+//				.getPosition().x
+//				+ _pacman[pacmanID].getPosition().y];
+//		// double randomtmp = 0.4;
+//		if (m.isInFear()
+//				|| randomtmp < m.getRandomPathProbability()) {
+//			target = new Point(
+//					(int) (randomtmp * _levelMap[pacmanID]
+//							.getGameDimension().width),
+//					(int) (randomtmp * _levelMap[pacmanID]
+//							.getGameDimension().height));
+//		}
+//
+//		// find the path to the chosen target using AI Manager (A*
+//		// algorithm)
+//		m.setPath(_ai.findPath(m, m.getPosition(), target));
+//	}
+//
+//	// move the monster
+//	m.move();
+//
+//	// pacman collision with monster
+//	if (_pacman[pacmanID].getBounds().intersects(m.getBounds())) {
+//		// check if pacman can eat the monster using Visitor pattern
+//		if (_pacman[pacmanID].eats(m)) {
+//			// get the monster back to the cage
+//			m.setPosition(_levelMap[pacmanID].getCagePosition().x,
+//					_levelMap[pacmanID].getCagePosition().y);
+//			m.setReleaseTime(SPECIAL_STAGE_TIME * 1000);
+//			_pacman[pacmanID].point += POINTS_EATING_MONSTER;
+//			SoundPlayer.playEatMonsterSound();
+//		} else {
+//			// monster beats pacman.
+//			// stop the game.
+//			// pacman is die for 2 seconds, and start another match
+//			// (or
+//			// game over if there is no remaining lives)
+//			_pacman[pacmanID].die();
+//			_gameTimer.stop();
+//			_specialStageTimer.stop();
+//			_pacman[pacmanID].remaininglives--;
+//			SoundPlayer.playPacmanDieSound();
+//
+//			// delay 2 seconds and start another match
+//			try {
+//				Thread.sleep(2000);
+//				if (_pacman[pacmanID].remaininglives < 0) {
+//					// Game Over
+//					// initialize a new game
+//					// initializeNewGame();
+//					System.out.println("00000000000"+_pacman[0].remaininglives+"1111111111"+_pacman[1].remaininglives+"222222222222"+_pacman[2].remaininglives);
+//					//1 for all lives died
+//					gameEnd(pacmanID, 1);
+//				} else {
+//
+//					// start another match
+//					gameRestart();
+//				}
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
+//}

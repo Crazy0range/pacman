@@ -4,6 +4,8 @@ public class Settings {
 	
 	static String urlVal = "tcp://localhost";
 	
+	static String leaderUrl;
+	
 	//"tcp://localhost:5555"
 	/*public static String getRegistryServerURL(){
 		//String url = (String) Settings.getInstance().get("RegistryURL");
@@ -21,6 +23,16 @@ public class Settings {
 		return url+":"+Variables.PublisherPort;
 	}
 	
+	public static String getLeaderUrl() {
+		return leaderUrl;
+	}
+
+
+	public static void setLeaderUrl(String leaderUrl) {
+		Settings.leaderUrl = leaderUrl;
+	}
+
+
 	//"tcp://localhost:5558"
 	public static String getSubscriberURL(){
 		String url =urlVal ;
