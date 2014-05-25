@@ -98,7 +98,7 @@ public class GameEngine implements Runnable {
 	private ArrayList<List<Monster>> _monsters = new ArrayList<List<Monster>>();
 	private List<Monster> _monsters_client1 = new ArrayList<Monster>();
 	private List<Monster> _monsters_client2 = new ArrayList<Monster>();
-	private int _points;
+	private int _points[] = {0,0,0};
 	private int _remainingPills;
 	private String _cheat = ""; // if types OOP - enter to the special stage
 	private int _cheatUse = 0;
@@ -348,7 +348,7 @@ public class GameEngine implements Runnable {
 	 */
 	public void gameEnd(int current_user) {
 
-		_gameView[current_user].setGameEnd(_points, _remainingLives);
+		_gameView[current_user].setGameEnd(_points[current_user], _remainingLives);
 		_gameTimer.stop();
 		SoundPlayer.playPacmanDieSound();
 
@@ -371,6 +371,7 @@ public class GameEngine implements Runnable {
 		PacmanTransmission pacmantobesent = new PacmanTransmission();
 		pacmantobesent.setDirection(_pacman[0].getDirection());
 		pacmantobesent.setPosition(_pacman[0].getPosition());
+		pacmantobesent.setPoint(_points[0]);
 
 		ClientObject dataSend = new ClientObject(identity, pacmantobesent);
 		byte[] clientData = SerializationUtil.fromJavaToByteArray(dataSend);
@@ -386,7 +387,7 @@ public class GameEngine implements Runnable {
 			PacmanServer.sendData(topicSName, dataSend);
 
 
-		_statusBarView[1].setPoints(_points);
+		_statusBarView[1].setPoints(_points[0]);
 		_statusBarView[1].setLives(_remainingLives);
 		this.tmpi = this.tmpi--;
 		if (this.tmpi < 0)
@@ -436,7 +437,7 @@ public class GameEngine implements Runnable {
 						m.setPosition(_levelMap[0].getCagePosition().x,
 								_levelMap[0].getCagePosition().y);
 						m.setReleaseTime(SPECIAL_STAGE_TIME * 1000);
-						_points += POINTS_EATING_MONSTER;
+						_points[0] += POINTS_EATING_MONSTER;
 						SoundPlayer.playEatMonsterSound();
 					} else {
 						// monster beats pacman.
@@ -557,7 +558,7 @@ public class GameEngine implements Runnable {
 		pill.getParent().remove(pill);
 		_levelMap[pacmanID].getStationaryObjectsMap()[pacman.getPosition().y][pacman
 				.getPosition().x] = null;
-		_points += POINTS_EATING_PILL;
+		_points[0] += POINTS_EATING_PILL;
 		_remainingPills--;
 	}
 
@@ -604,7 +605,7 @@ public class GameEngine implements Runnable {
 	 */
 	public void eatSuperPill(Pacman pacman, SuperPill pill, int pacmanID) {
 		removeStationaryObjectFromBoard(pacman, pill, pacmanID);
-		_points += POINTS_EATING_SUPER_PILL;
+		_points[0] += POINTS_EATING_SUPER_PILL;
 		_remainingPills--;
 		SoundPlayer.playEatSuperPillSound();
 
@@ -622,7 +623,7 @@ public class GameEngine implements Runnable {
 	 */
 	public void eatMightyPill(Pacman pacman, MightyPill pill, int pacmanID) {
 		removeStationaryObjectFromBoard(pacman, pill, pacmanID);
-		_points += POINTS_EATING_SUPER_PILL;
+		_points[0] += POINTS_EATING_SUPER_PILL;
 		_remainingPills--;
 		SoundPlayer.playEatSuperPillSound();
 

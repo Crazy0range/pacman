@@ -10,6 +10,11 @@ public class Settings {
 		return url+":"+Variables.RegistryPort;
 	}*/
 	
+	public static void setURL(String url){
+		urlVal = url;
+	}
+	
+	
 	//tcp://localhost:5557
 	public static String getPublisherURL(){
 		String url = urlVal;

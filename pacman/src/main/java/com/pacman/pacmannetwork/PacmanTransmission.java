@@ -12,9 +12,9 @@ public class PacmanTransmission implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 3407743370069866137L;
-	private Map map;
 	private Direction dir;
 	private Point position;
+	private int point;
 	public PacmanTransmission(){
 		
 	
@@ -35,6 +35,12 @@ public class PacmanTransmission implements Serializable{
 	public Point getPosition(){
 		
 		return this.position;
+	}
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
 	}
 	
 
