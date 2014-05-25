@@ -16,14 +16,15 @@ public class PacManClient implements Runnable{
 	private boolean execute;
     ZContext context;
 	Socket subscriber;
-	String electedLeaderID;
+	String subscription;
 	Callback callback;
 	Object objData;
+	
 	
 	public PacManClient(String electedLeaderID, Callback callback) {
 		this.context = new ZContext();
 		this.subscriber = context.createSocket(ZMQ.SUB);
-		this.electedLeaderID = electedLeaderID;
+		this.subscription = electedLeaderID;
 		this.callback = callback;
 	}
 	
@@ -45,26 +46,18 @@ public class PacManClient implements Runnable{
 	
 
 	public void run() {
-		//
-		this.subscriber.connect(Settings.getSubscriberURL());
-		this.subscriber.subscribe(electedLeaderID.getBytes());
-		while (this.execute){
-			System.out.println("while true...");
-			String topic = this.subscriber.recvStr();
-			
-			System.out.println("----- topic = " + topic);
-            if (topic == null)
-                continue;
-            
-            byte[] data = this.subscriber.recv();
-            if(data!=null){
-            //objData = SerializationUtil.fromByteArrayToJava(data);
-            //if(objData instanceof ClientObject){
-            System.out.println("Got an object#####");
-            this.callback.onMessage(data);
-            
-            //}
-            }
+		    this.subscriber.connect(Settings.getSubscriberURL());
+			this.subscriber.subscribe(subscription.getBytes());
+			while (this.execute){
+				System.out.println("while true...");
+				byte[] topic = this.subscriber.recv();
+				
+				System.out.println("----- topic = " + topic);
+	            if (topic == null)
+	                continue;
+	            
+	            byte[] data = this.subscriber.recv();
+	            this.callback.onMessage(data);
 		}
 		
 		

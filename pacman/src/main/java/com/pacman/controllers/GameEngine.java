@@ -109,7 +109,8 @@ public class GameEngine implements Runnable {
 	// Nikki to be used by client
 	String topicSName = "hostReq";
 	private String hostName = "host";
-	String identity = "";
+	String identitys = "serverID";
+	String identityc = "clientId";
 
 	/**
 	 * Creates a new Game Engine
@@ -152,11 +153,14 @@ public class GameEngine implements Runnable {
 								.fromByteArrayToJava(data);
 						// make a pacman from pacmantransmission
 						if (recievedObj != null ) {
-							System.out.println("Recieved Data!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+							System.out.println("Recieved Data!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+recievedObj.value);
 						}
-						
+						if(hostFlag && recievedObj.value.equalsIgnoreCase(identityc)){
 						changetopacman(recievedObj.pacman);
-						
+						}
+						else if(!hostFlag && recievedObj.value.equalsIgnoreCase(identitys)){
+							changetopacman(recievedObj.pacman);
+						}
 						//if (hostFlag) {
 							//PacmanServer.sendData(hostName, recievedObj);
 						//}
@@ -370,15 +374,17 @@ public class GameEngine implements Runnable {
 		pacmantobesent.setPoint(_points[0]);
 		pacmantobesent.setRemaininglives(_remainingLives[0]);
 
-		ClientObject dataSend = new ClientObject(identity, pacmantobesent);
+		
 	
 
-		if (this.hostFlag)
-			PacmanServer.sendData(hostName, dataSend);
+		if (this.hostFlag){
+			ClientObject dataSend = new ClientObject(identitys, pacmantobesent);
+			PacmanServer.sendData(hostName, dataSend);}
 
-		else
+		else{
+			ClientObject dataSend = new ClientObject(identityc, pacmantobesent);
 			PacmanServer.sendData(topicSName, dataSend);
-
+		}
 
 		_statusBarView[1].setPoints(_points[0]);
 		_statusBarView[1].setLives(_remainingLives[0]);
