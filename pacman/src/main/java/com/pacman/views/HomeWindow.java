@@ -47,16 +47,17 @@ public class HomeWindow extends JFrame {
 	private MyProfileWindow myProfileWindow;
 	private NewOnlineGameWindow newOnlineGameWindow;
 	private JoinGameWindow joinGameWindow;
-	private Boolean flag = Boolean.FALSE;
+	public static Boolean flag = Boolean.FALSE;
+//	public static Boolean flag = Boolean.TRUE;
 
 	public static void main(String[] args) {
 
-		try {
-			UIManager
-					.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+//		try {
+//			UIManager
+//					.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

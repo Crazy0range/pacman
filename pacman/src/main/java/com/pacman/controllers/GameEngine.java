@@ -129,6 +129,8 @@ public class GameEngine implements Runnable {
 
 		// initialize base UI Components
 		_window = new GameWindow();
+		
+		System.out.println("OPEN");
 
 		// get host name
 		// TODO get added host name from setttings
@@ -159,20 +161,27 @@ public class GameEngine implements Runnable {
 					public void onMessage(byte[] data) {
 						// TODO Auto-generated method stub
 						// Nikki added
+						try{
 						ClientObject recievedObj = (ClientObject) SerializationUtil
 								.fromByteArrayToJava(data);
-
 						// make a pacman from pacmantransmission
-						if (recievedObj != null && !hostFlag) {
-							System.out.println("Recieved Data!!!");
+						if (recievedObj != null ) {
+							System.out.println("Recieved Data!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 						}
+						
 						changetopacman(recievedObj.pacman);
-
 						
 						if (hostFlag) {
 							PacmanServer.sendData(hostName, recievedObj);
 						}
 
+						}
+						catch(Exception e){
+							e.printStackTrace();
+							System.out.println("ERRRORRRRRRRRRRRRRRRRRRRRR");
+						}
+
+					
 					}
 				});
 
@@ -362,27 +371,22 @@ public class GameEngine implements Runnable {
 		_pacman[0].move();
 
 		System.out.println("UUUUUUUUUUUUUUUUUUUU");
-		// Jason
-		// _pacman[1].setDirection(Direction.LEFT);
+
 
 		_pacman[1].move();
-		// TODO put sending data here
+		
 
 		PacmanTransmission pacmantobesent = new PacmanTransmission();
 		pacmantobesent.setDirection(_pacman[0].getDirection());
 		pacmantobesent.setPosition(_pacman[0].getPosition());
 
 		ClientObject dataSend = new ClientObject(identity, pacmantobesent);
-		byte[] clientData = SerializationUtil.fromJavaToByteArray(dataSend);
-		// System.out.println(clientData.length);
-
-		//
+	
 
 		if (this.hostFlag)
 			PacmanServer.sendData(hostName, dataSend);
 
 		else
-
 			PacmanServer.sendData(topicSName, dataSend);
 
 
@@ -393,81 +397,81 @@ public class GameEngine implements Runnable {
 			this.tmpi = 99;
 		double randomtmp = randomlist[this.tmpi];
 		// move the monsters
-		for (int monster_i = 0; monster_i < this.current_users; monster_i++) {
-			for (Iterator<Monster> it = _monsters.get(monster_i).iterator(); it
-					.hasNext();) {
-				// check if a monster requests a new path
-				Monster m = it.next();
-
-				if (m.requestNewPath()) {
-					// the initial target of each monster is the pacman.
-					// if the game is in the special stage (the monster is
-					// "IN FEAR")
-					// or based on the monsters's probability for getting a
-					// random
-					// path
-					// we choose a random target for the new path
-					Point target = _pacman[0].getPosition();
-					// double randomtmp =
-					// randomlist[_pacman[0].getPosition().x+_pacman[0].getPosition().y];
-					
-					if (m.isInFear()
-							|| randomtmp < m.getRandomPathProbability()) {
-						target = new Point(
-								(int) (randomtmp * _levelMap[0]
-										.getGameDimension().width),
-								(int) (randomtmp * _levelMap[0]
-										.getGameDimension().height));
-					}
-//					System.out.println(target.toString());
-					// find the path to the chosen target using AI Manager (A*
-					// algorithm)
-					m.setPath(_ai.findPath(m, m.getPosition(), target));
-				}
-
-				// move the monster
-				m.move();
-
-				// pacman collision with monster
-				if (_pacman[0].getBounds().intersects(m.getBounds())) {
-					// check if pacman can eat the monster using Visitor pattern
-					if (_pacman[0].eats(m)) {
-						// get the monster back to the cage
-						m.setPosition(_levelMap[0].getCagePosition().x,
-								_levelMap[0].getCagePosition().y);
-						m.setReleaseTime(SPECIAL_STAGE_TIME * 1000);
-						_points += POINTS_EATING_MONSTER;
-						SoundPlayer.playEatMonsterSound();
-					} else {
-						// monster beats pacman.
-						// stop the game.
-						// pacman is die for 2 seconds, and start another match
-						// (or
-						// game over if there is no remaining lives)
-						_pacman[0].die();
-						_gameTimer.stop();
-						_specialStageTimer.stop();
-						_remainingLives--;
-						SoundPlayer.playPacmanDieSound();
-
-						// delay 2 seconds and start another match
-						try {
-							Thread.sleep(2000);
-							if (_remainingLives < 0) {
-								// Game Over
-								// initialize a new game
-								initializeNewGame();
-							}
-
-							// start another match
-							gameRestart();
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		}
+//		for (int monster_i = 0; monster_i < this.current_users; monster_i++) {
+//			for (Iterator<Monster> it = _monsters.get(monster_i).iterator(); it
+//					.hasNext();) {
+//				// check if a monster requests a new path
+//				Monster m = it.next();
+//
+//				if (m.requestNewPath()) {
+//					// the initial target of each monster is the pacman.
+//					// if the game is in the special stage (the monster is
+//					// "IN FEAR")
+//					// or based on the monsters's probability for getting a
+//					// random
+//					// path
+//					// we choose a random target for the new path
+//					Point target = _pacman[0].getPosition();
+//					// double randomtmp =
+//					// randomlist[_pacman[0].getPosition().x+_pacman[0].getPosition().y];
+//					
+//					if (m.isInFear()
+//							|| randomtmp < m.getRandomPathProbability()) {
+//						target = new Point(
+//								(int) (randomtmp * _levelMap[0]
+//										.getGameDimension().width),
+//								(int) (randomtmp * _levelMap[0]
+//										.getGameDimension().height));
+//					}
+//
+//					// find the path to the chosen target using AI Manager (A*
+//					// algorithm)
+//					m.setPath(_ai.findPath(m, m.getPosition(), target));
+//				}
+//
+//				// move the monster
+//				m.move();
+//
+//				// pacman collision with monster
+//				if (_pacman[0].getBounds().intersects(m.getBounds())) {
+//					// check if pacman can eat the monster using Visitor pattern
+//					if (_pacman[0].eats(m)) {
+//						// get the monster back to the cage
+//						m.setPosition(_levelMap[0].getCagePosition().x,
+//								_levelMap[0].getCagePosition().y);
+//						m.setReleaseTime(SPECIAL_STAGE_TIME * 1000);
+//						_points += POINTS_EATING_MONSTER;
+//						SoundPlayer.playEatMonsterSound();
+//					} else {
+//						// monster beats pacman.
+//						// stop the game.
+//						// pacman is die for 2 seconds, and start another match
+//						// (or
+//						// game over if there is no remaining lives)
+//						_pacman[0].die();
+//						_gameTimer.stop();
+//						_specialStageTimer.stop();
+//						_remainingLives--;
+//						SoundPlayer.playPacmanDieSound();
+//
+//						// delay 2 seconds and start another match
+//						try {
+//							Thread.sleep(2000);
+//							if (_remainingLives < 0) {
+//								// Game Over
+//								// initialize a new game
+//								initializeNewGame();
+//							}
+//
+//							// start another match
+//							gameRestart();
+//						} catch (InterruptedException e) {
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+//			}
+//		}
 
 		// pacman eating pills
 		StationaryObject[][] map = _levelMap[0].getStationaryObjectsMap();
@@ -541,7 +545,7 @@ public class GameEngine implements Runnable {
 		java.util.Random r = new java.util.Random(100);
 		for (int j = 0; j < 100; j++) {
 			this.randomlist[j] = r.nextDouble();
-//			System.out.println(randomlist[j]);
+
 		}
 	}
 
@@ -568,11 +572,11 @@ public class GameEngine implements Runnable {
 	 * @param pacman
 	 *            pacman to change for the special stage
 	 */
-	private void enterSpecialStage(Pacman pacman) {
+	private void enterSpecialStage(Pacman pacman, int pacmanID) {
 		// set the current pacman to the special stage's pacman
-		_pacman[0] = pacman;
+		_pacman[pacmanID] = pacman;
 		// Jason
-		_gameView[0].setPacman(_pacman[0]);
+		_gameView[pacmanID].setPacman(_pacman[pacmanID]);
 		// _gameView1.setPacman(_pacman);
 
 		// set monsters to be in fear from the current pacman
@@ -581,9 +585,9 @@ public class GameEngine implements Runnable {
 
 				m.setPath(null);
 				m.setNormalMode();
-				if (_pacman[0] instanceof SuperPacman)
+				if (_pacman[pacmanID] instanceof SuperPacman)
 					m.fearFromSuperPacman();
-				else if (_pacman[0] instanceof MightyPacman)
+				else if (_pacman[pacmanID] instanceof MightyPacman)
 					m.fearFromMightyPacman();
 			}
 		}
@@ -608,7 +612,7 @@ public class GameEngine implements Runnable {
 		_remainingPills--;
 		SoundPlayer.playEatSuperPillSound();
 
-		enterSpecialStage(new SuperPacman(_levelMap[pacmanID]));
+		enterSpecialStage(new SuperPacman(_levelMap[pacmanID]), pacmanID);
 	}
 
 	/**
@@ -626,7 +630,7 @@ public class GameEngine implements Runnable {
 		_remainingPills--;
 		SoundPlayer.playEatSuperPillSound();
 
-		enterSpecialStage(new MightyPacman(_levelMap[pacmanID]));
+		enterSpecialStage(new MightyPacman(_levelMap[pacmanID]), pacmanID);
 	}
 
 	/**
@@ -696,7 +700,7 @@ public class GameEngine implements Runnable {
 				}
 
 				if (_cheat.equals("OOP")) {
-					enterSpecialStage(new SuperPacman(_levelMap[0]));
+					enterSpecialStage(new SuperPacman(_levelMap[0]), 0);
 					_cheat = "";
 					_cheatUse--;
 				}
