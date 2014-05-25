@@ -521,8 +521,11 @@ public class GameEngine implements Runnable {
 
 		if (_pacman != null)
 			if (_pacman[pacmanID] != null) {
+				//TODO fix bug here
+				if(_pacman[pacmanID].getDirection()!=direction){
 				_pacman[pacmanID].setPosition(position.x, position.y);
 				_pacman[pacmanID].setDirection(direction);
+				}
 				_statusBarView[pacmanID].setPoints(point);
 				_statusBarView[pacmanID].setLives(remaininglives);
 
