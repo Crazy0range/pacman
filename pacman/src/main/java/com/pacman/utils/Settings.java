@@ -25,7 +25,7 @@ public class Settings {
 	
 	//tcp://localhost:5557
 	public static String getPublisherURL(){
-		String url = leaderUrl;
+		String url = urlVal;
 		return url+":"+Variables.PublisherPort;
 	}
 	
@@ -41,7 +41,7 @@ public class Settings {
 
 	//"tcp://localhost:5558"
 	public static String getSubscriberURL(){
-		String url =leaderUrl ;
+		String url =urlVal ;
 		return url+":"+Variables.SubscriberPort;
 	}
 	

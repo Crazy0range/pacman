@@ -86,6 +86,7 @@ public class StatusBarView extends JPanel {
 		add(lblRank);
 
 		tfRank = new JTextField();
+		tfRank.setText("1");
 		tfRank.setForeground(Color.WHITE);
 		tfRank.setColumns(1);
 		tfRank.setForeground(Color.WHITE);
