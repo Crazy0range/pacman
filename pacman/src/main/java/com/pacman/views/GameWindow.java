@@ -26,8 +26,13 @@ public class GameWindow extends JFrame {
 	private static final long serialVersionUID = -5539770173610616384L;
 	private static Point _mouseDraggingCoordinates; // point for window dragging
 
+ 
 	public GameWindow() {
 		setResizable(false);
+		if(HomeWindow.flag)
+			setTitle("server");
+		else
+			setTitle("client");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		initializeUI();
 	}
