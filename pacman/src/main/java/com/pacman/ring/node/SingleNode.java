@@ -50,7 +50,7 @@ public class SingleNode implements Runnable{
 		socket.connect(Settings.getRegistryServerURL());
 		boolean connection=Boolean.FALSE;
 		// try {
-		//TODO change for distributed
+		//TODO change for distributed systems
 		localAddr = this.port;// InetAddress.getLocalHost().getHostAddress();
 		// } catch (UnknownHostException e) {
 
@@ -105,41 +105,7 @@ public class SingleNode implements Runnable{
 		server.close();
 		context1.term();
 	}
-	/*
-	public void processMssg(ElectionMessages em){
-		ElectionMessages.MessageType type = em.getMsgType();
-		boolean recvGrtr = false;
-		
-		if (type == MessageType.ELECTION){
-			if (//myUID != null &&// !myUID.equals(em.getmID())){
-				if (em.getmID() != null && myUID.compareTo(em.getmID()) == 1) {
-					em.setmID(this.myUID);
-				} else {
-					recvGrtr = true;
-				}
-				
-				if (state == ElectionState.NON_PARTICIPANT || (state == ElectionState.PARTICIPANT && recvGrtr)) {
-					System.out.println("Forwarding message");
-					sendMessage(em);
-					this.state = ElectionState.PARTICIPANT;
-				}
-			} else {
-				ElectionMessages elected = new ElectionMessages(ElectionMessages.MessageType.ELECTED, this.myUID, this.myUID);
-				this.state = ElectionState.NON_PARTICIPANT;
-				System.out.println(port+ ": Elected!!");
-				sendMessage(elected);
-			}
-		} else if (type == MessageType.ELECTED){
-			this.state = ElectionState.NON_PARTICIPANT;
-			this.elected_id = em.getElectedUID();
-			if (elected_id != this.myUID) {
-				System.out.println(port + ": forwarding "+ em);
-				sendMessage(em);
-			}
-			this.elected = Boolean.TRUE;
-		}
-	}
-	*/
+
 	public void processMessages(ElectionMessages em) {
 		started = Boolean.TRUE;
 		ElectionMessages.MessageType type = em.getMsgType();
@@ -252,6 +218,10 @@ public class SingleNode implements Runnable{
 		}
 		return start;
 	}
+	
+	public String returnVal(){
+		return this.leader_ip;
+	}
 
 	public void run() {
 		getNieghbour();
@@ -292,5 +262,12 @@ public class SingleNode implements Runnable{
 		} catch (InterruptedException ex){
 			ex.printStackTrace();
 		}
+	}
+
+	public boolean isElected() {
+		if(myUID.equals(elected_id))
+		return true;
+		else 
+		return false;
 	}
 }
