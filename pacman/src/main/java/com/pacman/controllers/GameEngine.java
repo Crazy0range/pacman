@@ -552,53 +552,53 @@ public class GameEngine implements Runnable {
 		}
 
 		// Set rank
-		if (current_users == 2){
-			int a = _statusBarView[0].getPoints();
-			int b = _statusBarView[1].getPoints();
-			if (a>=b){
-				_statusBarView[1].setRank(2);
-				_statusBarView[0].setRank(1);
-			}else{
-				_statusBarView[0].setRank(2);
-				_statusBarView[1].setRank(1);
-			}
-		}
-		if (current_users == 3) {
-			int a = _statusBarView[0].getPoints();
-			int b = _statusBarView[1].getPoints();
-			int c = _statusBarView[2].getPoints();
-			if (a >= b) {
-				if (a >= c) {
-					_statusBarView[0].setRank(1);
-					if (b >= c) {
-						_statusBarView[1].setRank(2);
-						_statusBarView[2].setRank(3);
-					} else {
-						_statusBarView[1].setRank(3);
-						_statusBarView[2].setRank(2);
-					}
-				} else {
-					_statusBarView[2].setRank(1);
-					_statusBarView[0].setRank(2);
-					_statusBarView[1].setRank(3);
-				}
-			}else{
-				if (b >=c){
-					_statusBarView[1].setRank(1);
-					if(a>=c){
-						_statusBarView[0].setRank(2);
-						_statusBarView[2].setRank(3);
-					}else{
-						_statusBarView[0].setRank(3);
-						_statusBarView[2].setRank(2);
-					}
-				}else{
-					_statusBarView[2].setRank(1);
-					_statusBarView[1].setRank(2);
-					_statusBarView[0].setRank(3);
-				}
-			}
-		}
+		//if (current_users == 2){
+//			int a = _statusBarView[0].getPoints();
+//			int b = _statusBarView[1].getPoints();
+//			if (a>=b){
+//				_statusBarView[1].setRank(2);
+//				_statusBarView[0].setRank(1);
+//			}else{
+//				_statusBarView[0].setRank(2);
+//				_statusBarView[1].setRank(1);
+//			}
+//		}
+//		if (current_users == 3) {
+//			int a = _statusBarView[0].getPoints();
+//			int b = _statusBarView[1].getPoints();
+//			int c = _statusBarView[2].getPoints();
+//			if (a >= b) {
+//				if (a >= c) {
+//					_statusBarView[0].setRank(1);
+//					if (b >= c) {
+//						_statusBarView[1].setRank(2);
+//						_statusBarView[2].setRank(3);
+//					} else {
+//						_statusBarView[1].setRank(3);
+//						_statusBarView[2].setRank(2);
+//					}
+//				} else {
+//					_statusBarView[2].setRank(1);
+//					_statusBarView[0].setRank(2);
+//					_statusBarView[1].setRank(3);
+//				}
+//			}else{
+//				if (b >=c){
+//					_statusBarView[1].setRank(1);
+//					if(a>=c){
+//						_statusBarView[0].setRank(2);
+//						_statusBarView[2].setRank(3);
+//					}else{
+//						_statusBarView[0].setRank(3);
+//						_statusBarView[2].setRank(2);
+//					}
+//				}else{
+//					_statusBarView[2].setRank(1);
+//					_statusBarView[1].setRank(2);
+//					_statusBarView[0].setRank(3);
+//				}
+//			}
+//		}
 	}
 
 	// change pacmantransmission to the pacman
@@ -782,7 +782,7 @@ public class GameEngine implements Runnable {
 	/**
 	 * Change Pacman direction- Keyboard Listener
 	 * 
-	 * @author Lidan Hifi
+	 * @author Nikki Vinayan, Siyuan Liu, Yingjie Ma
 	 * @version 1.0
 	 */
 	class MovePacmanListener extends KeyAdapter {
@@ -834,7 +834,7 @@ public class GameEngine implements Runnable {
 	/**
 	 * Exit Application Listener
 	 * 
-	 * @author Lidan Hifi
+	 * @author Nikki Vinayan, Siyuan Liu, Yingjie Ma
 	 * @version 1.0
 	 */
 	class ExitApplicationListener extends WindowAdapter implements

@@ -2,7 +2,7 @@ package com.pacman.model;
 
 /**
  *  Direction for controllable object
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public enum Direction {

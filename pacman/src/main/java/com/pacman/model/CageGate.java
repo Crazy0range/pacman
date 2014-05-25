@@ -6,7 +6,7 @@ import javax.swing.border.MatteBorder;
 
 /**
  *  Cage gate
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public class CageGate extends StationaryObject {

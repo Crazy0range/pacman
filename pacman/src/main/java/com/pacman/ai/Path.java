@@ -7,7 +7,7 @@ import java.util.List;
 /**
  *  A path determined by PathFinder object (using A* Algorithm for AI).
  *  A path is represented by series of points (=Steps).
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public class Path {

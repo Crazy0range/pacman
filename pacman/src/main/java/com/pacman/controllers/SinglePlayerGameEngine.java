@@ -36,7 +36,7 @@ import com.pacman.views.fx.SoundPlayer;
 
 /**
  *  Pacman Game Engine- Manages the game logic
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public class SinglePlayerGameEngine extends GameEngine implements Runnable {
@@ -347,7 +347,7 @@ public class SinglePlayerGameEngine extends GameEngine implements Runnable {
 
 	/**
 	 *  Change Pacman direction- Keyboard Listener
-	 *  @author     Lidan Hifi
+	 *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
 	 *  @version    1.0
 	 */
 	class MovePacmanListener extends KeyAdapter {
@@ -397,7 +397,7 @@ public class SinglePlayerGameEngine extends GameEngine implements Runnable {
 
 	/**
 	 *  Exit Application Listener
-	 *  @author     Lidan Hifi
+	 *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
 	 *  @version    1.0
 	 */
 	class ExitApplicationListener extends WindowAdapter implements ActionListener, MouseListener {

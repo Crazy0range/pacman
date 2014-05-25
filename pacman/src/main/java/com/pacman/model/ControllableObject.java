@@ -7,7 +7,7 @@ import java.awt.Point;
  *  Represents a controllable object
  *  for example: pacman (controlled by the game player)
  *  			 monsters (controlled by AI manager)
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public abstract class ControllableObject extends Sprite {

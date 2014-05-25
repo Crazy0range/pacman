@@ -3,7 +3,7 @@ package com.pacman.model;
 /**
  *  [Visitor Pattern]
  *  Represents an object that can eat eatable object (i.e. Pacman)
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public interface Eater {

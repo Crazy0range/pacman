@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  *  Game map
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public class Map implements Serializable{

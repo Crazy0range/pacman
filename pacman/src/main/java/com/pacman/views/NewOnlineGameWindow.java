@@ -62,7 +62,7 @@ public class NewOnlineGameWindow extends JFrame {
 			}
 			PacmanServer.initialize();
 			System.out.println("start game engine");
-			SwingUtilities.invokeLater(new GameEngine(3,flag));
+			SwingUtilities.invokeLater(new GameEngine(2,flag));
 			}
 		});
 		btnStart.setBounds(217, 217, 128, 40);
