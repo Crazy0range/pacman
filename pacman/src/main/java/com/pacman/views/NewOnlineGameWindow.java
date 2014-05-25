@@ -76,7 +76,7 @@ public class NewOnlineGameWindow extends JFrame {
 		btnStartElection = new JButton("Start Election");
 		btnStartElection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textPane.setText(textPane.getText() + "Joined election\n");
+				printToTextPane("Joined election");
 			}
 		});
 		btnStartElection.setForeground(Color.BLACK);
@@ -94,5 +94,14 @@ public class NewOnlineGameWindow extends JFrame {
 		textPane.setText("Waiting for leader...\n");
 		contentPane.add(textPane);
 
+	}
+	
+	private void printToTextPane(String s){
+		String origin = textPane.getText();
+		if(origin.split("\n").length<9)
+		textPane.setText(origin + s +"\n");
+		else {
+			textPane.setText(origin.substring(origin.indexOf('\n')+1) + s +"\n");
+		}
 	}
 }
