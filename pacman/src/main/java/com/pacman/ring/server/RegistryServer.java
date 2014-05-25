@@ -45,7 +45,7 @@ public class RegistryServer implements Runnable {
 		
 		// Socket to talk to clients
 		Socket server = context.socket(ZMQ.REP);
-		server.bind("tcp://*:5555");
+		server.bind("tcp://*:5554");
 		System.out.println("Started Server");
 		while (!Thread.currentThread().isInterrupted()) {
 			byte[] reply = server.recv(0);
