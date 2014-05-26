@@ -101,8 +101,10 @@ public class RegistryServer implements Runnable {
 				}
 			context1 = ZMQ.context(1);
 			temSock = context1.socket(ZMQ.REQ);	
-			temSock.connect(currentIdentity.getAddress());
 			System.out.println(currentIdentity.getAddress());
+			temSock.connect(currentIdentity.getAddress()+":"+Variables.NodePort);
+			
+			System.out.println(currentIdentity.getAddress()+":"+Variables.NodePort);
 			resp = new Response(rightIdentity.getTokenID(),rightIdentity.getAddress(),Variables.NNValue);
 			System.out.println(SerializationUtil.fromJavaToByteArray(resp));
 			temSock.send(SerializationUtil.fromJavaToByteArray(resp));
@@ -113,6 +115,7 @@ public class RegistryServer implements Runnable {
 		    	 Acknowledge msg = (Acknowledge) command;
 		    	 System.out.println(msg.getResponse());
 		     }
+		     System.out.println("Not Ack");
 		    temSock.close();
 			context1.term();
 		}

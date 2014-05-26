@@ -47,9 +47,9 @@ public class HomeWindow extends JFrame {
 	private NewOnlineGameWindow newOnlineGameWindow;
 	private JoinGameWindow joinGameWindow;
 
-	public static Boolean flag = Boolean.TRUE;
+//	public static Boolean flag = Boolean.TRUE;
 
-//	public static Boolean flag = Boolean.FALSE;
+	public static Boolean flag = Boolean.FALSE;
 
 
 	public static void main(String[] args) {
@@ -230,15 +230,9 @@ public class HomeWindow extends JFrame {
 		JButton btnSinglePlayer = new JButton("Single Player");
 		btnSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-//				if(flag){
-//						Thread relay = new Thread(new Forwarder());
-//						relay.setDaemon(true);
-//						relay.start();
-//				}
-//				PacmanServer.initialize();
-//				System.out.println("start game engine");
-//				SwingUtilities.invokeLater(new GameEngine(3,flag));
+
 				SwingUtilities.invokeLater(new SinglePlayerGameEngine());
+
 			}
 		});
 		btnSinglePlayer.setForeground(Color.BLACK);
