@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import com.pacman.controllers.GameEngine;
+import com.pacman.controllers.SinglePlayerGameEngine;
 import com.pacman.pacmannetwork.Forwarder;
 import com.pacman.pacmannetwork.PacmanServer;
 import com.pacman.utils.IPAddrCheck;
@@ -46,9 +47,9 @@ public class HomeWindow extends JFrame {
 	private NewOnlineGameWindow newOnlineGameWindow;
 	private JoinGameWindow joinGameWindow;
 
-	public static Boolean flag = Boolean.TRUE;
+//	public static Boolean flag = Boolean.TRUE;
 
-//	public static Boolean flag = Boolean.FALSE;
+	public static Boolean flag = Boolean.FALSE;
 
 
 	public static void main(String[] args) {
@@ -236,9 +237,9 @@ public class HomeWindow extends JFrame {
 				}
 				PacmanServer.initialize();
 				System.out.println("start game engine");
-//				SwingUtilities.invokeLater(new GameEngine(3,flag));
+				SwingUtilities.invokeLater(new GameEngine(3,flag));
 
-				SwingUtilities.invokeLater(new SinglePlayerGameEngine());
+//				SwingUtilities.invokeLater(new SinglePlayerGameEngine());
 
 //				SwingUtilities.invokeLater(new GameEngine(2));
 			}

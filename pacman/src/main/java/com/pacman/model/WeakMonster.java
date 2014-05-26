@@ -2,7 +2,7 @@ package com.pacman.model;
 
 /**
  *  Weak monster (its path chosen randomly)
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public class WeakMonster extends Monster {

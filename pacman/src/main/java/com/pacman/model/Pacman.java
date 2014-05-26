@@ -9,7 +9,7 @@ import com.pacman.views.utils.AssetsManager;
 
 /**
  *  Regular Pacman
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public class Pacman extends ControllableObject implements Eater, Serializable {

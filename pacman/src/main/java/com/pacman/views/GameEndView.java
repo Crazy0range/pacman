@@ -54,8 +54,7 @@ public class GameEndView extends JPanel {
 		int bonus_points = 1000 * lives;
 		_text = "Remaining Lives : " + lives + "\nBonus Points:"
 				+ lives + "*1000=" + bonus_points + "\nYour Points : "
-				+ points + "+" + bonus_points + "=" + (points + bonus_points)
-				+ "\nYou are the Winner!\n\n\n";
+				+ points + "+" + bonus_points + "=" + (points + bonus_points);
 		taResults.setText(_text);
 	}
 

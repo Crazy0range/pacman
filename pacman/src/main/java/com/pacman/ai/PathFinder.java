@@ -10,7 +10,7 @@ import com.pacman.model.Map;
 
 /**
  *  PathFinder finds the shortest path between a given source point and target point, using A* Algorithm
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public class PathFinder {
@@ -159,7 +159,7 @@ public class PathFinder {
 
 	/**
 	 *  A node in the search graph
-	 *  @author     Lidan Hifi
+	 *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
 	 *  @version    1.0
 	 */
 	private class Node implements Comparable<Node> {

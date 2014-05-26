@@ -4,7 +4,7 @@ import java.awt.Color;
 
 /**
  *  Game wall
- *  @author     Lidan Hifi
+ *  @author     Nikki Vinayan, Siyuan Liu, Yingjie Ma
  *  @version    1.0
  */
 public class Wall extends StationaryObject {

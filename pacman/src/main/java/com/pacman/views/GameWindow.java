@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 /**
  * Main application frame, contains the game view panel
  * 
- * @author Lidan Hifi
+ * @author Nikki Vinayan, Siyuan Liu, Yingjie Ma
  * @version 1.0
  */
 public class GameWindow extends JFrame {

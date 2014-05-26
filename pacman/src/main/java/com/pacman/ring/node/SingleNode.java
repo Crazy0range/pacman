@@ -150,9 +150,11 @@ public class SingleNode implements Runnable{
 			this.state = ElectionState.NON_PARTICIPANT;
 			this.elected_id = em.getElectedUID();
 			String val = em.getTcpPoint();
+
 			if(val.endsWith(":5556")){
 				val = val.substring(0, val.length()-5);
 			}
+
 			this.leader_ip = val;
 			this.elected = Boolean.TRUE;
 			if (!elected_id.equals(this.myUID)) {
@@ -201,8 +203,10 @@ public class SingleNode implements Runnable{
 		context1.term();
 		if(myUID.equals(elected_id)){
 		Settings.setLeaderUrl("tcp://localhost");
+
 		}else{
 		Settings.setLeaderUrl(this.leader_ip);}
+
 		Settings.setLeaderUUID(elected_id);
 		
 	}

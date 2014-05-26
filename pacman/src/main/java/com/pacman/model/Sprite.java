@@ -16,7 +16,7 @@ import com.pacman.utils.SerializableBufferedImage;
  * Sprite represents an object that can be animated using an image contains a
  * sequence of frames
  * 
- * @author Lidan Hifi
+ * @author Nikki Vinayan, Siyuan Liu, Yingjie Ma
  * @version 1.0
  */
 public class Sprite extends JLabel {
