@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import com.pacman.controllers.GameEngine;
+import com.pacman.controllers.SinglePlayerGameEngine;
 import com.pacman.pacmannetwork.Forwarder;
 import com.pacman.pacmannetwork.PacmanServer;
 import com.pacman.utils.IPAddrCheck;
@@ -229,15 +230,15 @@ public class HomeWindow extends JFrame {
 		JButton btnSinglePlayer = new JButton("Single Player");
 		btnSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(flag){
-						Thread relay = new Thread(new Forwarder());
-						relay.setDaemon(true);
-						relay.start();
-				}
-				PacmanServer.initialize();
-				System.out.println("start game engine");
-				SwingUtilities.invokeLater(new GameEngine(3,flag));
-//				SwingUtilities.invokeLater(new GameEngine(2));
+//				if(flag){
+//						Thread relay = new Thread(new Forwarder());
+//						relay.setDaemon(true);
+//						relay.start();
+//				}
+//				PacmanServer.initialize();
+//				System.out.println("start game engine");
+//				SwingUtilities.invokeLater(new GameEngine(3,flag));
+				SwingUtilities.invokeLater(new SinglePlayerGameEngine());
 			}
 		});
 		btnSinglePlayer.setForeground(Color.BLACK);

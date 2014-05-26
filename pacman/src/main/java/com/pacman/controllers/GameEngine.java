@@ -145,7 +145,6 @@ public class GameEngine implements Runnable {
 		} else {
 			topicName = this.hostName;
 			my_identity = UUID.randomUUID().toString();
-			System.out.println(my_identity + "++++++++++++++++++++++");
 		}
 		PacManClient.initializePacmanClient(topicName,
 				new PacManClient.Callback() {
@@ -157,11 +156,11 @@ public class GameEngine implements Runnable {
 							ClientObject recievedObj = (ClientObject) SerializationUtil
 									.fromByteArrayToJava(data);
 							// make a pacman from pacmantransmission
-							if (recievedObj != null) {
-								System.out
-										.println("Recieved Data!!!!!!!!!!!!!!!!!!!!!!!!!"
-												+ recievedObj.value);
-							}
+//							if (recievedObj != null) {
+//								System.out
+//										.println("Recieved Data!!!!!!!!!!!!!!!!!!!!!!!!!"
+//												+ recievedObj.value);
+//							}
 							String id = recievedObj.value;
 							if (current_users == 2)
 								identityc_2 = "deafult";
@@ -182,24 +181,24 @@ public class GameEngine implements Runnable {
 								Changetopacman(recievedObj.pacman, 2);
 							}
 							if (id.contains("death")) {
-								System.out.println("death");
+//								System.out.println("death");
 								if (id.equalsIgnoreCase("death" + identityc_1)) {
-									System.out.println("death1111111111111"
-											+ identityc_1);
+//									System.out.println("death1111111111111"
+//											+ identityc_1);
 									gameEnd(1, 2);
 
 								} else if (id.equalsIgnoreCase("death"
 										+ identityc_2)) {
-									System.out
-											.println("death222222222222222222222"
-													+ identityc_2);
+//									System.out
+//											.println("death222222222222222222222"
+//													+ identityc_2);
 									gameEnd(2, 2);
 
 								}
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
-							System.out.println("ERRRORRRRRRRRRRRRRRRRRRRRR");
+//							System.out.println("ERRRORRRRRRRRRRRRRRRRRRRRR");
 						}
 
 					}
@@ -283,14 +282,14 @@ public class GameEngine implements Runnable {
 					// Weak monsters
 					WeakMonster w = new WeakMonster(_levelMap[_monsters_i]);
 					_monsters.get(_monsters_i).add(w);
-					System.out.println("add Monsters at " + i + _monsters_i);
+//					System.out.println("add Monsters at " + i + _monsters_i);
 				}
 
 				for (int i = 0; i < 2; i++) {
 					// Strong monsters
 					StrongMonster s = new StrongMonster(_levelMap[_monsters_i]);
 					_monsters.get(_monsters_i).add(s);
-					System.out.println("add Monsters at " + i + _monsters_i);
+//					System.out.println("add Monsters at " + i + _monsters_i);
 				}
 				// Jason
 				_gameView[_monsters_i].setMonsters(_monsters.get(_monsters_i));
@@ -496,7 +495,7 @@ public class GameEngine implements Runnable {
 										// Game Over
 										// initialize a new game
 										// initializeNewGame();
-										System.out.println("00000000000"+_pacman[0].remaininglives+"1111111111"+_pacman[1].remaininglives+"222222222222"+_pacman[2].remaininglives);
+										//System.out.println("00000000000"+_pacman[0].remaininglives+"1111111111"+_pacman[1].remaininglives+"222222222222"+_pacman[2].remaininglives);
 										//1 for all lives died
 		//								_pacman[monster_i] = null;
 										gameEnd(0, 1);
