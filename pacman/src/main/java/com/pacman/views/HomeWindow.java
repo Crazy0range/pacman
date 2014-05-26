@@ -230,18 +230,9 @@ public class HomeWindow extends JFrame {
 		JButton btnSinglePlayer = new JButton("Single Player");
 		btnSinglePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(flag){
-						Thread relay = new Thread(new Forwarder());
-						relay.setDaemon(true);
-						relay.start();
-				}
-				PacmanServer.initialize();
-				System.out.println("start game engine");
-				SwingUtilities.invokeLater(new GameEngine(3,flag));
 
-//				SwingUtilities.invokeLater(new SinglePlayerGameEngine());
+				SwingUtilities.invokeLater(new SinglePlayerGameEngine());
 
-//				SwingUtilities.invokeLater(new GameEngine(2));
 			}
 		});
 		btnSinglePlayer.setForeground(Color.BLACK);

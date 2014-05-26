@@ -145,7 +145,6 @@ public class GameEngine implements Runnable {
 		} else {
 			topicName = this.hostName;
 			my_identity = UUID.randomUUID().toString();
-			System.out.println(my_identity + "++++++++++++++++++++++");
 		}
 		PacManClient.initializePacmanClient(topicName,
 				new PacManClient.Callback() {
@@ -157,11 +156,11 @@ public class GameEngine implements Runnable {
 							ClientObject recievedObj = (ClientObject) SerializationUtil
 									.fromByteArrayToJava(data);
 							// make a pacman from pacmantransmission
-							if (recievedObj != null) {
-								System.out
-										.println("Recieved Data!!!!!!!!!!!!!!!!!!!!!!!!!"
-												+ recievedObj.value);
-							}
+//							if (recievedObj != null) {
+//								System.out
+//										.println("Recieved Data!!!!!!!!!!!!!!!!!!!!!!!!!"
+//												+ recievedObj.value);
+//							}
 							String id = recievedObj.value;
 							if (current_users == 2)
 								identityc_2 = "deafult";
@@ -181,10 +180,9 @@ public class GameEngine implements Runnable {
 
 								Changetopacman(recievedObj.pacman, 2);
 							}
-						
 						} catch (Exception e) {
 							e.printStackTrace();
-							System.out.println("ERRRORRRRRRRRRRRRRRRRRRRRR");
+//							System.out.println("ERRRORRRRRRRRRRRRRRRRRRRRR");
 						}
 
 					}
@@ -268,14 +266,14 @@ public class GameEngine implements Runnable {
 					// Weak monsters
 					WeakMonster w = new WeakMonster(_levelMap[_monsters_i]);
 					_monsters.get(_monsters_i).add(w);
-					System.out.println("add Monsters at " + i + _monsters_i);
+//					System.out.println("add Monsters at " + i + _monsters_i);
 				}
 
 				for (int i = 0; i < 2; i++) {
 					// Strong monsters
 					StrongMonster s = new StrongMonster(_levelMap[_monsters_i]);
 					_monsters.get(_monsters_i).add(s);
-					System.out.println("add Monsters at " + i + _monsters_i);
+//					System.out.println("add Monsters at " + i + _monsters_i);
 				}
 				// Jason
 				_gameView[_monsters_i].setMonsters(_monsters.get(_monsters_i));
@@ -446,6 +444,7 @@ public class GameEngine implements Runnable {
 								_pacman[monster_i].point += POINTS_EATING_MONSTER;
 								SoundPlayer.playEatMonsterSound();
 							} else {
+								if(monster_i==0){
 								// monster beats pacman.
 								// stop the game.
 								// pacman is die for 2 seconds, and start another match
@@ -456,7 +455,7 @@ public class GameEngine implements Runnable {
 								_specialStageTimer.stop();
 								if(_pacman[monster_i].remaininglives>=0)
 									_pacman[monster_i].remaininglives--;
-								SoundPlayer.playPacmanDieSound();
+								SoundPlayer.playPacmanDieSound();}
 		
 								// delay 2 seconds and start another match
 								try {
@@ -465,6 +464,7 @@ public class GameEngine implements Runnable {
 										// Game Over
 										// initialize a new game
 										// initializeNewGame();
+
 										//1 for all lives died
 	
 										gameEnd(0, 1);
